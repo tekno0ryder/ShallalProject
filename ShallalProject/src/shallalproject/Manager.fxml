@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TabPane layoutY="27.0" prefHeight="773.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Category Report">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="20.0" layoutY="33.0" prefHeight="733.0" prefWidth="226.0">
+                           <columns>
+                              <TableColumn prefWidth="115.0" text="Name" />
+                              <TableColumn minWidth="0.0" prefWidth="110.0" text="Status" />
+                           </columns>
+                        </TableView>
+                        <Label layoutX="22.0" layoutY="5.0" text="Category List">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="764.0" layoutY="61.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="145.0" text="Generate Report" />
+                        <DatePicker layoutX="542.0" layoutY="73.0" />
+                        <DatePicker layoutX="335.0" layoutY="73.0" />
+                        <Label layoutX="301.0" layoutY="79.0" text="From:" />
+                        <Label layoutX="518.0" layoutY="79.0" text="To:" />
+                        <Separator layoutX="270.0" orientation="VERTICAL" prefHeight="772.0" prefWidth="4.0" />
+                        <Separator layoutX="270.0" layoutY="151.0" prefHeight="0.0" prefWidth="1015.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Item Report">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button layoutX="1103.0" layoutY="73.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="145.0" text="Generate Report" />
+                        <DatePicker layoutX="881.0" layoutY="85.0" />
+                        <DatePicker layoutX="674.0" layoutY="85.0" />
+                        <Label layoutX="640.0" layoutY="91.0" text="From:" />
+                        <Label layoutX="857.0" layoutY="91.0" text="To:" />
+                        <Separator layoutX="616.0" orientation="VERTICAL" prefHeight="772.0" prefWidth="4.0" />
+                        <Separator layoutX="616.0" layoutY="144.0" prefHeight="17.0" prefWidth="673.0" />
+                        <TableView layoutX="240.0" layoutY="65.0" prefHeight="665.0" prefWidth="357.0">
+                           <columns>
+                              <TableColumn prefWidth="114.0" text="Name" />
+                              <TableColumn minWidth="0.0" prefWidth="70.0" text="Price" />
+                              <TableColumn prefWidth="91.0" text="Action" />
+                              <TableColumn minWidth="0.0" text="Status" />
+                           </columns>
+                        </TableView>
+                        <Label layoutX="14.0" layoutY="13.0" text="Category List">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="250.0" layoutY="38.0" text="Items List">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <TableView layoutX="14.0" layoutY="40.0" prefHeight="691.0" prefWidth="226.0">
+                           <columns>
+                              <TableColumn prefWidth="115.0" text="Name" />
+                              <TableColumn minWidth="0.0" prefWidth="110.0" text="Status" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="1280.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>

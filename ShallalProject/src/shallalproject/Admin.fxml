@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shallalproject.FXMLDocumentController">
+   <children>
+      <MenuBar layoutY="-1.0" prefHeight="25.0" prefWidth="1280.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <TabPane layoutY="20.0" prefHeight="779.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Edit Categories and items">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Separator layoutX="545.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="779.0" prefWidth="19.0" />
+                        <Separator layoutX="548.0" orientation="VERTICAL" prefHeight="779.0" prefWidth="3.0" />
+                        <VBox alignment="CENTER" layoutX="1003.0" layoutY="125.0" prefHeight="467.0" prefWidth="200.0" spacing="20.0">
+                           <children>
+                              <Label text="Add Item: ">
+                                 <font>
+                                    <Font size="28.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Name :">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField prefHeight="35.0" prefWidth="200.0" />
+                              <Label text="Price :">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField prefHeight="38.0" prefWidth="236.0" />
+                              <Label text="Status :">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <MenuButton mnemonicParsing="false" prefHeight="28.0" prefWidth="144.0" text="Available">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" text="Action 1" />
+                                    <MenuItem mnemonicParsing="false" text="Action 2" />
+                                 </items>
+                              </MenuButton>
+                              <Button mnemonicParsing="false" prefHeight="58.0" prefWidth="152.0" text="Add Item" />
+                              <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="79.0" text="Clear" />
+                           </children>
+                        </VBox>
+                        <TableView editable="true" layoutX="575.0" layoutY="45.0" prefHeight="688.0" prefWidth="375.0">
+                          <columns>
+                            <TableColumn prefWidth="114.0" text="Name" />
+                              <TableColumn minWidth="0.0" prefWidth="70.0" text="Price" />
+                              <TableColumn prefWidth="91.0" text="Status" />
+                              <TableColumn prefWidth="97.0" text="Action" />
+                          </columns>
+                        </TableView>
+                        <Label layoutX="21.0" layoutY="7.0" text="Category List">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="575.0" layoutY="14.0" text="Items List">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <TableView editable="true" layoutX="19.0" layoutY="39.0" prefHeight="691.0" prefWidth="226.0">
+                           <columns>
+                              <TableColumn prefWidth="115.0" text="Name" />
+                              <TableColumn minWidth="0.0" prefWidth="110.0" text="Status" />
+                           </columns>
+                        </TableView>
+                        <VBox alignment="CENTER" layoutX="294.0" layoutY="171.0" prefHeight="410.0" prefWidth="200.0" spacing="20.0">
+                           <children>
+                              <Label text="Add Category: ">
+                                 <font>
+                                    <Font size="28.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Name :">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField prefHeight="35.0" prefWidth="200.0" />
+                              <Label text="Status :">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <MenuButton mnemonicParsing="false" prefHeight="28.0" prefWidth="144.0" text="Available">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                                  <MenuItem mnemonicParsing="false" text="Action 2" />
+                                </items>
+                              </MenuButton>
+                              <Button mnemonicParsing="false" prefHeight="58.0" prefWidth="152.0" text="Add Category" />
+                              <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="79.0" text="Clear" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="History Log">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TabPane prefHeight="753.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE">
+                          <tabs>
+                            <Tab text="Category History">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <TableView layoutX="94.0" layoutY="62.0" prefHeight="724.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <columns>
+                                                <TableColumn prefWidth="88.0" text="Name" />
+                                                <TableColumn prefWidth="152.0" text="Start Date" />
+                                                <TableColumn prefWidth="152.0" text="End Date" />
+                                                <TableColumn minWidth="0.0" prefWidth="115.0" text="Status" />
+                                                <TableColumn minWidth="0.0" prefWidth="772.0" text="Reason" />
+                                             </columns>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                            <Tab text="Items History">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <Label text="Items History">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TableView prefHeight="724.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <columns>
+                                                <TableColumn prefWidth="83.0" text="Name" />
+                                                <TableColumn prefWidth="75.0" text="Category" />
+                                                <TableColumn minWidth="0.0" prefWidth="142.0" text="Price" />
+                                                <TableColumn minWidth="0.0" prefWidth="146.0" text="Start Date" />
+                                                <TableColumn minWidth="0.0" prefWidth="154.0" text="End Date" />
+                                                <TableColumn minWidth="0.0" prefWidth="104.0" text="Status" />
+                                                <TableColumn minWidth="0.0" prefWidth="575.0" text="Reason" />
+                                             </columns>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                          </tabs>
+                        </TabPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+          <Tab text="Manage Employees">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="749.0" prefWidth="1280.0">
+                           <children>
+                              <Button layoutX="93.0" layoutY="359.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="128.0" text="Add" />
+                              <Label layoutX="261.0" layoutY="107.0" text="Last Name:" />
+                              <Label layoutX="38.0" layoutY="107.0" text="First Name:" />
+                              <TextField layoutX="330.0" layoutY="101.0" />
+                              <TextField layoutX="104.0" layoutY="101.0" />
+                              <Label layoutX="41.0" layoutY="47.0" text="Add Employee :">
+                                 <font>
+                                    <Font size="28.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="37.0" layoutY="280.0" text="Username:" />
+                              <TextField layoutX="104.0" layoutY="274.0" />
+                              <Label layoutX="37.0" layoutY="319.0" text="Password:" />
+                              <PasswordField layoutX="105.0" layoutY="313.0" />
+                              <Label layoutX="52.0" layoutY="196.0" text="Gov. ID:" />
+                              <TextField layoutX="106.0" layoutY="190.0" />
+                              <Label layoutX="38.0" layoutY="150.0" text="Phone No1:" />
+                              <TextField layoutX="104.0" layoutY="144.0" />
+                              <Label layoutX="259.0" layoutY="151.0" text="Phone No2:" />
+                              <TextField layoutX="329.0" layoutY="145.0" />
+                              <Label layoutX="52.0" layoutY="236.0" text="Type:" />
+                              <SplitMenuButton layoutX="103.0" layoutY="232.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="Cashier">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                                  <MenuItem mnemonicParsing="false" text="Action 2" />
+                                </items>
+                              </SplitMenuButton>
+                              <Label layoutX="644.0" layoutY="42.0" text="Update Employee :">
+                                 <font>
+                                    <Font size="28.0" />
+                                 </font>
+                              </Label>
+                              <Button layoutX="696.0" layoutY="359.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="128.0" text="Update" />
+                              <Label layoutX="864.0" layoutY="107.0" text="Last Name:" />
+                              <Label layoutX="641.0" layoutY="107.0" text="First Name:" />
+                              <TextField layoutX="933.0" layoutY="101.0" />
+                              <TextField layoutX="707.0" layoutY="101.0" />
+                              <Label layoutX="640.0" layoutY="280.0" text="Username:" />
+                              <TextField layoutX="707.0" layoutY="274.0" />
+                              <Label layoutX="640.0" layoutY="319.0" text="Password:" />
+                              <PasswordField layoutX="708.0" layoutY="313.0" />
+                              <Label layoutX="655.0" layoutY="196.0" text="Gov. ID:" />
+                              <TextField layoutX="709.0" layoutY="190.0" />
+                              <Label layoutX="641.0" layoutY="150.0" text="Phone No1:" />
+                              <TextField layoutX="707.0" layoutY="144.0" />
+                              <Label layoutX="862.0" layoutY="151.0" text="Phone No2:" />
+                              <TextField layoutX="932.0" layoutY="145.0" />
+                              <Label layoutX="655.0" layoutY="236.0" text="Type:" />
+                              <SplitMenuButton layoutX="706.0" layoutY="232.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="Cashier">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" text="Action 1" />
+                                    <MenuItem mnemonicParsing="false" text="Action 2" />
+                                 </items>
+                              </SplitMenuButton>
+                              <Separator layoutX="567.0" layoutY="1.0" orientation="VERTICAL" prefHeight="779.0" prefWidth="6.0" />
+                              <Separator layoutX="571.0" layoutY="1.0" orientation="VERTICAL" prefHeight="779.0" prefWidth="6.0" />
+                              <MenuButton layoutX="923.0" layoutY="51.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="156.0" text="Suliman Almutawah">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                                  <MenuItem mnemonicParsing="false" text="Action 2" />
+                                </items>
+                              </MenuButton>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
