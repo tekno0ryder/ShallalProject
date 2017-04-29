@@ -13,7 +13,7 @@ import java.sql.Date;
  */
 public class Transaction {
     private Date date;
-    private int statusID;
+   private Status status;
     private float amount;
     private float quantity;
     private String sellBy;
@@ -26,13 +26,15 @@ public class Transaction {
         this.date = date;
     }
 
-    public int getStatusID() {
-        return statusID;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setStatusID(int statusID) {
-        this.statusID = statusID;
+    public void setStatus(Status status) {
+        this.status = status;
     }
+
+
 
     public float getAmount() {
         return amount;

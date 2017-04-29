@@ -21,7 +21,7 @@ public class foodCategory {
     private String description;
     private Date startDate;
     private Employee createdBy;
-    private int statusID;
+    private Status status;
 
     public int getCID() {
         return CID;
@@ -63,12 +63,13 @@ public class foodCategory {
         this.createdBy = createdBy;
     }
 
-    public int getStatusID() {
-        return statusID;
+
+    public Status getStatus() {
+        return status;
     }
 
-    public void setStatusID(int statusID) {
-        this.statusID = statusID;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
 }

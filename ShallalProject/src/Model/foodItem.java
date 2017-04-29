@@ -17,7 +17,7 @@ public class foodItem {
     private float price;
     private Date startDate;
     private int createdBy;
-    private int statusID;
+    private Status status;
 
     public String getName() {
         return name;
@@ -51,12 +51,12 @@ public class foodItem {
         this.createdBy = createdBy;
     }
 
-    public int getStatusID() {
-        return statusID;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setStatusID(int statusID) {
-        this.statusID = statusID;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
 }

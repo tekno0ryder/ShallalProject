@@ -20,9 +20,17 @@ public abstract class Employee {
     private String ETname; //Employee Type name
     private String userName; //ُEmployee userName
     private String password; //ُEmployee password
-    private int statusID; //Employee Status
+    private Status status; //Employee Status
     private float salary; //Employee Salary 
     private List<String> phones; //Employee phones
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
 
     public Employee(String userName, String password) {
@@ -68,14 +76,6 @@ public abstract class Employee {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public int getStatusID() {
-        return statusID;
-    }
-
-    public void setStatusID(int statusID) {
-        this.statusID = statusID;
     }
 
     public float getSalary() {
