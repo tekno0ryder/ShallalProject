@@ -5,6 +5,8 @@
  */
 package Model;
 
+import java.util.List;
+
 /**
  *
  * @author Ryder
@@ -20,6 +22,8 @@ public abstract class Employee {
     private String password; //ُEmployee password
     private int statusID; //Employee Status
     private float salary; //Employee Salary 
+    private List<String> phones; //Employee phones
+
 
     public Employee(String userName, String password) {
         this.userName = userName;
@@ -82,4 +86,28 @@ public abstract class Employee {
         this.salary = salary;
     }
 
+        public String getETname() {
+        return ETname;
+    }
+
+    public void setETname(String ETname) {
+        this.ETname = ETname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<String> getPhones() {
+        return phones;
+    }
+
+    public void setPhones(List<String> phones) {
+        this.phones = phones;
+    }
+    
 }
