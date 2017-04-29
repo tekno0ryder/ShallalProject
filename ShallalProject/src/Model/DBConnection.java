@@ -3,7 +3,7 @@
  *
  * Created on 2005/01/16, 10:50
  */
-package shallalProject;
+package Model;
 
 import java.sql.*;
 

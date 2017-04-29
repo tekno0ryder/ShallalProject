@@ -3,19 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package shallalproject;
+package Model;
 
 /**
  *
  * @author Ryder
  */
-public class Manager {
+public class Cashier extends Employee {
 
-    public boolean getItemReport() {
+    public Cashier(String userName, String password) {
+        super(userName, password);
+    }
+
+    public boolean submitOrder() {
         return true;
     }
-    
-    public boolean getCategoryReport() {
+
+    public boolean updateOrder() {
         return true;
     }
 }
