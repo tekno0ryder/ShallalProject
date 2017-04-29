@@ -5,8 +5,6 @@
  */
 package shallalproject;
 
-import java.util.Map;
-
 /**
  *
  * @author Ryder
@@ -27,8 +25,6 @@ public abstract class Employee {
         this.userName = userName;
         this.password = password;
     }
-    
-    
 
     public int getEID() {
         return EID;

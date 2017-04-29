@@ -9,17 +9,26 @@ package shallalproject;
  *
  * @author Ryder
  */
-public class Cashier extends Employee {
+public class Admin extends Employee {
 
-    public Cashier(String userName, String password) {
+    public Admin(String userName, String password) {
         super(userName, password);
     }
 
-    public boolean submitOrder() {
+    public boolean addItem() {
         return true;
     }
 
-    public boolean updateOrder() {
+    public boolean addCategory() {
         return true;
     }
+
+    public boolean addEmployee() {
+        return true;
+    }
+
+    public boolean updateEmployee() {
+        return true;
+    }
+    
 }
