@@ -6,18 +6,31 @@
 package Model;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  *
  * @author Ryder
  */
-public class foodItem {
+public class Category {
 
+    public List<Item> items;
+
+    private int CID;
     private String name;
-    private float price;
+    private String description;
     private Date startDate;
-    private int createdBy;
+    private Employee createdBy;
     private Status status;
+
+    public int getCID() {
+        return CID;
+    }
+
+    public void setCID(int CID) {
+        this.CID = CID;
+    }
 
     public String getName() {
         return name;
@@ -27,12 +40,12 @@ public class foodItem {
         this.name = name;
     }
 
-    public float getPrice() {
-        return price;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPrice(float price) {
-        this.price = price;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getStartDate() {
@@ -43,13 +56,14 @@ public class foodItem {
         this.startDate = startDate;
     }
 
-    public int getCreatedBy() {
+    public Employee getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(int createdBy) {
+    public void setCreatedBy(Employee createdBy) {
         this.createdBy = createdBy;
     }
+
 
     public Status getStatus() {
         return status;
@@ -57,6 +71,11 @@ public class foodItem {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" + "items=" + items + ", CID=" + CID + ", name=" + name + ", description=" + description + ", startDate=" + startDate + ", createdBy=" + createdBy + ", status=" + status + '}';
     }
 
 }

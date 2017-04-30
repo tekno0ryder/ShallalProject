@@ -6,30 +6,18 @@
 package Model;
 
 import java.sql.Date;
-import java.util.List;
 
 /**
  *
  * @author Ryder
  */
-public class foodCategory {
+public class Item {
 
-    public List<foodItem> items;
-
-    private int CID;
     private String name;
-    private String description;
+    private float price;
     private Date startDate;
-    private Employee createdBy;
+    private int createdBy;
     private Status status;
-
-    public int getCID() {
-        return CID;
-    }
-
-    public void setCID(int CID) {
-        this.CID = CID;
-    }
 
     public String getName() {
         return name;
@@ -39,12 +27,12 @@ public class foodCategory {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public float getPrice() {
+        return price;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     public Date getStartDate() {
@@ -55,14 +43,13 @@ public class foodCategory {
         this.startDate = startDate;
     }
 
-    public Employee getCreatedBy() {
+    public int getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Employee createdBy) {
+    public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }
-
 
     public Status getStatus() {
         return status;

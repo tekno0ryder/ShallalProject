@@ -10,8 +10,13 @@ package Model;
  * @author Ryder
  */
 public class Status {
+
     private int statusID;
     private String description;
+
+    public Status(int statusID) {
+        this.statusID = statusID;
+    }
 
     public int getStatusID() {
         return statusID;
@@ -28,5 +33,5 @@ public class Status {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
 }

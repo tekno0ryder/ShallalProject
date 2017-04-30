@@ -5,6 +5,11 @@
  */
 package Model;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,18 +29,41 @@ public abstract class Employee {
     private float salary; //Employee Salary 
     private List<String> phones; //Employee phones
 
+    public Employee(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
+
+    public List<Category> geCategoryList() {
+        List<Category> list = new ArrayList<>();
+        try {
+            DBConnection db = new DBConnection();
+            Connection connection = db.getMyConnection();
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery("SELECT * FROM foodcategory");
+            while (result.next()) {
+                Category c = new Category();
+                c.setCID(result.getInt("CID"));
+                c.setName(result.getString("name"));
+                c.setDescription(result.getString("description"));
+                c.setStartDate(result.getDate("startdate"));
+                System.out.println(result.getTime("startdate"));
+                c.setStatus(new Status(result.getInt("statusID")));
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+        return list;
+    }
+
     public Status getStatus() {
         return status;
     }
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-
-    public Employee(String userName, String password) {
-        this.userName = userName;
-        this.password = password;
     }
 
     public int getEID() {
@@ -86,7 +114,7 @@ public abstract class Employee {
         this.salary = salary;
     }
 
-        public String getETname() {
+    public String getETname() {
         return ETname;
     }
 
@@ -109,5 +137,5 @@ public abstract class Employee {
     public void setPhones(List<String> phones) {
         this.phones = phones;
     }
-    
+
 }

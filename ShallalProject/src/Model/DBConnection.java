@@ -6,6 +6,8 @@
 package Model;
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,7 +21,7 @@ public class DBConnection {
      * Creates a new instance of MyDBConnection
      */
     public DBConnection() {
-
+        init();
     }
 
     public void init() {
@@ -31,9 +33,12 @@ public class DBConnection {
                     "jdbc:mysql://localhost:3306/shalalProject",
                     "root", "root"
             );
-        } catch (Exception e) {
-            System.out.println("Failed to get connection");
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
