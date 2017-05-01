@@ -31,7 +31,7 @@ public class ShallalProject extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new Cashier("ha", "gds").geCategoryList();
+        SQLQueries.geCategoryList();
         launch(args);
 
     }

@@ -5,7 +5,7 @@
  */
 package Model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -14,8 +14,8 @@ import java.sql.Date;
 public class Item {
 
     private String name;
-    private float price;
-    private Date startDate;
+    private int price;
+    private Timestamp startDate;
     private int createdBy;
     private Status status;
 
@@ -31,15 +31,15 @@ public class Item {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
-    public Date getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
 
@@ -57,6 +57,11 @@ public class Item {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "\tItem{" + "name=" + name + ", price=" + price + ", startDate=" + startDate + ", createdBy=" + createdBy + ", status=" + status + '}';
     }
 
 }

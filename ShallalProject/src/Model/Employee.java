@@ -34,30 +34,6 @@ public abstract class Employee {
         this.password = password;
     }
 
-    public List<Category> geCategoryList() {
-        List<Category> list = new ArrayList<>();
-        try {
-            DBConnection db = new DBConnection();
-            Connection connection = db.getMyConnection();
-            Statement statement = connection.createStatement();
-            ResultSet result = statement.executeQuery("SELECT * FROM foodcategory");
-            while (result.next()) {
-                Category c = new Category();
-                c.setCID(result.getInt("CID"));
-                c.setName(result.getString("name"));
-                c.setDescription(result.getString("description"));
-                c.setStartDate(result.getDate("startdate"));
-                System.out.println(result.getTime("startdate"));
-                c.setStatus(new Status(result.getInt("statusID")));
-            }
-        } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-        }
-        return list;
-    }
-
     public Status getStatus() {
         return status;
     }

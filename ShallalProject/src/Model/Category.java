@@ -5,8 +5,8 @@
  */
 package Model;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,15 +15,21 @@ import java.util.List;
  */
 public class Category {
 
-    public List<Item> items;
+    private List<Item> items;
+
 
     private int CID;
     private String name;
     private String description;
-    private Date startDate;
+    private Timestamp startDate;
     private Employee createdBy;
     private Status status;
 
+    
+    public Category() {
+        items = new ArrayList<>();
+    }
+    
     public int getCID() {
         return CID;
     }
@@ -48,11 +54,11 @@ public class Category {
         this.description = description;
     }
 
-    public Date getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
 
@@ -64,13 +70,20 @@ public class Category {
         this.createdBy = createdBy;
     }
 
-
     public Status getStatus() {
         return status;
     }
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     @Override
