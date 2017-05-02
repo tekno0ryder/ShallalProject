@@ -13,6 +13,7 @@ import java.sql.Timestamp;
  */
 public class Item {
 
+    private int iID;
     private String name;
     private int price;
     private Timestamp startDate;
@@ -59,9 +60,18 @@ public class Item {
         this.status = status;
     }
 
+    public int getiID() {
+        return iID;
+    }
+
+    public void setiID(int iID) {
+        this.iID = iID;
+    }
+
     @Override
     public String toString() {
-        return "\tItem{" + "name=" + name + ", price=" + price + ", startDate=" + startDate + ", createdBy=" + createdBy + ", status=" + status + '}';
+        return "Item{" + "iID=" + iID + ", name=" + name + ", price=" + price + ", startDate=" + startDate + ", createdBy=" + createdBy + ", status=" + status + '}';
     }
+
 
 }
