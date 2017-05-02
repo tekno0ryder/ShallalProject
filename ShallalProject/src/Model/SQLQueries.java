@@ -46,6 +46,7 @@ public class SQLQueries {
                     System.out.println(c);
                     while (itemResult.next()) {
                         Item item = new Item();
+                        item.setiID(itemResult.getInt("FIid"));
                         item.setName(itemResult.getString("name"));
                         item.setPrice(itemResult.getInt("price"));
                         item.setStartDate(itemResult.getTimestamp("startdate"));
@@ -61,5 +62,10 @@ public class SQLQueries {
             System.out.println("VendorError: " + ex.getErrorCode());
         }
         return categoryList;
+    }
+
+    public boolean submitOrder() {
+
+        return true;
     }
 }
