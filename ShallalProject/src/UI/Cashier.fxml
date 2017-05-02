@@ -133,7 +133,6 @@
                                     </TextField>
                                     <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="216.0" text="Submit Changes" />
                                     <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="118.0" text="Clear" />
-                                    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" text="Cancel Order" textFill="RED" />
                                  </children>
                               </VBox>
                               <TableView layoutX="14.0" layoutY="44.0" prefHeight="691.0" prefWidth="438.0">

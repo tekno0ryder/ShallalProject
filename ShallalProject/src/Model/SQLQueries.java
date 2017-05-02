@@ -64,7 +64,7 @@ public class SQLQueries {
         return categoryList;
     }
 
-    public boolean submitOrder() {
+    public boolean newOrder(ArrayList<Item> orderItems) {
 
         return true;
     }

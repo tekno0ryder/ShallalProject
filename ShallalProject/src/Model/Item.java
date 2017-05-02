@@ -19,7 +19,8 @@ public class Item {
     private Timestamp startDate;
     private int createdBy;
     private Status status;
-
+    private int quantity;
+    
     public String getName() {
         return name;
     }
@@ -66,6 +67,14 @@ public class Item {
 
     public void setiID(int iID) {
         this.iID = iID;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     @Override

@@ -5,9 +5,7 @@
  */
 package Model;
 
-import java.sql.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.Timestamp;
 
 /**
  *
@@ -15,18 +13,17 @@ import java.util.Map;
  */
 public class Transaction {
 
-    private Date date;
+    private Timestamp date;
     private Status status;
     private float amount;
     private float quantity;
     private String sellBy;
-    private Map<Item, Integer> items = new HashMap<>();
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 
@@ -61,13 +58,4 @@ public class Transaction {
     public void setSellBy(String sellBy) {
         this.sellBy = sellBy;
     }
-
-    public Map<Item, Integer> getItems() {
-        return items;
-    }
-
-    public void setItems(Map<Item, Integer> items) {
-        this.items = items;
-    }
-
 }
