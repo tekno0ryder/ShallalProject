@@ -6,17 +6,21 @@
 package Model;
 
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  * @author Ryder
  */
 public class Transaction {
+
     private Date date;
-   private Status status;
+    private Status status;
     private float amount;
     private float quantity;
     private String sellBy;
+    private Map<Item, Integer> items = new HashMap<>();
 
     public Date getDate() {
         return date;
@@ -33,8 +37,6 @@ public class Transaction {
     public void setStatus(Status status) {
         this.status = status;
     }
-
-
 
     public float getAmount() {
         return amount;
@@ -59,6 +61,13 @@ public class Transaction {
     public void setSellBy(String sellBy) {
         this.sellBy = sellBy;
     }
-    
-    
+
+    public Map<Item, Integer> getItems() {
+        return items;
+    }
+
+    public void setItems(Map<Item, Integer> items) {
+        this.items = items;
+    }
+
 }
