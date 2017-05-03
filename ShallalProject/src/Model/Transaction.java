@@ -13,10 +13,10 @@ import java.sql.Timestamp;
  */
 public class Transaction {
 
+    private int TID;
     private Timestamp date;
     private Status status;
-    private float amount;
-    private float quantity;
+    private int amount;
     private String sellBy;
 
     public Timestamp getDate() {
@@ -39,16 +39,8 @@ public class Transaction {
         return amount;
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
-    }
-
-    public float getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(float quantity) {
-        this.quantity = quantity;
     }
 
     public String getSellBy() {
@@ -58,4 +50,14 @@ public class Transaction {
     public void setSellBy(String sellBy) {
         this.sellBy = sellBy;
     }
+
+    public int getTID() {
+        return TID;
+    }
+
+    public void setTID(int TID) {
+        this.TID = TID;
+    }
+    
+    
 }

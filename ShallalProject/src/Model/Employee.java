@@ -5,11 +5,6 @@
  */
 package Model;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +21,7 @@ public abstract class Employee {
     private String userName; //ُEmployee userName
     private String password; //ُEmployee password
     private Status status; //Employee Status
-    private float salary; //Employee Salary 
+    private int salary; //Employee Salary 
     private List<String> phones; //Employee phones
 
     public Employee(String userName, String password) {
@@ -82,11 +77,11 @@ public abstract class Employee {
         this.userName = userName;
     }
 
-    public float getSalary() {
+    public int getSalary() {
         return salary;
     }
 
-    public void setSalary(float salary) {
+    public void setSalary(int salary) {
         this.salary = salary;
     }
 
