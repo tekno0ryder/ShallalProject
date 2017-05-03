@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class SQLQueries {
 
-    public static List<Category> geCategoryList() {
+    public static List<Category> getCategoryList() {
 
         List<Category> categoryList = new ArrayList<>();
 
@@ -64,8 +64,46 @@ public class SQLQueries {
         return categoryList;
     }
 
-    public boolean newOrder(ArrayList<Item> orderItems) {
+    public static boolean newOrder(Transaction transaction) {
 
+        DBConnection db = new DBConnection();
+
+        try (Connection connection = db.getMyConnection()) {
+            try (Statement tidStatement = connection.createStatement()) {
+                //Take latest TID and increament it , else start from 1
+                ResultSet tidResult = tidStatement.executeQuery("SELECT tid FROM transaction");
+                if (!tidResult.next()) {
+                    transaction.setTID(1);
+                } else {
+                    tidResult.last();
+                    int latestTID = tidResult.getInt("TID");
+                    transaction.setTID(latestTID + 1);
+                }
+            }
+            //Insert Transaction to Transaction Table
+            try (Statement transactionStatement = connection.createStatement()) {
+                String transactionQuery = transaction.getTID() + "," + transaction.getDate() + ","
+                        + 1 + "," + transaction.getAmount() + "," + transaction.getSellBy().getFullName();
+                transactionStatement.executeUpdate("INSERT INTO transaction"
+                        + "(TID,TRANSACTIONDATE,TRANSACTIONSTATUS,AMOUNT,SELLBY)\n"
+                        + "VALUES (" + transactionQuery + ")");
+            }
+            //Insert Items in TransactionItems table
+            List<Item> transactionItems = transaction.getTransactionItems();
+
+            try (Statement itemStatement = connection.createStatement()) {
+                for (Item item : transactionItems) {
+                    String itemQuery = transaction.getTID() + "," + item.getiID() + "," + item.getQuantity();
+                    itemStatement.executeUpdate("INSERT INTO transactionitems (TID,FIiD,Quantity)\n"
+                            + "VALUES (" + itemQuery + ")");
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
         return true;
     }
+
 }

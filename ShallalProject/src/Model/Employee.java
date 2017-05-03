@@ -109,4 +109,8 @@ public abstract class Employee {
         this.phones = phones;
     }
 
+    public String getFullName() {
+        return "\'" + this.fname + this.lname + "\'";
+    }
+
 }

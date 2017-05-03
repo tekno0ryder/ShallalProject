@@ -6,6 +6,8 @@
 package Model;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -17,8 +19,17 @@ public class Transaction {
     private Timestamp date;
     private Status status;
     private int amount;
-    private String sellBy;
+    private Employee sellBy;
+    private List<Item> transactionItems = new ArrayList<>();
 
+    public List<Item> getTransactionItems() {
+        return transactionItems;
+    }
+
+    public void setTransactionItems(List<Item> transactionItems) {
+        this.transactionItems = transactionItems;
+    }
+    
     public Timestamp getDate() {
         return date;
     }
@@ -43,11 +54,11 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public String getSellBy() {
+    public Employee getSellBy() {
         return sellBy;
     }
 
-    public void setSellBy(String sellBy) {
+    public void setSellBy(Employee sellBy) {
         this.sellBy = sellBy;
     }
 
