@@ -19,7 +19,7 @@ public class Transaction {
     private Timestamp date;
     private Status status;
     private int amount;
-    private Employee sellBy;
+    private String sellBy;
     private List<Item> transactionItems = new ArrayList<>();
 
     public List<Item> getTransactionItems() {
@@ -29,7 +29,7 @@ public class Transaction {
     public void setTransactionItems(List<Item> transactionItems) {
         this.transactionItems = transactionItems;
     }
-    
+
     public Timestamp getDate() {
         return date;
     }
@@ -54,11 +54,11 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public Employee getSellBy() {
+    public String getSellBy() {
         return sellBy;
     }
 
-    public void setSellBy(Employee sellBy) {
+    public void setSellBy(String sellBy) {
         this.sellBy = sellBy;
     }
 
@@ -69,6 +69,9 @@ public class Transaction {
     public void setTID(int TID) {
         this.TID = TID;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Transaction{" + "TID=" + TID + ", date=" + date + ", status=" + status + ", amount=" + amount + ", sellBy=" + sellBy + ", transactionItems=" + transactionItems + '}';
+    }
 }

@@ -64,7 +64,7 @@ public class SQLQueries {
         return categoryList;
     }
 
-    public static boolean newOrder(Transaction transaction) {
+    public static boolean newTransaction(Transaction transaction, Employee employee) {
 
         DBConnection db = new DBConnection();
 
@@ -83,7 +83,7 @@ public class SQLQueries {
             //Insert Transaction to Transaction Table
             try (Statement transactionStatement = connection.createStatement()) {
                 String transactionQuery = transaction.getTID() + "," + transaction.getDate() + ","
-                        + 1 + "," + transaction.getAmount() + "," + transaction.getSellBy().getFullName();
+                        + 1 + "," + transaction.getAmount() + "," + employee.getFullName();
                 transactionStatement.executeUpdate("INSERT INTO transaction"
                         + "(TID,TRANSACTIONDATE,TRANSACTIONSTATUS,AMOUNT,SELLBY)\n"
                         + "VALUES (" + transactionQuery + ")");
@@ -102,8 +102,58 @@ public class SQLQueries {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
+            return false;
         }
         return true;
+    }
+
+    public static List<Transaction> transactionList() {
+        System.out.println("hi");
+        List<Transaction> transactionList = new ArrayList<>();
+
+        DBConnection db = new DBConnection();
+
+        try (Connection connection = db.getMyConnection()) {
+            //Query categories and insert them to categoryList
+            try (Statement transactionStatement = connection.createStatement()) {
+                ResultSet transactionResult = transactionStatement.executeQuery("SELECT * FROM transaction");
+                while (transactionResult.next()) {
+                    Transaction t = new Transaction();
+                    t.setTID(transactionResult.getInt("TID"));
+                    t.setSellBy(transactionResult.getString("sellby"));
+                    t.setDate(transactionResult.getTimestamp("transactiondate"));
+                    t.setAmount(transactionResult.getInt("amount"));
+                    t.setStatus(new Status(transactionResult.getInt("transactionStatus")));
+                    transactionList.add(t);
+                }
+
+                try (Statement itemStatement = connection.createStatement()) {
+                    for (Transaction t : transactionList) {
+                        ResultSet itemResult = itemStatement.executeQuery("SELECT * FROM transactionitems\n"
+                                + "NATURAL JOIN fooditem");
+                        while (itemResult.next()) {
+                            if (itemResult.getInt("TID") == t.getTID()) {
+                                Item item = new Item();
+                                item.setiID(itemResult.getInt("FIid"));
+                                item.setName(itemResult.getString("name"));
+                                item.setPrice(itemResult.getInt("price"));
+                                item.setStartDate(itemResult.getTimestamp("startdate"));
+                                item.setQuantity(itemResult.getInt("quantity"));
+                                item.setStatus(new Status(itemResult.getInt("statusID")));
+                                t.getTransactionItems().add(item);
+                                System.out.println(t);
+                                System.out.println("\t" + item);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+        return transactionList;
     }
 
 }
