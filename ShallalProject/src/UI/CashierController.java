@@ -8,11 +8,8 @@ package UI;
 import Model.Category;
 import Model.Item;
 import Model.SQLQueries;
-import Model.Status;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -55,7 +53,7 @@ public class CashierController implements Initializable {
     @FXML
     private TableColumn<Item, String> itemsStatus;
     @FXML
-    private TableColumn<Item, Button> itemsAction;
+    private TableColumn<Item, Item> itemsAction;
     @FXML
     private TableView<Category> categoryTable;
     @FXML
@@ -112,11 +110,27 @@ public class CashierController implements Initializable {
         itemsName.setCellValueFactory(new PropertyValueFactory("name"));
         itemsPrice.setCellValueFactory(new PropertyValueFactory("price"));
         itemsStatus.setCellValueFactory(data -> data.getValue().getStatus().descriptionProperty());
-        //itemsAction
+        itemsAction.setCellFactory(param -> new TableCell<Item, Item>() {
+            private final Button addButton = new Button("Add");
 
-        categoryTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("ListView Selection Changed (selected: " + newValue.toString() + ")");
+            @Override
+            protected void updateItem(Item item, boolean empty) {
+                super.updateItem(item, empty);
+                
+                if (empty) {
+                    setGraphic(null);
+                    return;
+                }
+                setGraphic(addButton);
+                addButton.setOnAction(
+                        event -> getTableView().getItems().remove(item)
+                );
+            }
         });
+
+        /*itemsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("ListView Selection Changed (selected: " + newValue.toString() + ")");
+        });*/
     }
 
     @FXML
