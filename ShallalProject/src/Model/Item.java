@@ -81,6 +81,4 @@ public class Item {
     public String toString() {
         return "Item{" + "iID=" + iID + ", name=" + name + ", price=" + price + ", startDate=" + startDate + ", createdBy=" + createdBy + ", status=" + status + '}';
     }
-
-
 }

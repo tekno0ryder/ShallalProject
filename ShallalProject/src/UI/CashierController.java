@@ -6,9 +6,12 @@
 package UI;
 
 import Model.Category;
+import Model.SQLQueries;
 import Model.Status;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -56,7 +59,7 @@ public class CashierController implements Initializable {
     @FXML
     private TableColumn<?, ?> categoryName;
     @FXML
-    private TableColumn<?, ?> categoryStatus;
+    private TableColumn<Status, String> categoryStatus;
     @FXML
     private TableView<?> transactionDetailsTable;
     @FXML
@@ -93,13 +96,9 @@ public class CashierController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         categoryName.setCellValueFactory(
                 new PropertyValueFactory("CID"));
-        categoryStatus.setCellValueFactory(
-                new PropertyValueFactory("status"));
+        categoryStatus.setCellValueFactory(data -> data.getValue().descriptionProperty());
 
-        Category c = new Category();
-        c.setCID(1);
-        c.setStatus(new Status(1));
-        ObservableList data = FXCollections.observableArrayList(c);
+        ObservableList data = FXCollections.observableArrayList(SQLQueries.getCategoryList());
         categoryTable.setItems(data);
     }
 

@@ -88,7 +88,7 @@ public class Category {
 
     @Override
     public String toString() {
-        return "Category{" + "items=" + items + ", CID=" + CID + ", name=" + name + ", description=" + description + ", startDate=" + startDate + ", createdBy=" + createdBy + ", status=" + status + '}';
+        return "Category{" + ", CID=" + CID + ", name=" + name + ", description=" + description + ", startDate=" + startDate + ", createdBy=" + createdBy + ", status=" + status + '}';
     }
 
 }

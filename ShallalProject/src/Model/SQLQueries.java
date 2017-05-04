@@ -18,6 +18,7 @@ import java.util.List;
  */
 public class SQLQueries {
 
+    //Get category list with all their associated items
     public static List<Category> getCategoryList() {
 
         List<Category> categoryList = new ArrayList<>();
@@ -34,7 +35,10 @@ public class SQLQueries {
                     c.setName(categoryResult.getString("name"));
                     c.setDescription(categoryResult.getString("description"));
                     c.setStartDate(categoryResult.getTimestamp("startdate"));
-                    c.setStatus(new Status(categoryResult.getInt("statusID")));
+
+                    Status status = new Status(categoryResult.getInt("statusID"), false);
+                    c.setStatus(getStatusWithDescription(status));
+
                     categoryList.add(c);
                 }
             }
@@ -50,9 +54,12 @@ public class SQLQueries {
                         item.setName(itemResult.getString("name"));
                         item.setPrice(itemResult.getInt("price"));
                         item.setStartDate(itemResult.getTimestamp("startdate"));
-                        item.setStatus(new Status(itemResult.getInt("statusID")));
+
+                        Status status = new Status(itemResult.getInt("statusID"), false);
+                        item.setStatus(getStatusWithDescription(status));
+
                         c.getItems().add(item);
-                        System.out.println(item);
+                        System.out.println("\t" + item);
                     }
                 }
             }
@@ -64,7 +71,8 @@ public class SQLQueries {
         return categoryList;
     }
 
-    public static boolean newTransaction(Transaction transaction, Employee employee) {
+    //Submit new transaction
+    public static boolean newTransaction(Transaction transaction) {
 
         DBConnection db = new DBConnection();
 
@@ -82,8 +90,12 @@ public class SQLQueries {
             }
             //Insert Transaction to Transaction Table
             try (Statement transactionStatement = connection.createStatement()) {
-                String transactionQuery = transaction.getTID() + "," + transaction.getDate() + ","
-                        + 1 + "," + transaction.getAmount() + "," + employee.getFullName();
+                String transactionQuery = transaction.getTID() + ","
+                        + transaction.getDate() + ","
+                        + transaction.getStatus().getStatusID() + ","
+                        + transaction.getAmount() + ","
+                        + transaction.getSellBy();
+
                 transactionStatement.executeUpdate("INSERT INTO transaction"
                         + "(TID,TRANSACTIONDATE,TRANSACTIONSTATUS,AMOUNT,SELLBY)\n"
                         + "VALUES (" + transactionQuery + ")");
@@ -107,6 +119,7 @@ public class SQLQueries {
         return true;
     }
 
+    //Get Transaction list with all their items 
     public static List<Transaction> transactionList() {
         List<Transaction> transactionList = new ArrayList<>();
 
@@ -122,7 +135,10 @@ public class SQLQueries {
                     t.setSellBy(transactionResult.getString("sellby"));
                     t.setDate(transactionResult.getTimestamp("transactiondate"));
                     t.setAmount(transactionResult.getInt("amount"));
-                    t.setStatus(new Status(transactionResult.getInt("transactionStatus")));
+
+                    Status status = new Status(transactionResult.getInt("transactionStatus"), true);
+                    t.setStatus(getStatusWithDescription(status));
+
                     transactionList.add(t);
                 }
 
@@ -138,7 +154,10 @@ public class SQLQueries {
                                 item.setPrice(itemResult.getInt("price"));
                                 item.setStartDate(itemResult.getTimestamp("startdate"));
                                 item.setQuantity(itemResult.getInt("quantity"));
-                                item.setStatus(new Status(itemResult.getInt("statusID")));
+
+                                Status status = new Status(transactionResult.getInt("transactionStatus"), false);
+                                item.setStatus(getStatusWithDescription(status));
+
                                 t.getTransactionItems().add(item);
                             }
                         }
@@ -151,6 +170,30 @@ public class SQLQueries {
             System.out.println("VendorError: " + ex.getErrorCode());
         }
         return transactionList;
+    }
+
+    //Get status description from the correct table
+    public static Status getStatusWithDescription(Status status) {
+
+        DBConnection db = new DBConnection();
+
+        try (Connection connection = db.getMyConnection();
+                Statement statusStatement = connection.createStatement()) {
+            //Query the status description
+            String query = "SELECT description FROM "
+                    + (status.isTransactionStatus() ? "transactionstatus" : "status")
+                    + " WHERE SID =" + status.getStatusID();
+            ResultSet statusResult = statusStatement.executeQuery(query);
+
+            if (statusResult.next()) {
+                status.setDescription(statusResult.getString("description"));
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+        return status;
     }
 
 }

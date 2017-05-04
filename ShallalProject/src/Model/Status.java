@@ -5,6 +5,9 @@
  */
 package Model;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 /**
  *
  * @author Ryder
@@ -12,10 +15,17 @@ package Model;
 public class Status {
 
     private int statusID;
-    private String description;
+    private StringProperty description = new SimpleStringProperty();
+    private boolean isTransactionStatus;
 
-    public Status(int statusID) {
+    public Status(int statusID, boolean isTransactionStatus) {
         this.statusID = statusID;
+        this.isTransactionStatus = isTransactionStatus;
+    }
+
+    public Status(int statusID, String description) {
+        this.statusID = statusID;
+        setDescription(description);
     }
 
     public int getStatusID() {
@@ -26,12 +36,30 @@ public class Status {
         this.statusID = statusID;
     }
 
-    public String getDescription() {
+    public StringProperty descriptionProperty() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public String getDescription() {
+        return description.get();
     }
 
+    public void setDescription(String description) {
+        this.description.set(description);
+    }
+
+    public boolean isTransactionStatus() {
+        return isTransactionStatus;
+    }
+
+    public void setTransactionStatus(boolean isTransactionStatus) {
+        this.isTransactionStatus = isTransactionStatus;
+    }
+
+    @Override
+    public String toString() {
+        return getDescription();
+    }
+
+    
 }
