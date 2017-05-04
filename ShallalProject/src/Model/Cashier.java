@@ -22,4 +22,5 @@ public class Cashier extends Employee {
     public boolean updateOrder() {
         return true;
     }
+    
 }

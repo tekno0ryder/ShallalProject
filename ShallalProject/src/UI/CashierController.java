@@ -6,6 +6,7 @@
 package UI;
 
 import Model.Category;
+import Model.Item;
 import Model.SQLQueries;
 import Model.Status;
 import java.net.URL;
@@ -17,6 +18,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -45,21 +47,21 @@ public class CashierController implements Initializable {
     @FXML
     private TableColumn<?, ?> newTansactionAction;
     @FXML
-    private TableView<?> itemsTable;
+    private TableView<Item> itemsTable;
     @FXML
-    private TableColumn<?, ?> itemsName;
+    private TableColumn<Item, String> itemsName;
     @FXML
-    private TableColumn<?, ?> itemsPrice;
+    private TableColumn<Item, Integer> itemsPrice;
     @FXML
-    private TableColumn<?, ?> itemsStatus;
+    private TableColumn<Item, String> itemsStatus;
     @FXML
-    private TableColumn<?, ?> itemsAction;
+    private TableColumn<Item, Button> itemsAction;
     @FXML
-    private TableView<?> categoryTable;
+    private TableView<Category> categoryTable;
     @FXML
-    private TableColumn<?, ?> categoryName;
+    private TableColumn<Category, String> categoryName;
     @FXML
-    private TableColumn<Status, String> categoryStatus;
+    private TableColumn<Category, String> categoryStatus;
     @FXML
     private TableView<?> transactionDetailsTable;
     @FXML
@@ -94,12 +96,27 @@ public class CashierController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        categoryName.setCellValueFactory(
-                new PropertyValueFactory("CID"));
-        categoryStatus.setCellValueFactory(data -> data.getValue().descriptionProperty());
 
-        ObservableList data = FXCollections.observableArrayList(SQLQueries.getCategoryList());
-        categoryTable.setItems(data);
+        //Set Category Table 
+        categoryName.setCellValueFactory(new PropertyValueFactory("name"));
+        categoryStatus.setCellValueFactory(data -> data.getValue().getStatus().descriptionProperty());
+
+        ObservableList categories = FXCollections.observableArrayList(SQLQueries.getCategoryList());
+        categoryTable.setItems(categories);
+
+        categoryTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("ListView Selection Changed (selected: " + newValue.toString() + ")");
+            itemsTable.setItems(FXCollections.observableArrayList(newValue.getItems()));
+        });
+
+        itemsName.setCellValueFactory(new PropertyValueFactory("name"));
+        itemsPrice.setCellValueFactory(new PropertyValueFactory("price"));
+        itemsStatus.setCellValueFactory(data -> data.getValue().getStatus().descriptionProperty());
+        //itemsAction
+
+        categoryTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("ListView Selection Changed (selected: " + newValue.toString() + ")");
+        });
     }
 
     @FXML
