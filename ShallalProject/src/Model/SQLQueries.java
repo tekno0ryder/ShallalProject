@@ -108,7 +108,6 @@ public class SQLQueries {
     }
 
     public static List<Transaction> transactionList() {
-        System.out.println("hi");
         List<Transaction> transactionList = new ArrayList<>();
 
         DBConnection db = new DBConnection();
@@ -141,8 +140,6 @@ public class SQLQueries {
                                 item.setQuantity(itemResult.getInt("quantity"));
                                 item.setStatus(new Status(itemResult.getInt("statusID")));
                                 t.getTransactionItems().add(item);
-                                System.out.println(t);
-                                System.out.println("\t" + item);
                             }
                         }
                     }

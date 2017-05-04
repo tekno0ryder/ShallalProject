@@ -19,7 +19,7 @@ public class ShallalProject extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/UI/Login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/UI/Cashier.fxml"));
 
         Scene scene = new Scene(root);
 
@@ -31,7 +31,6 @@ public class ShallalProject extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        SQLQueries.transactionList();
         launch(args);
 
     }

@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
@@ -24,11 +25,6 @@
               <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
               <MenuItem mnemonicParsing="false" text="About" />
@@ -38,7 +34,7 @@
       </MenuBar>
       <TabPane layoutY="20.0" prefHeight="779.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="New Order">
+          <Tab text="New Transaction">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -51,30 +47,36 @@
                                     <Font size="32.0" />
                                  </font>
                               </Label>
-                              <TextField alignment="CENTER" editable="false" prefHeight="84.0" prefWidth="210.0" text="120 SAR">
+                              <TextField fx:id="totalPriceTextField" alignment="CENTER" editable="false" prefHeight="84.0" prefWidth="210.0" text="120 SAR">
                                  <font>
                                     <Font size="28.0" />
                                  </font>
                               </TextField>
-                              <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="216.0" text="Submit Order" />
-                              <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="118.0" text="Clear" />
+                              <Button mnemonicParsing="false" onAction="#onSubmitOrder" prefHeight="100.0" prefWidth="216.0" text="Submit Transaction">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font></Button>
+                              <Button mnemonicParsing="false" onAction="#onClear" prefHeight="42.0" prefWidth="118.0" text="Clear">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font></Button>
                            </children>
                         </VBox>
-                        <TableView layoutX="630.0" layoutY="37.0" prefHeight="689.0" prefWidth="370.0">
+                        <TableView fx:id="newTansactionTable" layoutX="630.0" layoutY="37.0" prefHeight="689.0" prefWidth="370.0">
                            <columns>
-                              <TableColumn prefWidth="84.0" text="Name" />
-                              <TableColumn prefWidth="75.0" text="Quantity" />
-                              <TableColumn minWidth="0.0" prefWidth="70.0" text="Price" />
-                              <TableColumn minWidth="0.0" prefWidth="71.0" text="Total" />
-                              <TableColumn minWidth="0.0" prefWidth="70.0" text="Acion" />
+                              <TableColumn fx:id="newTansactionName" prefWidth="84.0" text="Name" />
+                              <TableColumn fx:id="newTansactionQuantity" prefWidth="75.0" text="Quantity" />
+                              <TableColumn fx:id="newTansactionPrice" minWidth="0.0" prefWidth="70.0" text="Price" />
+                              <TableColumn fx:id="newTansactionTotal" minWidth="0.0" prefWidth="71.0" text="Total" />
+                              <TableColumn fx:id="newTansactionAction" minWidth="0.0" prefWidth="70.0" text="Acion" />
                            </columns>
                         </TableView>
-                        <TableView layoutX="242.0" layoutY="61.0" prefHeight="665.0" prefWidth="357.0">
+                        <TableView fx:id="itemsTable" layoutX="242.0" layoutY="61.0" prefHeight="665.0" prefWidth="357.0">
                           <columns>
-                            <TableColumn prefWidth="114.0" text="Name" />
-                              <TableColumn minWidth="0.0" prefWidth="70.0" text="Price" />
-                              <TableColumn minWidth="0.0" text="Status" />
-                              <TableColumn prefWidth="91.0" text="Action" />
+                            <TableColumn fx:id="itemsName" prefWidth="114.0" text="Name" />
+                              <TableColumn fx:id="itemsPrice" minWidth="0.0" prefWidth="70.0" text="Price" />
+                              <TableColumn fx:id="itemsStatus" minWidth="0.0" text="Status" />
+                              <TableColumn fx:id="itemsAction" prefWidth="91.0" text="Action" />
                           </columns>
                         </TableView>
                         <Label layoutX="19.0" layoutY="6.0" text="Category List">
@@ -82,78 +84,85 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label layoutX="264.0" layoutY="34.0" text="Items List">
+                        <Label layoutX="254.0" layoutY="31.0" text="Items List">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label layoutX="640.0" layoutY="6.0" text="New Order" textAlignment="CENTER" textFill="RED">
+                        <Label layoutX="640.0" layoutY="6.0" text="New Transaction" textAlignment="CENTER" textFill="RED">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <TableView layoutX="16.0" layoutY="37.0" prefHeight="691.0" prefWidth="226.0">
+                        <TableView fx:id="categoryTable" layoutX="16.0" layoutY="37.0" prefHeight="691.0" prefWidth="226.0">
                            <columns>
-                              <TableColumn prefWidth="115.0" text="Name" />
-                              <TableColumn minWidth="0.0" prefWidth="110.0" text="Status" />
+                              <TableColumn fx:id="categoryName" prefWidth="115.0" text="Name" />
+                              <TableColumn fx:id="categoryStatus" minWidth="0.0" prefWidth="110.0" text="Status" />
                            </columns>
                         </TableView>
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Orders List">
+          <Tab text="Transactions Log">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="749.0" prefWidth="1280.0">
                            <children>
-                              <TableView layoutX="480.0" layoutY="45.0" prefHeight="661.0" prefWidth="391.0">
+                              <TableView fx:id="transactionDetailsTable" layoutX="590.0" layoutY="44.0" prefHeight="637.0" prefWidth="391.0" tableMenuButtonVisible="true">
                                  <columns>
-                                    <TableColumn prefWidth="84.0" text="Name" />
-                                    <TableColumn prefWidth="94.0" text="Quantity" />
-                                    <TableColumn minWidth="0.0" prefWidth="62.0" text="Price" />
-                                    <TableColumn minWidth="0.0" prefWidth="75.0" text="Total" />
-                                    <TableColumn minWidth="0.0" prefWidth="75.0" text="Acion" />
+                                    <TableColumn fx:id="transactionDetailsName" prefWidth="84.0" text="Name" />
+                                    <TableColumn fx:id="transactionDetailsQuantity" prefWidth="94.0" text="Quantity" />
+                                    <TableColumn fx:id="transactionDetailsPrice" minWidth="0.0" prefWidth="62.0" text="Price" />
+                                    <TableColumn fx:id="transactionDetailsTotal" minWidth="0.0" prefWidth="75.0" text="Total" />
+                                    <TableColumn fx:id="transactionDetailsAction" minWidth="0.0" prefWidth="75.0" text="Acion" />
                                  </columns>
                               </TableView>
-                              <Separator layoutX="461.0" orientation="VERTICAL" prefHeight="779.0" prefWidth="19.0" />
-                              <Separator layoutX="464.0" layoutY="1.0" orientation="VERTICAL" prefHeight="779.0" prefWidth="3.0" />
-                              <VBox alignment="CENTER" layoutX="946.0" layoutY="191.0" prefHeight="369.0" prefWidth="236.0" spacing="20.0">
+                              <Separator layoutX="552.0" orientation="VERTICAL" prefHeight="779.0" prefWidth="19.0" />
+                              <Separator layoutX="555.0" layoutY="1.0" orientation="VERTICAL" prefHeight="779.0" prefWidth="3.0" />
+                              <VBox alignment="CENTER" layoutX="1012.0" layoutY="190.0" prefHeight="369.0" prefWidth="236.0" spacing="20.0">
                                  <children>
                                     <Label text="New Price: ">
                                        <font>
                                           <Font size="32.0" />
                                        </font>
                                     </Label>
-                                    <TextField alignment="CENTER" editable="false" prefHeight="84.0" prefWidth="210.0" text="120 SAR">
+                                    <TextField fx:id="newPriceTextField" alignment="CENTER" editable="false" prefHeight="84.0" prefWidth="210.0" text="120 SAR">
                                        <font>
                                           <Font size="28.0" />
                                        </font>
                                     </TextField>
-                                    <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="216.0" text="Submit Changes" />
-                                    <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="118.0" text="Clear" />
+                                    <Button mnemonicParsing="false" onAction="#submitChangesButton" prefHeight="100.0" prefWidth="216.0" text="Submit Changes">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font></Button>
+                                    <Button mnemonicParsing="false" onAction="#onClear" prefHeight="42.0" prefWidth="118.0" text="Clear">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font></Button>
                                  </children>
                               </VBox>
-                              <TableView layoutX="14.0" layoutY="44.0" prefHeight="691.0" prefWidth="438.0">
+                              <TableView fx:id="transactionTable" layoutX="14.0" layoutY="44.0" prefHeight="688.0" prefWidth="531.0" tableMenuButtonVisible="true">
                                  <columns>
-                                    <TableColumn prefWidth="47.0" text="ID" />
-                                    <TableColumn minWidth="0.0" prefWidth="199.0" text="Date" />
-                                    <TableColumn prefWidth="114.0" text="Status" />
-                                    <TableColumn prefWidth="77.0" text="Total Price" />
+                                    <TableColumn fx:id="transactionID" prefWidth="47.0" text="ID" />
+                                    <TableColumn fx:id="transactionDate" minWidth="0.0" prefWidth="161.0" text="Date" />
+                                    <TableColumn fx:id="transactionPrice" prefWidth="102.0" text="Total Price" />
+                                    <TableColumn fx:id="transactionSoldBy" prefWidth="122.0" text="Sold By" />
+                                    <TableColumn fx:id="transactionStatus" prefWidth="98.0" text="Status" />
                                  </columns>
                               </TableView>
-                              <Label layoutX="14.0" layoutY="14.0" text="Orders List">
+                              <Label layoutX="14.0" layoutY="14.0" text="Transactions List">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="485.0" layoutY="15.0" text="Order Details" textAlignment="CENTER">
+                              <Label layoutX="595.0" layoutY="14.0" text="Transaction Details" textAlignment="CENTER">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <Button layoutX="612.0" layoutY="710.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="147.0" text="Add new item" />
+                              <MenuButton fx:id="addNewItem" alignment="CENTER" layoutX="650.0" layoutY="695.0" mnemonicParsing="false" onAction="#onAddNewItem" prefHeight="37.0" prefWidth="271.0" text="Add New Item" textAlignment="CENTER" />
                            </children>
                         </AnchorPane>
                      </children>
