@@ -48,7 +48,7 @@ public class SQLQueries {
                 for (Category c : categoryList) {
                     ResultSet itemResult = itemStatement.executeQuery("SELECT * FROM fooditem "
                             + "WHERE fooditem.foodcategory = " + c.getCID());
-                    System.out.println(c);
+                    // System.out.println(c);
                     while (itemResult.next()) {
                         Item item = new Item();
                         item.setiID(itemResult.getInt("FIid"));
@@ -60,7 +60,7 @@ public class SQLQueries {
                         item.setStatus(getStatusWithDescription(status));
 
                         c.getItems().add(item);
-                        System.out.println("\t" + item);
+                        // System.out.println("\t" + item);
                     }
                 }
             }
@@ -137,8 +137,8 @@ public class SQLQueries {
                     t.setDate(transactionResult.getTimestamp("transactiondate"));
                     t.setAmount(transactionResult.getInt("amount"));
 
-                    Status status = new Status(transactionResult.getInt("transactionStatus"), true);
-                    t.setStatus(getStatusWithDescription(status));
+                    /*Status status = new Status(transactionResult.getInt("transactionStatus"), true);
+                    t.setStatus(getStatusWithDescription(status));*/
 
                     transactionList.add(t);
                 }
@@ -146,7 +146,7 @@ public class SQLQueries {
                 try (Statement itemStatement = connection.createStatement()) {
                     for (Transaction t : transactionList) {
                         ResultSet itemResult = itemStatement.executeQuery("SELECT * FROM transactionitems\n"
-                                + "NATURAL JOIN fooditem");
+                                + " NATURAL JOIN fooditem");
                         while (itemResult.next()) {
                             if (itemResult.getInt("TID") == t.getTID()) {
                                 Item item = new Item();
@@ -156,8 +156,8 @@ public class SQLQueries {
                                 item.setStartDate(itemResult.getTimestamp("startdate"));
                                 item.setQuantity(itemResult.getInt("quantity"));
 
-                                Status status = new Status(transactionResult.getInt("transactionStatus"), false);
-                                item.setStatus(getStatusWithDescription(status));
+                                /*Status status = new Status(transactionResult.getInt("transactionStatus"), false);
+                                item.setStatus(getStatusWithDescription(status));*/
 
                                 t.getTransactionItems().add(item);
                             }
@@ -197,48 +197,32 @@ public class SQLQueries {
         return status;
     }
 
-    public static double getTotalMoney(Timestamp startTimeStamp, Timestamp endTimeStamp, Item item) throws SQLException{
-        
-        double totalMoney = 0.0;
-        
-        DBConnection db = new DBConnection();
-        
-        if(endTimeStamp.before(startTimeStamp) || startTimeStamp.after(endTimeStamp)){
+    public static int getTotalMoney(Timestamp startTimeStamp, Timestamp endTimeStamp, Item item) {
+
+        int totalMoney = 0;
+
+        if (endTimeStamp.before(startTimeStamp) || startTimeStamp.after(endTimeStamp)) {
             System.out.println("The end time is before the start time, please check them");
-            return 0.0;
-        }
-        else if(startTimeStamp.equals(endTimeStamp)){
-            System.out.println("The start time is the same as the end time, please check them");
-            return 0.0;
-        }
-        else{
-            if(item == null)
+            return 0;
+        } else {
+            if (item == null) {
                 System.out.println("No item is provided, please provide certain item.");
-            else
-            {
-                Connection conn = db.getMyConnection();
-                Statement statement = conn.createStatement();
-                
-                String query = "SELECT FIid FROM transactionitems WHERE ;" ;
-                
-                ResultSet result = statement.executeQuery(query);
-                        
-                
-                /*for(int i=0 ; i< transaction.size(); i++)
-                {
-                    if(((transaction.get(i).getDate().compareTo(startTimeStamp) == 0) 
-                     || (transaction.get(Ii).getDate().compareTo(startTimeStamp) > 0))
-                     && ((transaction.get(i).getDate().compareTo(endTimeStamp) == 0)
-                     ||(transaction.get(i).getDate().compareTo(endTimeStamp) < 0)))
-                    {
-                      itemElement = transaction.get(i).getTransactionItems();
-                      items = itemElement.get(itemElement.indexOf(item));
-                    
-                      totalMoney = totalMoney + items.getPrice();   
+            } else {
+
+                List<Transaction> transaction = transactionList();
+                List<Item> itemElement;
+                Item items;
+                for (int i = 0; i < transaction.size(); i++) {
+                    if (transaction.get(i).getDate().compareTo(startTimeStamp) >= 0
+                            && (transaction.get(i).getDate().compareTo(endTimeStamp) <= 0)) {
+                        itemElement = transaction.get(i).getTransactionItems();
+                        items = itemElement.get(itemElement.indexOf(item));
+
+                        totalMoney = totalMoney + items.getPrice();
                     }
-                }*/
-            }     
-        }        
+                }
+            }
+        }
         return totalMoney;
     }
 }

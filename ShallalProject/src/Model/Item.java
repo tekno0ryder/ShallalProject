@@ -30,7 +30,7 @@ public class Item {
         this.name = name;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 
