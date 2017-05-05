@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class SQLQueries {
         try (Connection connection = db.getMyConnection()) {
             //Query categories and insert them to categoryList
             try (Statement categoryStatement = connection.createStatement();
-                    ResultSet categoryResult = categoryStatement.executeQuery("SELECT * FROM foodcategory")) {
+                    ResultSet categoryResult = categoryStatement.executeQuery("SELECT * FROM foodcategory;")) {
                 while (categoryResult.next()) {
                     Category c = new Category();
                     c.setCID(categoryResult.getInt("CID"));
@@ -79,7 +80,7 @@ public class SQLQueries {
         try (Connection connection = db.getMyConnection()) {
             try (Statement tidStatement = connection.createStatement()) {
                 //Take latest TID and increament it , else start from 1
-                ResultSet tidResult = tidStatement.executeQuery("SELECT tid FROM transaction");
+                ResultSet tidResult = tidStatement.executeQuery("SELECT tid FROM transaction;");
                 if (!tidResult.next()) {
                     transaction.setTID(1);
                 } else {
@@ -128,7 +129,7 @@ public class SQLQueries {
         try (Connection connection = db.getMyConnection()) {
             //Query categories and insert them to categoryList
             try (Statement transactionStatement = connection.createStatement()) {
-                ResultSet transactionResult = transactionStatement.executeQuery("SELECT * FROM transaction");
+                ResultSet transactionResult = transactionStatement.executeQuery("SELECT * FROM transaction;");
                 while (transactionResult.next()) {
                     Transaction t = new Transaction();
                     t.setTID(transactionResult.getInt("TID"));
@@ -196,4 +197,48 @@ public class SQLQueries {
         return status;
     }
 
+    public static double getTotalMoney(Timestamp startTimeStamp, Timestamp endTimeStamp, Item item) throws SQLException{
+        
+        double totalMoney = 0.0;
+        
+        DBConnection db = new DBConnection();
+        
+        if(endTimeStamp.before(startTimeStamp) || startTimeStamp.after(endTimeStamp)){
+            System.out.println("The end time is before the start time, please check them");
+            return 0.0;
+        }
+        else if(startTimeStamp.equals(endTimeStamp)){
+            System.out.println("The start time is the same as the end time, please check them");
+            return 0.0;
+        }
+        else{
+            if(item == null)
+                System.out.println("No item is provided, please provide certain item.");
+            else
+            {
+                Connection conn = db.getMyConnection();
+                Statement statement = conn.createStatement();
+                
+                String query = "SELECT FIid FROM transactionitems WHERE ;" ;
+                
+                ResultSet result = statement.executeQuery(query);
+                        
+                
+                /*for(int i=0 ; i< transaction.size(); i++)
+                {
+                    if(((transaction.get(i).getDate().compareTo(startTimeStamp) == 0) 
+                     || (transaction.get(Ii).getDate().compareTo(startTimeStamp) > 0))
+                     && ((transaction.get(i).getDate().compareTo(endTimeStamp) == 0)
+                     ||(transaction.get(i).getDate().compareTo(endTimeStamp) < 0)))
+                    {
+                      itemElement = transaction.get(i).getTransactionItems();
+                      items = itemElement.get(itemElement.indexOf(item));
+                    
+                      totalMoney = totalMoney + items.getPrice();   
+                    }
+                }*/
+            }     
+        }        
+        return totalMoney;
+    }
 }
