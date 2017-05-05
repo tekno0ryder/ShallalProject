@@ -9,12 +9,8 @@ import Model.Category;
 import Model.Item;
 import Model.SQLQueries;
 import java.net.URL;
-import java.util.Iterator;
 import java.util.ResourceBundle;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,8 +18,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -130,6 +124,9 @@ public class CashierController implements Initializable {
 
                 if (item == null) {
                     setGraphic(null);
+                    return;
+                }
+                if (!item.getStatus().getDescription().equalsIgnoreCase("Available")) {
                     return;
                 }
                 setGraphic(addButton);
