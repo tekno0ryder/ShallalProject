@@ -9,7 +9,12 @@ import Model.Category;
 import Model.Item;
 import Model.SQLQueries;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.ResourceBundle;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,6 +22,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -33,17 +40,17 @@ public class CashierController implements Initializable {
     @FXML
     private TextField totalPriceTextField;
     @FXML
-    private TableView<?> newTansactionTable;
+    private TableView<Item> newTansactionTable;
     @FXML
-    private TableColumn<?, ?> newTansactionName;
+    private TableColumn<Item, String> newTansactionName;
     @FXML
-    private TableColumn<?, ?> newTansactionQuantity;
+    private TableColumn<Item, Integer> newTansactionQuantity;
     @FXML
-    private TableColumn<?, ?> newTansactionPrice;
+    private TableColumn<Item, Integer> newTansactionPrice;
     @FXML
-    private TableColumn<?, ?> newTansactionTotal;
+    private TableColumn<Item, Integer> newTansactionTotal;
     @FXML
-    private TableColumn<?, ?> newTansactionAction;
+    private TableColumn<Item, Item> newTansactionAction;
     @FXML
     private TableView<Item> itemsTable;
     @FXML
@@ -89,6 +96,8 @@ public class CashierController implements Initializable {
     @FXML
     private MenuButton addNewItem;
 
+    ObservableList categories = FXCollections.observableArrayList(SQLQueries.getCategoryList());
+
     /**
      * Initializes the controller class.
      */
@@ -99,38 +108,81 @@ public class CashierController implements Initializable {
         categoryName.setCellValueFactory(new PropertyValueFactory("name"));
         categoryStatus.setCellValueFactory(data -> data.getValue().getStatus().descriptionProperty());
 
-        ObservableList categories = FXCollections.observableArrayList(SQLQueries.getCategoryList());
-        categoryTable.setItems(categories);
-
         categoryTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println("ListView Selection Changed (selected: " + newValue.toString() + ")");
             itemsTable.setItems(FXCollections.observableArrayList(newValue.getItems()));
         });
 
+        categoryTable.setItems(categories);
+
+        //Set items table
         itemsName.setCellValueFactory(new PropertyValueFactory("name"));
         itemsPrice.setCellValueFactory(new PropertyValueFactory("price"));
         itemsStatus.setCellValueFactory(data -> data.getValue().getStatus().descriptionProperty());
+        itemsAction.setCellValueFactory(data -> new ReadOnlyObjectWrapper<Item>(data.getValue()));
         itemsAction.setCellFactory(param -> new TableCell<Item, Item>() {
+
             private final Button addButton = new Button("Add");
 
             @Override
             protected void updateItem(Item item, boolean empty) {
                 super.updateItem(item, empty);
-                
-                if (empty) {
+
+                if (item == null) {
                     setGraphic(null);
                     return;
                 }
                 setGraphic(addButton);
                 addButton.setOnAction(
-                        event -> getTableView().getItems().remove(item)
+                        //event -> getTableView().getItems().remove(item)
+                        event -> {
+                            boolean exists = false;
+                            ObservableList<Item> list = newTansactionTable.getItems();
+                            for (Item i : list) {
+                                if (i.equals(item)) {
+                                    exists = true;
+                                    i.setQuantity(i.getQuantity() + 1);
+                                }
+                            }
+                            if (!exists) {
+                                list.add(item);
+                            }
+                        }
                 );
             }
         });
 
-        /*itemsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("ListView Selection Changed (selected: " + newValue.toString() + ")");
-        });*/
+        //Set new Transaction table
+        newTansactionName.setCellValueFactory(new PropertyValueFactory("name"));
+        newTansactionPrice.setCellValueFactory(new PropertyValueFactory("price"));
+        newTansactionQuantity.setCellValueFactory(data -> data.getValue().quantityProperty().asObject());
+
+        newTansactionAction.setCellValueFactory(data -> new ReadOnlyObjectWrapper<Item>(data.getValue()));
+        newTansactionAction.setCellFactory(param -> new TableCell<Item, Item>() {
+
+            private final Button deleteButton = new Button("Delete");
+
+            @Override
+            protected void updateItem(Item item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (item == null) {
+                    setGraphic(null);
+                    return;
+                }
+                setGraphic(deleteButton);
+                deleteButton.setOnAction(
+                        //event -> getTableView().getItems().remove(item)
+                        event -> {
+                            if (item.getQuantity() == 1) {
+                                getTableView().getItems().remove(item);
+                            } else {
+                                item.setQuantity(item.getQuantity() - 1);
+                            }
+                        }
+                );
+            }
+        });
     }
 
     @FXML

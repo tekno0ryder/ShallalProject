@@ -6,6 +6,7 @@
 package Model;
 
 import java.sql.Timestamp;
+import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  *
@@ -19,8 +20,8 @@ public class Item {
     private Timestamp startDate;
     private int createdBy;
     private Status status;
-    private int quantity;
-    
+    private SimpleIntegerProperty quantity = new SimpleIntegerProperty(1);
+
     public String getName() {
         return name;
     }
@@ -70,11 +71,15 @@ public class Item {
     }
 
     public int getQuantity() {
-        return quantity;
+        return this.quantity.getValue();
     }
 
     public void setQuantity(int quantity) {
-        this.quantity = quantity;
+        this.quantity.setValue(quantity);
+    }
+
+    public SimpleIntegerProperty quantityProperty() {
+        return quantity;
     }
 
     @Override

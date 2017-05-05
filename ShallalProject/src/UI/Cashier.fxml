@@ -62,7 +62,7 @@
                                  </font></Button>
                            </children>
                         </VBox>
-                        <TableView fx:id="newTansactionTable" layoutX="630.0" layoutY="37.0" prefHeight="689.0" prefWidth="370.0">
+                        <TableView fx:id="newTansactionTable" editable="true" layoutX="630.0" layoutY="37.0" prefHeight="689.0" prefWidth="370.0">
                            <columns>
                               <TableColumn fx:id="newTansactionName" prefWidth="84.0" text="Name" />
                               <TableColumn fx:id="newTansactionQuantity" prefWidth="75.0" text="Quantity" />
@@ -143,7 +143,7 @@
                                        </font></Button>
                                  </children>
                               </VBox>
-                              <TableView fx:id="transactionTable" layoutX="14.0" layoutY="44.0" prefHeight="688.0" prefWidth="531.0" tableMenuButtonVisible="true">
+                              <TableView fx:id="transactionTable" layoutX="14.0" layoutY="47.0" prefHeight="688.0" prefWidth="531.0" tableMenuButtonVisible="true">
                                  <columns>
                                     <TableColumn fx:id="transactionID" prefWidth="47.0" text="ID" />
                                     <TableColumn fx:id="transactionDate" minWidth="0.0" prefWidth="161.0" text="Date" />
