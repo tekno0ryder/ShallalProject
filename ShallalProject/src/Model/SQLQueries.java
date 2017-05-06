@@ -212,17 +212,55 @@ public class SQLQueries {
                 List<Transaction> transaction = transactionList();
                 List<Item> itemElement;
                 Item items;
-                for (int i = 0; i < transaction.size(); i++) {
+                int quantity = 0;
+                for (int i = 0; i < transaction.size(); i++) 
+                {
                     if (transaction.get(i).getDate().compareTo(startTimeStamp) >= 0
-                            && (transaction.get(i).getDate().compareTo(endTimeStamp) <= 0)) {
+                            && (transaction.get(i).getDate().compareTo(endTimeStamp) <= 0)) 
+                    {
                         itemElement = transaction.get(i).getTransactionItems();
                         items = itemElement.get(itemElement.indexOf(item));
+                        quantity = itemElement.get(itemElement.indexOf(item)).getQuantity();
 
-                        totalMoney = totalMoney + items.getPrice();
+                        totalMoney = totalMoney + (items.getPrice() * quantity);
                     }
                 }
             }
         }
         return totalMoney;
+    }
+
+    public static int getTotalSum(Timestamp startTimeStamp, Timestamp endTimeStamp, Category category)
+    {
+        int totalSum = 0;
+
+        if (endTimeStamp.before(startTimeStamp) || startTimeStamp.after(endTimeStamp)) 
+        {
+            System.out.println("The end time is before the start time, please check them");
+            return 0;
+        } 
+        else 
+        {
+            if (category == null) 
+            {
+                System.out.println("No item is provided, please provide certain item.");
+            }
+            else
+            {
+                List<Item> itemList = category.getItems();
+                Item itemElement ;
+                int totalMoney = 0 ;
+                
+                for(int i=0; i< itemList.size(); i++)
+                {
+                    itemElement = itemList.get(i);
+                    totalMoney = getTotalMoney(startTimeStamp,endTimeStamp,itemElement);
+                    
+                    totalSum = totalSum + totalMoney ;
+                }
+            }
+        }
+        
+        return totalSum ;
     }
 }
