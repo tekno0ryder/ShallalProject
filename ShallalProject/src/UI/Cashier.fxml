@@ -46,7 +46,7 @@
                                     <Font size="32.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="totalPriceTextField" alignment="CENTER" editable="false" prefHeight="84.0" prefWidth="210.0" text="120 SAR">
+                              <TextField fx:id="totalPriceTextField" alignment="CENTER" editable="false" prefHeight="84.0" prefWidth="210.0" text="0 SAR">
                                  <font>
                                     <Font size="28.0" />
                                  </font>
@@ -109,12 +109,12 @@
                      <children>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="749.0" prefWidth="1280.0">
                            <children>
-                              <TableView fx:id="transactionDetailsTable" layoutX="682.0" layoutY="27.0" prefHeight="724.0" prefWidth="317.0" tableMenuButtonVisible="true">
+                              <TableView fx:id="transactionDetailsTable" layoutX="682.0" layoutY="27.0" prefHeight="724.0" prefWidth="343.0" tableMenuButtonVisible="true">
                                  <columns>
-                                    <TableColumn fx:id="transactionDetailsName" prefWidth="89.0" text="Name" />
-                                    <TableColumn fx:id="transactionDetailsQuantity" prefWidth="65.0" text="Quantity" />
-                                    <TableColumn fx:id="transactionDetailsPrice" minWidth="0.0" prefWidth="70.0" text="Price" />
-                                    <TableColumn fx:id="transactionDetailsTotal" minWidth="0.0" prefWidth="84.0" text="Total" />
+                                    <TableColumn fx:id="transactionDetailsName" prefWidth="122.0" text="Name" />
+                                    <TableColumn fx:id="transactionDetailsQuantity" prefWidth="68.0" text="Quantity" />
+                                    <TableColumn fx:id="transactionDetailsPrice" minWidth="0.0" prefWidth="67.0" text="Price" />
+                                    <TableColumn fx:id="transactionDetailsTotal" minWidth="0.0" prefWidth="72.0" text="Total" />
                                  </columns>
                               </TableView>
                               <TableView fx:id="transactionTable" layoutX="246.0" layoutY="-1.0" prefHeight="752.0" prefWidth="436.0" tableMenuButtonVisible="true">
@@ -122,7 +122,7 @@
                                     <TableColumn fx:id="transactionID" prefWidth="47.0" text="ID" />
                                     <TableColumn fx:id="transactionDate" minWidth="0.0" prefWidth="161.0" text="Date" />
                                     <TableColumn fx:id="transactionPrice" prefWidth="107.0" text="Total Price" />
-                                    <TableColumn fx:id="transactionSoldBy" prefWidth="106.0" text="Sold By" />
+                                    <TableColumn fx:id="transactionSoldBy" prefWidth="119.0" text="Sold By" />
                                  </columns>
                               </TableView>
                            </children>
