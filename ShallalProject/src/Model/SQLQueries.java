@@ -78,28 +78,27 @@ public class SQLQueries {
         DBConnection db = new DBConnection();
 
         try (Connection connection = db.getMyConnection()) {
+            //Insert Transaction to Transaction Table
+            try (Statement transactionStatement = connection.createStatement()) {
+                String transactionQuery = "'" + transaction.getDate() + "'" + ","
+                        + "'" + transaction.getAmount() + "'" + ","
+                        + "'" + transaction.getSellBy() + "'";
+
+                transactionStatement.executeUpdate("INSERT INTO transaction"
+                        + " (TRANSACTIONDATE,AMOUNT,SELLBY)\n"
+                        + " VALUES(" + transactionQuery + ")");
+            }
+
             try (Statement tidStatement = connection.createStatement()) {
-                //Take latest TID and increament it , else start from 1
+                //Take the TID so we can store the items in their table
                 ResultSet tidResult = tidStatement.executeQuery("SELECT tid FROM transaction;");
                 if (!tidResult.next()) {
                     transaction.setTID(1);
                 } else {
-                    tidResult.last();
-                    int latestTID = tidResult.getInt("TID");
-                    transaction.setTID(latestTID + 1);
+                    do {
+                        transaction.setTID(tidResult.getInt("TID"));
+                    } while (tidResult.next());
                 }
-            }
-            //Insert Transaction to Transaction Table
-            try (Statement transactionStatement = connection.createStatement()) {
-                String transactionQuery = transaction.getTID() + ","
-                        + transaction.getDate() + ","
-                        + transaction.getStatus().getStatusID() + ","
-                        + transaction.getAmount() + ","
-                        + transaction.getSellBy();
-
-                transactionStatement.executeUpdate("INSERT INTO transaction"
-                        + "(TID,TRANSACTIONDATE,TRANSACTIONSTATUS,AMOUNT,SELLBY)\n"
-                        + "VALUES (" + transactionQuery + ")");
             }
             //Insert Items in TransactionItems table
             List<Item> transactionItems = transaction.getTransactionItems();
@@ -139,7 +138,6 @@ public class SQLQueries {
 
                     /*Status status = new Status(transactionResult.getInt("transactionStatus"), true);
                     t.setStatus(getStatusWithDescription(status));*/
-
                     transactionList.add(t);
                 }
 
@@ -158,7 +156,6 @@ public class SQLQueries {
 
                                 /*Status status = new Status(transactionResult.getInt("transactionStatus"), false);
                                 item.setStatus(getStatusWithDescription(status));*/
-
                                 t.getTransactionItems().add(item);
                             }
                         }
@@ -197,7 +194,7 @@ public class SQLQueries {
         return status;
     }
 
-    public static int getTotalMoney(Timestamp startTimeStamp, Timestamp endTimeStamp, Item item) {
+    public static int itemReport(Timestamp startTimeStamp, Timestamp endTimeStamp, Item item) {
 
         int totalMoney = 0;
 
@@ -213,11 +210,9 @@ public class SQLQueries {
                 List<Item> itemElement;
                 Item items;
                 int quantity = 0;
-                for (int i = 0; i < transaction.size(); i++) 
-                {
+                for (int i = 0; i < transaction.size(); i++) {
                     if (transaction.get(i).getDate().compareTo(startTimeStamp) >= 0
-                            && (transaction.get(i).getDate().compareTo(endTimeStamp) <= 0)) 
-                    {
+                            && (transaction.get(i).getDate().compareTo(endTimeStamp) <= 0)) {
                         itemElement = transaction.get(i).getTransactionItems();
                         items = itemElement.get(itemElement.indexOf(item));
                         quantity = itemElement.get(itemElement.indexOf(item)).getQuantity();
@@ -230,37 +225,29 @@ public class SQLQueries {
         return totalMoney;
     }
 
-    public static int getTotalSum(Timestamp startTimeStamp, Timestamp endTimeStamp, Category category)
-    {
+    public static int categoryReport(Timestamp startTimeStamp, Timestamp endTimeStamp, Category category) {
         int totalSum = 0;
 
-        if (endTimeStamp.before(startTimeStamp) || startTimeStamp.after(endTimeStamp)) 
-        {
+        if (endTimeStamp.before(startTimeStamp) || startTimeStamp.after(endTimeStamp)) {
             System.out.println("The end time is before the start time, please check them");
             return 0;
-        } 
-        else 
-        {
-            if (category == null) 
-            {
+        } else {
+            if (category == null) {
                 System.out.println("No item is provided, please provide certain item.");
-            }
-            else
-            {
+            } else {
                 List<Item> itemList = category.getItems();
-                Item itemElement ;
-                int totalMoney = 0 ;
-                
-                for(int i=0; i< itemList.size(); i++)
-                {
+                Item itemElement;
+                int totalMoney = 0;
+
+                for (int i = 0; i < itemList.size(); i++) {
                     itemElement = itemList.get(i);
-                    totalMoney = getTotalMoney(startTimeStamp,endTimeStamp,itemElement);
-                    
-                    totalSum = totalSum + totalMoney ;
+                    totalMoney = itemReport(startTimeStamp, endTimeStamp, itemElement);
+
+                    totalSum = totalSum + totalMoney;
                 }
             }
         }
-        
-        return totalSum ;
+
+        return totalSum;
     }
 }

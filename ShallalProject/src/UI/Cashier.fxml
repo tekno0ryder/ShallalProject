@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
@@ -104,65 +103,28 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Transactions Log">
+          <Tab fx:id="transactionLogTab" text="Transactions Log">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="749.0" prefWidth="1280.0">
                            <children>
-                              <TableView fx:id="transactionDetailsTable" layoutX="590.0" layoutY="44.0" prefHeight="637.0" prefWidth="391.0" tableMenuButtonVisible="true">
+                              <TableView fx:id="transactionDetailsTable" layoutX="682.0" layoutY="27.0" prefHeight="724.0" prefWidth="317.0" tableMenuButtonVisible="true">
                                  <columns>
-                                    <TableColumn fx:id="transactionDetailsName" prefWidth="84.0" text="Name" />
-                                    <TableColumn fx:id="transactionDetailsQuantity" prefWidth="94.0" text="Quantity" />
-                                    <TableColumn fx:id="transactionDetailsPrice" minWidth="0.0" prefWidth="62.0" text="Price" />
-                                    <TableColumn fx:id="transactionDetailsTotal" minWidth="0.0" prefWidth="75.0" text="Total" />
-                                    <TableColumn fx:id="transactionDetailsAction" minWidth="0.0" prefWidth="75.0" text="Acion" />
+                                    <TableColumn fx:id="transactionDetailsName" prefWidth="89.0" text="Name" />
+                                    <TableColumn fx:id="transactionDetailsQuantity" prefWidth="65.0" text="Quantity" />
+                                    <TableColumn fx:id="transactionDetailsPrice" minWidth="0.0" prefWidth="70.0" text="Price" />
+                                    <TableColumn fx:id="transactionDetailsTotal" minWidth="0.0" prefWidth="84.0" text="Total" />
                                  </columns>
                               </TableView>
-                              <Separator layoutX="552.0" orientation="VERTICAL" prefHeight="779.0" prefWidth="19.0" />
-                              <Separator layoutX="555.0" layoutY="1.0" orientation="VERTICAL" prefHeight="779.0" prefWidth="3.0" />
-                              <VBox alignment="CENTER" layoutX="1012.0" layoutY="190.0" prefHeight="369.0" prefWidth="236.0" spacing="20.0">
-                                 <children>
-                                    <Label text="New Price: ">
-                                       <font>
-                                          <Font size="32.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="newPriceTextField" alignment="CENTER" editable="false" prefHeight="84.0" prefWidth="210.0" text="120 SAR">
-                                       <font>
-                                          <Font size="28.0" />
-                                       </font>
-                                    </TextField>
-                                    <Button mnemonicParsing="false" onAction="#submitChangesButton" prefHeight="100.0" prefWidth="216.0" text="Submit Changes">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font></Button>
-                                    <Button mnemonicParsing="false" onAction="#onClear" prefHeight="42.0" prefWidth="118.0" text="Clear">
-                                       <font>
-                                          <Font size="16.0" />
-                                       </font></Button>
-                                 </children>
-                              </VBox>
-                              <TableView fx:id="transactionTable" layoutX="14.0" layoutY="47.0" prefHeight="688.0" prefWidth="531.0" tableMenuButtonVisible="true">
+                              <TableView fx:id="transactionTable" layoutX="246.0" layoutY="-1.0" prefHeight="752.0" prefWidth="436.0" tableMenuButtonVisible="true">
                                  <columns>
                                     <TableColumn fx:id="transactionID" prefWidth="47.0" text="ID" />
                                     <TableColumn fx:id="transactionDate" minWidth="0.0" prefWidth="161.0" text="Date" />
-                                    <TableColumn fx:id="transactionPrice" prefWidth="102.0" text="Total Price" />
-                                    <TableColumn fx:id="transactionSoldBy" prefWidth="122.0" text="Sold By" />
-                                    <TableColumn fx:id="transactionStatus" prefWidth="98.0" text="Status" />
+                                    <TableColumn fx:id="transactionPrice" prefWidth="107.0" text="Total Price" />
+                                    <TableColumn fx:id="transactionSoldBy" prefWidth="106.0" text="Sold By" />
                                  </columns>
                               </TableView>
-                              <Label layoutX="14.0" layoutY="14.0" text="Transactions List">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="595.0" layoutY="14.0" text="Transaction Details" textAlignment="CENTER">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <MenuButton fx:id="addNewItem" alignment="CENTER" layoutX="650.0" layoutY="695.0" mnemonicParsing="false" onAction="#onAddNewItem" prefHeight="37.0" prefWidth="271.0" text="Add New Item" textAlignment="CENTER" />
                            </children>
                         </AnchorPane>
                      </children>

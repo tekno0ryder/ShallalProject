@@ -21,6 +21,7 @@ public class Item {
     private int createdBy;
     private Status status;
     private SimpleIntegerProperty quantity = new SimpleIntegerProperty(1);
+    private SimpleIntegerProperty total = new SimpleIntegerProperty();
 
     public String getName() {
         return name;
@@ -80,6 +81,24 @@ public class Item {
 
     public SimpleIntegerProperty quantityProperty() {
         return quantity;
+    }
+
+    public int getTotal() {
+        updateTotal();
+        return this.total.getValue();
+    }
+
+    public SimpleIntegerProperty totalProperty() {
+        updateTotal();
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total.setValue(total);
+    }
+
+    public void updateTotal() {
+        setTotal(price * getQuantity());
     }
 
     @Override
