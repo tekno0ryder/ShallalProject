@@ -9,8 +9,12 @@ package Model;
  *
  * @author Ryder
  */
-public class Manager {
+public class Manager extends Employee{
 
+    public Manager(String username, String password){
+            super(username,password);
+    }
+    
     public boolean getItemReport() {
         return true;
     }

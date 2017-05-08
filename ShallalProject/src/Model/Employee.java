@@ -25,8 +25,15 @@ public abstract class Employee {
     private List<String> phones; //Employee phones
 
     public Employee(String userName, String password) {
+        
+        if(userName == null || password == null)
+        {
+            System.out.println("Check the entries please then try again");
+        }
+        else{
         this.userName = userName;
         this.password = password;
+        }
     }
 
     public Status getStatus() {
