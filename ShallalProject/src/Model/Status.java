@@ -16,16 +16,17 @@ public class Status {
 
     private int statusID;
     private StringProperty description = new SimpleStringProperty();
-    private boolean isTransactionStatus;
-
-    public Status(int statusID, boolean isTransactionStatus) {
-        this.statusID = statusID;
-        this.isTransactionStatus = isTransactionStatus;
-    }
 
     public Status(int statusID, String description) {
         this.statusID = statusID;
         setDescription(description);
+    }
+
+    public Status(int statusID) {
+        this.statusID = statusID;
+    }
+
+    Status() {
     }
 
     public int getStatusID() {
@@ -48,18 +49,9 @@ public class Status {
         this.description.set(description);
     }
 
-    public boolean isTransactionStatus() {
-        return isTransactionStatus;
-    }
-
-    public void setTransactionStatus(boolean isTransactionStatus) {
-        this.isTransactionStatus = isTransactionStatus;
-    }
-
     @Override
     public String toString() {
         return getDescription();
     }
 
-    
 }

@@ -37,7 +37,7 @@ public class SQLQueries {
                     c.setDescription(categoryResult.getString("description"));
                     c.setStartDate(categoryResult.getTimestamp("startdate"));
 
-                    Status status = new Status(categoryResult.getInt("statusID"), false);
+                    Status status = new Status(categoryResult.getInt("statusID"));
                     c.setStatus(getStatusWithDescription(status));
 
                     categoryList.add(c);
@@ -56,7 +56,7 @@ public class SQLQueries {
                         item.setPrice(itemResult.getInt("price"));
                         item.setStartDate(itemResult.getTimestamp("startdate"));
 
-                        Status status = new Status(itemResult.getInt("statusID"), false);
+                        Status status = new Status(itemResult.getInt("statusID"));
                         item.setStatus(getStatusWithDescription(status));
 
                         c.getItems().add(item);
@@ -178,8 +178,7 @@ public class SQLQueries {
         try (Connection connection = db.getMyConnection();
                 Statement statusStatement = connection.createStatement()) {
             //Query the status description
-            String query = "SELECT description FROM "
-                    + (status.isTransactionStatus() ? "transactionstatus" : "status")
+            String query = "SELECT description FROM status"
                     + " WHERE SID =" + status.getStatusID();
             ResultSet statusResult = statusStatement.executeQuery(query);
 
@@ -192,6 +191,51 @@ public class SQLQueries {
             System.out.println("VendorError: " + ex.getErrorCode());
         }
         return status;
+    }
+
+    //Return List of status in DB
+    public static List<Status> getStatusList() {
+
+        List<Status> list = new ArrayList<>();
+
+        DBConnection db = new DBConnection();
+
+        try (Connection connection = db.getMyConnection();
+                Statement statusStatement = connection.createStatement()) {
+            //Query the status description
+            String query = "SELECT * FROM Status";
+            ResultSet statusResult = statusStatement.executeQuery(query);
+
+            while (statusResult.next()) {
+                int id = statusResult.getInt("sid");
+                String description = statusResult.getString("description");
+                list.add(new Status(id, description));
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+        return list;
+    }
+
+    public static boolean updateCategory(Category category) {
+
+        DBConnection db = new DBConnection();
+
+        try (Connection connection = db.getMyConnection();
+                Statement statusStatement = connection.createStatement()) {
+            //Query the status description
+            String query = "UPDATE foodcategory "
+                    + "SET ";
+            statusStatement.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return false;
+        }
+        return true;
     }
 
     public static int itemReport(Timestamp startTimeStamp, Timestamp endTimeStamp, Item item) {

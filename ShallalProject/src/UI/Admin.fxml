@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
@@ -18,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.AdminController">
    <children>
       <MenuBar layoutY="-1.0" prefHeight="25.0" prefWidth="1280.0">
         <menus>
@@ -59,50 +58,32 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField alignment="CENTER" prefHeight="29.0" prefWidth="264.0" />
+                              <TextField fx:id="itemNameTextField" alignment="CENTER" prefHeight="29.0" prefWidth="264.0" />
                               <Label text="Price :">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField alignment="CENTER" prefHeight="30.0" prefWidth="264.0" />
+                              <TextField fx:id="itemPriceTextField" alignment="CENTER" prefHeight="30.0" prefWidth="264.0" />
                               <Label text="Status :">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <MenuButton mnemonicParsing="false" prefHeight="28.0" prefWidth="144.0" text="Available">
-                                 <items>
-                                    <MenuItem mnemonicParsing="false" text="Action 1" />
-                                    <MenuItem mnemonicParsing="false" text="Action 2" />
-                                 </items>
-                              </MenuButton>
-                              <Button mnemonicParsing="false" prefHeight="58.0" prefWidth="171.0" text="Add Item" />
+                              <ComboBox fx:id="itemStatusComboBox" prefWidth="150.0" />
+                              <Button fx:id="addUpdateItemButton" mnemonicParsing="false" prefHeight="58.0" prefWidth="171.0" text="Add/Update Item" />
                            </children>
                         </VBox>
-                        <TableView editable="true" layoutX="575.0" layoutY="45.0" prefHeight="688.0" prefWidth="292.0">
-                          <columns>
-                            <TableColumn prefWidth="114.0" text="Name" />
-                              <TableColumn minWidth="0.0" prefWidth="70.0" text="Price" />
-                              <TableColumn prefWidth="107.0" text="Status" />
-                          </columns>
-                        </TableView>
-                        <Label layoutX="21.0" layoutY="7.0" text="Category List">
+                        <Label layoutX="19.0" layoutY="14.0" text="Category List">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label layoutX="575.0" layoutY="14.0" text="Items List">
+                        <Label layoutX="579.0" layoutY="17.0" text="Items List">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <TableView editable="true" layoutX="19.0" layoutY="39.0" prefHeight="691.0" prefWidth="226.0">
-                           <columns>
-                              <TableColumn prefWidth="113.0" text="Name" />
-                              <TableColumn minWidth="0.0" prefWidth="112.0" text="Status" />
-                           </columns>
-                        </TableView>
                         <VBox alignment="CENTER" layoutX="279.0" layoutY="527.0" prefHeight="116.0" prefWidth="242.0" spacing="20.0">
                            <children>
                               <Label text="Delete Category">
@@ -110,7 +91,7 @@
                                     <Font size="28.0" />
                                  </font>
                               </Label>
-                              <Button mnemonicParsing="false" prefHeight="44.0" prefWidth="152.0" text="Delete Category" textFill="RED" />
+                              <Button mnemonicParsing="false" onAction="#onRemoveCategory" prefHeight="44.0" prefWidth="152.0" text="Delete Category" textFill="RED" />
                            </children>
                         </VBox>
                         <Separator layoutX="248.0" layoutY="503.0" prefHeight="0.0" prefWidth="303.0" />
@@ -124,7 +105,7 @@
                                     <Font size="28.0" />
                                  </font>
                               </Label>
-                              <Button mnemonicParsing="false" prefHeight="44.0" prefWidth="152.0" text="Delete Item" textFill="RED" />
+                              <Button fx:id="deleteItemButton" mnemonicParsing="false" prefHeight="44.0" prefWidth="152.0" text="Delete Item" textFill="RED" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" layoutX="274.0" layoutY="146.0" prefHeight="342.0" prefWidth="253.0" spacing="20.0">
@@ -139,26 +120,34 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField alignment="CENTER" prefHeight="28.0" prefWidth="265.0" />
+                              <TextField fx:id="categoryNameTextField" alignment="CENTER" prefHeight="28.0" prefWidth="265.0" />
                               <Label text="Status :">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <MenuButton mnemonicParsing="false" prefHeight="28.0" prefWidth="144.0" text="Available">
-                                <items>
-                                  <MenuItem mnemonicParsing="false" text="Action 1" />
-                                  <MenuItem mnemonicParsing="false" text="Action 2" />
-                                </items>
-                              </MenuButton>
-                              <Button mnemonicParsing="false" prefHeight="61.0" prefWidth="172.0" text="Add/Update Category" />
+                              <ComboBox fx:id="categoryStatusComboBox" prefWidth="150.0" />
+                              <Button mnemonicParsing="false" onAction="#onAddUpdateCategory" prefHeight="61.0" prefWidth="172.0" text="Add/Update Category" />
                            </children>
                         </VBox>
+                        <TableView fx:id="categoryTable" layoutX="19.0" layoutY="41.0" prefHeight="684.0" prefWidth="226.0">
+                           <columns>
+                              <TableColumn fx:id="categoryName" prefWidth="115.0" text="Name" />
+                              <TableColumn fx:id="categoryStatus" minWidth="0.0" prefWidth="140.0" text="Status" />
+                           </columns>
+                        </TableView>
+                        <TableView fx:id="itemsTable" layoutX="578.0" layoutY="45.0" prefHeight="689.0" prefWidth="303.0">
+                           <columns>
+                              <TableColumn fx:id="itemsName" prefWidth="114.0" text="Name" />
+                              <TableColumn fx:id="itemsPrice" minWidth="0.0" prefWidth="72.0" text="Price" />
+                              <TableColumn fx:id="itemsStatus" minWidth="0.0" prefWidth="116.0" text="Status" />
+                           </columns>
+                        </TableView>
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab text="History Log">
+            <Tab fx:id="historyLogTap" text="History Log">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -170,10 +159,10 @@
                                        <children>
                                           <TableView layoutX="94.0" layoutY="62.0" prefHeight="724.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <columns>
-                                                <TableColumn prefWidth="88.0" text="Name" />
-                                                <TableColumn prefWidth="152.0" text="Start Date" />
-                                                <TableColumn prefWidth="152.0" text="End Date" />
-                                                <TableColumn minWidth="0.0" prefWidth="115.0" text="Status" />
+                                                <TableColumn fx:id="categoryHistoryName" prefWidth="88.0" text="Name" />
+                                                <TableColumn fx:id="categoryHistoryStartDate" prefWidth="152.0" text="Start Date" />
+                                                <TableColumn fx:id="categoryHistoryEndDate" prefWidth="152.0" text="End Date" />
+                                                <TableColumn fx:id="categoryHistoryStatus" minWidth="0.0" prefWidth="115.0" text="Status" />
                                              </columns>
                                           </TableView>
                                        </children>
@@ -191,12 +180,12 @@
                                           </Label>
                                           <TableView prefHeight="724.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <columns>
-                                                <TableColumn prefWidth="83.0" text="Name" />
-                                                <TableColumn prefWidth="75.0" text="Category" />
-                                                <TableColumn minWidth="0.0" prefWidth="142.0" text="Price" />
-                                                <TableColumn minWidth="0.0" prefWidth="146.0" text="Start Date" />
-                                                <TableColumn minWidth="0.0" prefWidth="154.0" text="End Date" />
-                                                <TableColumn minWidth="0.0" prefWidth="104.0" text="Status" />
+                                                <TableColumn fx:id="itemHistoryName" prefWidth="83.0" text="Name" />
+                                                <TableColumn fx:id="itemHistoryCategory" prefWidth="75.0" text="Category" />
+                                                <TableColumn fx:id="itemHistoryPrice" minWidth="0.0" prefWidth="142.0" text="Price" />
+                                                <TableColumn fx:id="itemHistoryStartDate" minWidth="0.0" prefWidth="146.0" text="Start Date" />
+                                                <TableColumn fx:id="itemHistoryEndDate" minWidth="0.0" prefWidth="154.0" text="End Date" />
+                                                <TableColumn fx:id="itemHistoryStatus" minWidth="0.0" prefWidth="104.0" text="Status" />
                                              </columns>
                                           </TableView>
                                        </children>
@@ -215,75 +204,75 @@
                      <children>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="749.0" prefWidth="1280.0">
                            <children>
-                              <Button layoutX="536.0" layoutY="567.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="230.0" text="Add/Update">
+                              <Button fx:id="addUpdateEmployeeButton" layoutX="518.0" layoutY="492.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="230.0" text="Add/Update">
                                  <font>
                                     <Font size="18.0" />
                                  </font></Button>
-                              <Label layoutX="670.0" layoutY="301.0" text="Last Name:">
+                              <Label layoutX="651.0" layoutY="232.0" text="Last Name:">
                                  <font>
                                     <Font size="18.0" />
                                  </font></Label>
-                              <Label layoutX="328.0" layoutY="301.0" text="First Name:">
+                              <Label layoutX="309.0" layoutY="232.0" text="First Name:">
                                  <font>
                                     <Font size="18.0" />
                                  </font></Label>
-                              <TextField layoutX="769.0" layoutY="295.0">
+                              <TextField fx:id="lastNameTextField" layoutX="750.0" layoutY="226.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font></TextField>
-                              <TextField layoutX="424.0" layoutY="295.0">
+                              <TextField fx:id="firstNameTextField" layoutX="405.0" layoutY="226.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font></TextField>
-                              <Label layoutX="328.0" layoutY="217.0" text="Add/Update/Delete Employee :">
+                              <Label layoutX="323.0" layoutY="147.0" text="Add/Update/Delete Employee :">
                                  <font>
                                     <Font size="28.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="330.0" layoutY="426.0" text="Username:">
+                              <Label layoutX="311.0" layoutY="357.0" text="Username:">
                                  <font>
                                     <Font size="18.0" />
                                  </font></Label>
-                              <TextField layoutX="424.0" layoutY="420.0">
+                              <TextField fx:id="userNameTextField" layoutX="405.0" layoutY="351.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font></TextField>
-                              <Label layoutX="675.0" layoutY="426.0" text="Password:">
+                              <Label layoutX="656.0" layoutY="357.0" text="Password:">
                                  <font>
                                     <Font size="18.0" />
                                  </font></Label>
-                              <PasswordField layoutX="769.0" layoutY="420.0">
+                              <PasswordField fx:id="passwordTextField" layoutX="750.0" layoutY="351.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font></PasswordField>
-                              <Label layoutX="325.0" layoutY="362.0" text="Phone No1:">
+                              <Label layoutX="306.0" layoutY="293.0" text="Phone No1:">
                                  <font>
                                     <Font size="18.0" />
                                  </font></Label>
-                              <TextField layoutX="424.0" layoutY="356.0">
+                              <TextField fx:id="phone1TextField" layoutX="405.0" layoutY="287.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font></TextField>
-                              <Label layoutX="662.0" layoutY="362.0" text="Phone No2:">
+                              <Label layoutX="643.0" layoutY="293.0" text="Phone No2:">
                                  <font>
                                     <Font size="18.0" />
                                  </font></Label>
-                              <TextField layoutX="769.0" layoutY="356.0">
+                              <TextField fx:id="phone2TextField" layoutX="750.0" layoutY="287.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font></TextField>
-                              <Label layoutX="361.0" layoutY="491.0" text="Type:">
+                              <Label layoutX="342.0" layoutY="422.0" text="Type:">
                                  <font>
                                     <Font size="18.0" />
                                  </font></Label>
-                              <Label layoutX="693.0" layoutY="491.0" text="Status">
+                              <Label layoutX="674.0" layoutY="422.0" text="Status">
                                  <font>
                                     <Font size="18.0" />
                                  </font></Label>
-                              <ComboBox layoutX="764.0" layoutY="485.0" prefHeight="41.0" prefWidth="179.0" promptText="Available" />
-                              <ComboBox layoutX="423.0" layoutY="486.0" prefHeight="40.0" prefWidth="175.0" promptText="Cashier" />
-                              <Button layoutX="593.0" layoutY="653.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="114.0" text="Remove Employee" textFill="RED" />
-                              <ComboBox layoutX="745.0" layoutY="220.0" prefHeight="37.0" prefWidth="196.0" />
+                              <ComboBox fx:id="statusComboBox" layoutX="745.0" layoutY="416.0" prefHeight="41.0" prefWidth="179.0" promptText="Available" />
+                              <ComboBox fx:id="typeComboBox" layoutX="404.0" layoutY="417.0" prefHeight="40.0" prefWidth="175.0" promptText="Cashier" />
+                              <Button fx:id="removeEmployeeBtton" layoutX="574.0" layoutY="587.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="114.0" text="Remove Employee" textFill="RED" />
+                              <ComboBox fx:id="employeeComboBox" layoutX="726.0" layoutY="151.0" prefHeight="37.0" prefWidth="247.0" />
                            </children>
                         </AnchorPane>
                      </children>
