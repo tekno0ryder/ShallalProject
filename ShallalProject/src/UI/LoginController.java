@@ -17,18 +17,19 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
  *
  * @author test
  */
-
 public class LoginController implements Initializable {
 
     private List<Employee> EL = new ArrayList<>();
@@ -49,78 +50,84 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
+
     @FXML
-    
     private void onLoginClicked(ActionEvent event) {
         // cheack if the list is there or not. 
         initializeI();
         ListIterator it = EL.listIterator();
-        try{
-        Username = userName.getText().trim();
-        Passwrd = password.getText().trim();
-        System.out.println(Username + Passwrd);
-        int counter = 0,eid = -1;
-        while(it.hasNext()){ 
-                if(EL.get(counter).getUserName().equals(Username)){
-                        //System.out.println("UserName is here");
-                        eid = counter;
-                        break;
-                        }
+        try {
+            Username = userName.getText().trim();
+            Passwrd = password.getText().trim();
+            System.out.println(Username + Passwrd);
+            int counter = 0, eid = -1;
+            while (it.hasNext()) {
+                if (EL.get(counter).getUserName().equals(Username)) {
+                    //System.out.println("UserName is here");
+                    eid = counter;
+                    break;
+                }
                 counter++;
                 it.next();
-                }
-        if (eid!= -1){
-            if(checkPass(eid, Passwrd)){
-                System.out.println(EL.get(eid));
-                goToNextPage(EL.get(eid),EL.get(eid).getETname());
             }
-            
-            
-        }
-        else{
-            System.out.println("not match");
-        }
-        }
-        catch(Exception e) {
+            if (eid != -1) {
+                if (checkPass(eid, Passwrd)) {
+                    System.out.println(EL.get(eid));
+                    goToNextPage(EL.get(eid), EL.get(eid).getETname(), event);
+                }
+
+            } else {
+                System.out.println("not match");
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        }
-    
-    
+    }
+
     @FXML
     private void ClearUserandPass(ActionEvent event) {
         userName.clear();
         password.clear();
     }
-    private void initializeI(){
-        if(SQLQueries.isALLEmpoyeeHere(EL))
-                System.out.println("It is already initilized");   
-        else{
+
+    private void initializeI() {
+        if (SQLQueries.isALLEmpoyeeHere(EL)) {
+            System.out.println("It is already initilized");
+        } else {
             EL = SQLQueries.getUserInfo();
             System.out.println("Initillize is done");
         }
     }
+
     private boolean checkPass(int Eid, String Password) {
         return EL.get(Eid).getPassword().equals(Password);
     }
-    private void goToNextPage(Employee get, String eTname) throws IOException {
-            Parent root ;
-        if(eTname.equals("Admin")){
-            System.out.println("Admin");
-            
 
-            }  
-        else if(eTname.equals("Manager")){
-            System.out.println("Manager");
-            }
-        else if(eTname.equals("Chasher")){
-            System.out.println("Chasher");
-            
-            }
-        else{ 
-            System.out.println("null user");
-            }       
+    private void goToNextPage(Employee get, String eTname, ActionEvent event) throws IOException {
+
+        String page = "";
+
+        switch (eTname) {
+            case "Admin":
+                page = "Admin.fxml";
+                break;
+            case "Manager":
+                page = "Manager.fxml";
+                break;
+            case "Chasher":
+                page = "Cashier.fxml";
+                break;
+            default:
+                System.out.println("null user");
+                return;
+        }
+
+        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Parent pane = FXMLLoader.load(getClass().getResource(page));
+        Scene scene = new Scene(pane);
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 }
