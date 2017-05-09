@@ -249,6 +249,51 @@ public class SQLQueries {
         return true;
     }
 
+        public static boolean addCategory(Category category) {
+
+        DBConnection db = new DBConnection();
+
+        try (Connection connection = db.getMyConnection()) {
+            try (Statement categoryStatement = connection.createStatement()) {
+                String query = "INSERT INTO foodcategory (name,startdate,statusid) "
+                        + "VALUES('" + category.getName() + "','"
+                        + category.getStartDate() + "','"
+                        + category.getStatus().getStatusID() + "')";
+                categoryStatement.executeUpdate(query);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return false;
+        }
+        return true;
+    }
+        
+    public static boolean deleteCategory(Category category) {
+/*
+        DBConnection db = new DBConnection();
+
+        try (Connection connection = db.getMyConnection()) {
+            try (Statement categoryStatement = connection.createStatement()) {
+                String query = "DELETE FROM foodcategory "
+                        + "WHERE CID=" + category.getCID();
+                categoryStatement.executeUpdate(query);
+            }
+            try (Statement HistoryStatement = connection.createStatement()) {
+                String query = "DELETE FROM foodcategory "
+                        + "WHERE CID=" + category.getCID();
+                HistoryStatement.executeUpdate(query);
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return false;
+        }*/
+        return true;
+    }
     public static int itemReport(Timestamp startTimeStamp, Timestamp endTimeStamp, Item item) {
 
         int totalMoney = 0;
@@ -408,10 +453,6 @@ public class SQLQueries {
             System.exit(0);
         }
         return false;
-    }
-
-    public static boolean addCategory(Category category) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
