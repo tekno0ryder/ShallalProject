@@ -12,7 +12,9 @@ import Model.SQLQueries;
 import Model.Status;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,9 +24,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -58,8 +62,6 @@ public class AdminController implements Initializable {
     @FXML
     private TableColumn<?, ?> categoryHistoryEndDate;
     @FXML
-    private TableColumn<?, ?> categoryHistoryStatus;
-    @FXML
     private TableColumn<?, ?> itemHistoryName;
     @FXML
     private TableColumn<?, ?> itemHistoryCategory;
@@ -69,8 +71,6 @@ public class AdminController implements Initializable {
     private TableColumn<?, ?> itemHistoryStartDate;
     @FXML
     private TableColumn<?, ?> itemHistoryEndDate;
-    @FXML
-    private TableColumn<?, ?> itemHistoryStatus;
     @FXML
     private Button addUpdateEmployeeButton;
     @FXML
@@ -102,7 +102,7 @@ public class AdminController implements Initializable {
     @FXML
     private TextField addCategoryTextField;
     @FXML
-    private TableColumn<?, ?> categoryAction;
+    private TableColumn<Category, Category> categoryAction;
     @FXML
     private TableColumn<?, ?> itemsAction;
     @FXML
@@ -142,8 +142,37 @@ public class AdminController implements Initializable {
             }
         });
 
-        categoryTable.setItems(categories);
+        categoryAction.setCellValueFactory(data -> new ReadOnlyObjectWrapper<Category>(data.getValue()));
+        categoryAction.setCellFactory(param -> new TableCell<Category, Category>() {
 
+            private final Button deleteButton = new Button("Delete");
+
+            @Override
+            protected void updateItem(Category category, boolean empty) {
+                super.updateItem(category, empty);
+
+                if (category == null) {
+                    setGraphic(null);
+                    return;
+                }
+                setGraphic(deleteButton);
+                deleteButton.setOnAction(
+                        event -> {
+                            TextInputDialog dialog = new TextInputDialog();
+                            dialog.setTitle("Warning");
+                            dialog.setHeaderText("You are about to delete category");
+                            dialog.setContentText("Enter the reason:");
+                            Optional<String> reason = dialog.showAndWait();
+                            if (reason.isPresent()) {
+                                SQLQueries.deleteCategory(category);
+                                categories.setAll(SQLQueries.getCategoryList());
+                                itemsTable.getItems().setAll();
+                            }
+                        }
+                );
+            }
+        });
+        categoryTable.setItems(categories);
         //Set items table
         itemsName.setCellValueFactory(new PropertyValueFactory("name"));
         itemsPrice.setCellValueFactory(new PropertyValueFactory("price"));

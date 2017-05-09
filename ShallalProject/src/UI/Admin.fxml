@@ -71,7 +71,7 @@
                                  </font>
                               </Label>
                               <ComboBox fx:id="addItemStatusComboBox" prefHeight="0.0" prefWidth="148.0" />
-                              <Button mnemonicParsing="false" onAction="#onAddItemClicked" prefHeight="27.0" prefWidth="130.0" text="Add Item" />
+                              <Button mnemonicParsing="false" onAction="#onAddItemClicked" prefHeight="22.0" prefWidth="130.0" text="Add Item" />
                            </children>
                         </VBox>
                         <Label layoutX="19.0" layoutY="14.0" text="Category List">
@@ -176,7 +176,7 @@
                                  </font>
                               </Label>
                               <ComboBox fx:id="updateItemStatusComboBox" prefHeight="0.0" prefWidth="148.0" />
-                              <Button mnemonicParsing="false" onAction="#onAddItemClicked" prefHeight="59.0" prefWidth="132.0" text="Update Item" />
+                              <Button mnemonicParsing="false" onAction="#onAddItemClicked" prefHeight="63.0" prefWidth="132.0" text="Update Item" />
                            </children>
                         </VBox>
                         <Separator layoutX="1000.0" layoutY="47.0" prefHeight="0.0" prefWidth="302.0" />
@@ -202,7 +202,7 @@
                                                 <TableColumn fx:id="categoryHistoryName" prefWidth="88.0" text="Name" />
                                                 <TableColumn fx:id="categoryHistoryStartDate" prefWidth="152.0" text="Start Date" />
                                                 <TableColumn fx:id="categoryHistoryEndDate" prefWidth="152.0" text="End Date" />
-                                                <TableColumn fx:id="categoryHistoryStatus" minWidth="0.0" prefWidth="115.0" text="Status" />
+                                                <TableColumn fx:id="categoryHistoryReason" minWidth="0.0" prefWidth="354.0" text="Reason" />
                                              </columns>
                                           </TableView>
                                        </children>
@@ -225,7 +225,7 @@
                                                 <TableColumn fx:id="itemHistoryPrice" minWidth="0.0" prefWidth="142.0" text="Price" />
                                                 <TableColumn fx:id="itemHistoryStartDate" minWidth="0.0" prefWidth="146.0" text="Start Date" />
                                                 <TableColumn fx:id="itemHistoryEndDate" minWidth="0.0" prefWidth="154.0" text="End Date" />
-                                                <TableColumn fx:id="itemHistoryStatus" minWidth="0.0" prefWidth="104.0" text="Status" />
+                                                <TableColumn fx:id="itemHistoryReason" minWidth="0.0" prefWidth="302.0" text="Reason" />
                                              </columns>
                                           </TableView>
                                        </children>
