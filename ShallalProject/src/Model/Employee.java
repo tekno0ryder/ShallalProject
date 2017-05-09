@@ -119,5 +119,11 @@ public class Employee {
     public String getFullName() {
         return "\'" + this.fname + this.lname + "\'";
     }
-
+    
+    public String toString(){
+        String S = "";
+        //S = "EID = " + EID + ", Fname = " + fname + ", Lname = " + lname + ", ETID = " + ETID + ", ETname = " + ETname + ", Username = " + userName + ", password = " + password +", Status = " + status + ", Salary = " + salary + ", Phones = " + phones+ ".";
+        S = EID +" "+ fname +" "+ lname +" "+ ETID +" "+ ETname +" "+ userName +" "+ password +" "+ status +" "+ salary +" "+ phones;
+        return S;
+    }
 }
