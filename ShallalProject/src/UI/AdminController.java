@@ -6,6 +6,7 @@
 package UI;
 
 import Model.Category;
+import Model.Employee;
 import Model.Item;
 import Model.SQLQueries;
 import Model.Status;
@@ -33,20 +34,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class AdminController implements Initializable {
 
-    @FXML
-    private TextField itemNameTextField;
-    @FXML
-    private TextField itemPriceTextField;
-    @FXML
-    private ComboBox<Status> itemStatusComboBox;
-    @FXML
-    private Button addUpdateItemButton;
-    @FXML
-    private Button deleteItemButton;
-    @FXML
-    private TextField categoryNameTextField;
-    @FXML
-    private ComboBox<Status> categoryStatusComboBox;
     @FXML
     private TableView<Category> categoryTable;
     @FXML
@@ -98,13 +85,37 @@ public class AdminController implements Initializable {
     @FXML
     private TextField phone2TextField;
     @FXML
-    private ComboBox<?> statusComboBox;
+    private ComboBox<Status> employeeStatusComboBox;
     @FXML
-    private ComboBox<?> typeComboBox;
+    private ComboBox<?> employeeTypeComboBox;
     @FXML
     private Button removeEmployeeBtton;
     @FXML
-    private ComboBox<?> employeeComboBox;
+    private ComboBox<Employee> employeeComboBox;
+    @FXML
+    private TextField addItemNameTextField;
+    @FXML
+    private TextField addItemPriceTextField;
+    @FXML
+    private ComboBox<Status> addItemStatusComboBox;
+    @FXML
+    private TextField addCategoryTextField;
+    @FXML
+    private TableColumn<?, ?> categoryAction;
+    @FXML
+    private TableColumn<?, ?> itemsAction;
+    @FXML
+    private TextField updateCategoryTextField;
+    @FXML
+    private TextField updatItemNameTextField;
+    @FXML
+    private TextField updateItemPriceTextField;
+    @FXML
+    private ComboBox<Status> updateItemStatusComboBox;
+    @FXML
+    private ComboBox<Status> addCategoryStatusComboBox;
+    @FXML
+    private ComboBox<Status> updateCategoryStatusComboBox;
 
     ObservableList<Category> categories = FXCollections.observableArrayList(SQLQueries.getCategoryList());
     ObservableList<Status> statuses = FXCollections.observableArrayList(SQLQueries.getStatusList());
@@ -116,14 +127,18 @@ public class AdminController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         /**
-         * ******Edit categories and items screen*******
+         ****************Edit categories and items screen*******************
          */
         //Set Category Table 
         categoryName.setCellValueFactory(new PropertyValueFactory("name"));
         categoryStatus.setCellValueFactory(data -> data.getValue().getStatus().descriptionProperty());
 
         categoryTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            itemsTable.setItems(FXCollections.observableArrayList(newValue.getItems()));
+            if (categoryTable.getSelectionModel().getSelectedItem() != null) {
+                itemsTable.setItems(FXCollections.observableArrayList(newValue.getItems()));
+                updateCategoryTextField.setText(newValue.getName());
+                updateCategoryStatusComboBox.getSelectionModel().select(newValue.getStatus());
+            }
         });
 
         categoryTable.setItems(categories);
@@ -133,34 +148,56 @@ public class AdminController implements Initializable {
         itemsPrice.setCellValueFactory(new PropertyValueFactory("price"));
         itemsStatus.setCellValueFactory(data -> data.getValue().getStatus().descriptionProperty());
 
-        //Set statues to the combo boxes
-        categoryStatusComboBox.getItems().setAll(statuses);
-        itemStatusComboBox.getItems().setAll(statuses);
-        categoryStatusComboBox.getSelectionModel().selectFirst();
-        itemStatusComboBox.getSelectionModel().selectFirst();
+        //Set statues to the combo boxes and to "Available"
+        addCategoryStatusComboBox.getItems().setAll(statuses);
+        addItemStatusComboBox.getItems().setAll(statuses);
+        updateCategoryStatusComboBox.getItems().setAll(statuses);
+        updateItemStatusComboBox.getItems().setAll(statuses);
+        addCategoryStatusComboBox.getSelectionModel().selectFirst();
+        addItemStatusComboBox.getSelectionModel().selectFirst();
+        updateCategoryStatusComboBox.getSelectionModel().selectFirst();
+        updateItemStatusComboBox.getSelectionModel().selectFirst();
 
     }
 
     @FXML
-    private void onRemoveCategory(ActionEvent event) {
+    private void onAddItemClicked(ActionEvent event) {
     }
 
     @FXML
-    private void onAddUpdateCategory(ActionEvent event) {
-        String name = categoryNameTextField.getText();
-        Status status = categoryStatusComboBox.valueProperty().getValue();
-        Category category = categoryTable.getSelectionModel().getSelectedItem();
+    private void onAddCategoryClicked(ActionEvent event) {
 
-        //if  means Update , else add
-        if (categories.stream().anyMatch(c -> c.getName().equalsIgnoreCase(name))) {
-            category = categories.filtered(c -> c.getName().equalsIgnoreCase(name)).get(0);
-            category.setStatus(status);
-            
-            boolean temp = SQLQueries.updateCategory(category);
-            
-            
-        } else {
+        String newName = addCategoryTextField.getText();
+        Status newStatus = addCategoryStatusComboBox.valueProperty().getValue();
+
+        if (categories.stream().anyMatch(c -> c.getName().equalsIgnoreCase(newName))) {
+            System.out.println("Sorry this category is already used");
+            return;
         }
     }
 
+    @FXML
+    private void onUpdateCategoryClicked(ActionEvent event) {
+
+        String newName = updateCategoryTextField.getText();
+        Status newStatus = updateCategoryStatusComboBox.valueProperty().getValue();
+        Category category = categoryTable.getSelectionModel().getSelectedItem();
+
+        if (category == null) {
+            System.out.println("Please select a category from the left table first");
+            return;
+        }
+        if (category.getName().equals(newName) && category.getStatus().equals(newStatus)) {
+            System.out.println("you didn't make any change");
+            return;
+        }
+        category.setName(newName);
+        category.setStatus(newStatus);
+        boolean temp = SQLQueries.updateCategory(category);
+        if (temp) {
+            System.out.println("Successed !!");
+            categories.setAll(SQLQueries.getCategoryList());
+            itemsTable.getItems().setAll();
+        }
+    }
 }

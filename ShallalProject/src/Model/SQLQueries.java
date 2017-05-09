@@ -223,12 +223,23 @@ public class SQLQueries {
 
         DBConnection db = new DBConnection();
 
-        try (Connection connection = db.getMyConnection();
-                Statement statusStatement = connection.createStatement()) {
-            //Query the status description
-            String query = "UPDATE foodcategory "
-                    + "SET ";
-            statusStatement.executeUpdate(query);
+        try (Connection connection = db.getMyConnection()) {
+            try (Statement categoryStatement = connection.createStatement()) {
+                String query = "UPDATE foodcategory "
+                        + "SET name = '" + category.getName() + "', "
+                        + "statusID = " + category.getStatus().getStatusID()
+                        + " WHERE CID = " + category.getCID();
+                categoryStatement.executeUpdate(query);
+            }
+            try (Statement itemStatement = connection.createStatement()) {
+                for (Item item : category.getItems()) {
+                    String query = "UPDATE fooditem "
+                            + "SET statusID = " + category.getStatus().getStatusID()
+                            + " WHERE foodCategory = " + category.getCID()
+                            + " AND FIiD = " + item.getiID();
+                    itemStatement.executeUpdate(query);
+                }
+            }
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());

@@ -44,11 +44,11 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Separator layoutX="545.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="779.0" prefWidth="19.0" />
-                        <Separator layoutX="548.0" orientation="VERTICAL" prefHeight="779.0" prefWidth="3.0" />
-                        <VBox alignment="CENTER" layoutX="944.0" layoutY="64.0" prefHeight="413.0" prefWidth="264.0" spacing="20.0">
+                        <Separator layoutX="579.0" layoutY="-2.0" orientation="VERTICAL" prefHeight="779.0" prefWidth="19.0" />
+                        <Separator layoutX="582.0" layoutY="-2.0" orientation="VERTICAL" prefHeight="779.0" prefWidth="3.0" />
+                        <VBox alignment="CENTER" layoutX="1024.0" layoutY="53.0" prefHeight="326.0" prefWidth="218.0" spacing="15.0">
                            <children>
-                              <Label text="Add/Update Item: ">
+                              <Label text="Add Item: ">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -58,20 +58,20 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="itemNameTextField" alignment="CENTER" prefHeight="29.0" prefWidth="264.0" />
+                              <TextField fx:id="addItemNameTextField" alignment="CENTER" prefHeight="29.0" prefWidth="264.0" />
                               <Label text="Price :">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="itemPriceTextField" alignment="CENTER" prefHeight="30.0" prefWidth="264.0" />
+                              <TextField fx:id="addItemPriceTextField" alignment="CENTER" prefHeight="30.0" prefWidth="264.0" />
                               <Label text="Status :">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <ComboBox fx:id="itemStatusComboBox" prefWidth="150.0" />
-                              <Button fx:id="addUpdateItemButton" mnemonicParsing="false" prefHeight="58.0" prefWidth="171.0" text="Add/Update Item" />
+                              <ComboBox fx:id="addItemStatusComboBox" prefHeight="0.0" prefWidth="148.0" />
+                              <Button mnemonicParsing="false" onAction="#onAddItemClicked" prefHeight="27.0" prefWidth="130.0" text="Add Item" />
                            </children>
                         </VBox>
                         <Label layoutX="19.0" layoutY="14.0" text="Category List">
@@ -79,38 +79,16 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label layoutX="579.0" layoutY="17.0" text="Items List">
+                        <Label layoutX="607.0" layoutY="14.0" text="Items List">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <VBox alignment="CENTER" layoutX="279.0" layoutY="527.0" prefHeight="116.0" prefWidth="242.0" spacing="20.0">
+                        <Separator layoutX="993.0" layoutY="389.0" prefHeight="3.0" prefWidth="301.0" />
+                        <Separator layoutX="980.0" layoutY="393.0" prefHeight="0.0" prefWidth="302.0" />
+                        <VBox alignment="CENTER" layoutX="356.0" layoutY="74.0" prefHeight="306.0" prefWidth="218.0" spacing="15.0">
                            <children>
-                              <Label text="Delete Category">
-                                 <font>
-                                    <Font size="28.0" />
-                                 </font>
-                              </Label>
-                              <Button mnemonicParsing="false" onAction="#onRemoveCategory" prefHeight="44.0" prefWidth="152.0" text="Delete Category" textFill="RED" />
-                           </children>
-                        </VBox>
-                        <Separator layoutX="248.0" layoutY="503.0" prefHeight="0.0" prefWidth="303.0" />
-                        <Separator layoutX="248.0" layoutY="507.0" prefHeight="0.0" prefWidth="303.0" />
-                        <Separator layoutX="867.0" layoutY="500.0" prefHeight="2.0" prefWidth="417.0" />
-                        <Separator layoutX="867.0" layoutY="503.0" prefHeight="0.0" prefWidth="414.0" />
-                        <VBox alignment="CENTER" layoutX="955.0" layoutY="527.0" prefHeight="116.0" prefWidth="242.0" spacing="20.0">
-                           <children>
-                              <Label text="Delete Item">
-                                 <font>
-                                    <Font size="28.0" />
-                                 </font>
-                              </Label>
-                              <Button fx:id="deleteItemButton" mnemonicParsing="false" prefHeight="44.0" prefWidth="152.0" text="Delete Item" textFill="RED" />
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER" layoutX="274.0" layoutY="146.0" prefHeight="342.0" prefWidth="253.0" spacing="20.0">
-                           <children>
-                              <Label text="Add/Update Category: " textAlignment="CENTER" wrapText="true">
+                              <Label text="Add Category: " textAlignment="CENTER" wrapText="true">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -120,29 +98,91 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="categoryNameTextField" alignment="CENTER" prefHeight="28.0" prefWidth="265.0" />
+                              <TextField fx:id="addCategoryTextField" alignment="CENTER" prefHeight="28.0" prefWidth="265.0" />
                               <Label text="Status :">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <ComboBox fx:id="categoryStatusComboBox" prefWidth="150.0" />
-                              <Button mnemonicParsing="false" onAction="#onAddUpdateCategory" prefHeight="61.0" prefWidth="172.0" text="Add/Update Category" />
+                              <ComboBox fx:id="addCategoryStatusComboBox" prefWidth="150.0" />
+                              <Button mnemonicParsing="false" onAction="#onAddCategoryClicked" prefHeight="43.0" prefWidth="138.0" text="Add Category" />
                            </children>
                         </VBox>
-                        <TableView fx:id="categoryTable" layoutX="19.0" layoutY="41.0" prefHeight="684.0" prefWidth="226.0">
+                        <TableView fx:id="categoryTable" layoutX="19.0" layoutY="41.0" prefHeight="684.0" prefWidth="323.0">
                            <columns>
                               <TableColumn fx:id="categoryName" prefWidth="115.0" text="Name" />
-                              <TableColumn fx:id="categoryStatus" minWidth="0.0" prefWidth="140.0" text="Status" />
+                              <TableColumn fx:id="categoryStatus" minWidth="0.0" prefWidth="120.0" text="Status" />
+                              <TableColumn fx:id="categoryAction" minWidth="0.0" prefWidth="88.0" text="Action" />
                            </columns>
                         </TableView>
-                        <TableView fx:id="itemsTable" layoutX="578.0" layoutY="45.0" prefHeight="689.0" prefWidth="303.0">
+                        <TableView fx:id="itemsTable" layoutX="598.0" layoutY="46.0" prefHeight="689.0" prefWidth="403.0">
                            <columns>
-                              <TableColumn fx:id="itemsName" prefWidth="114.0" text="Name" />
-                              <TableColumn fx:id="itemsPrice" minWidth="0.0" prefWidth="72.0" text="Price" />
-                              <TableColumn fx:id="itemsStatus" minWidth="0.0" prefWidth="116.0" text="Status" />
+                              <TableColumn fx:id="itemsName" prefWidth="119.0" text="Name" />
+                              <TableColumn fx:id="itemsPrice" minWidth="0.0" prefWidth="73.0" text="Price" />
+                              <TableColumn fx:id="itemsStatus" minWidth="0.0" prefWidth="118.0" text="Status" />
+                              <TableColumn fx:id="itemsAction" minWidth="0.0" prefWidth="92.0" text="Action" />
                            </columns>
                         </TableView>
+                        <VBox alignment="CENTER" layoutX="358.0" layoutY="424.0" prefHeight="268.0" prefWidth="215.0" spacing="15.0">
+                           <children>
+                              <Label text="Update Category: " textAlignment="CENTER" wrapText="true">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Name :">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="updateCategoryTextField" alignment="CENTER" prefHeight="28.0" prefWidth="265.0" />
+                              <Label text="Status :">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox fx:id="updateCategoryStatusComboBox" prefWidth="150.0" />
+                              <Button mnemonicParsing="false" onAction="#onUpdateCategoryClicked" prefHeight="42.0" prefWidth="136.0" text="Update Category" />
+                           </children>
+                        </VBox>
+                        <Separator layoutX="341.0" layoutY="385.0" prefHeight="5.0" prefWidth="242.0" />
+                        <Separator layoutX="341.0" layoutY="388.0" prefHeight="5.0" prefWidth="243.0" />
+                        <Separator layoutX="341.0" layoutY="40.0" prefHeight="4.0" prefWidth="245.0" />
+                        <Separator layoutX="340.0" layoutY="44.0" prefHeight="3.0" prefWidth="247.0" />
+                        <Separator layoutX="343.0" layoutY="720.0" prefHeight="7.0" prefWidth="244.0" />
+                        <Separator layoutX="339.0" layoutY="726.0" prefHeight="5.0" prefWidth="245.0" />
+                        <VBox alignment="CENTER" layoutX="1025.0" layoutY="397.0" prefHeight="308.0" prefWidth="218.0" spacing="15.0">
+                           <children>
+                              <Label text="Update Item: ">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Name :">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="updatItemNameTextField" alignment="CENTER" prefHeight="29.0" prefWidth="264.0" />
+                              <Label text="Price :">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="updateItemPriceTextField" alignment="CENTER" prefHeight="30.0" prefWidth="264.0" />
+                              <Label text="Status :">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox fx:id="updateItemStatusComboBox" prefHeight="0.0" prefWidth="148.0" />
+                              <Button mnemonicParsing="false" onAction="#onAddItemClicked" prefHeight="59.0" prefWidth="132.0" text="Update Item" />
+                           </children>
+                        </VBox>
+                        <Separator layoutX="1000.0" layoutY="47.0" prefHeight="0.0" prefWidth="302.0" />
+                        <Separator layoutX="1001.0" layoutY="50.0" prefHeight="0.0" prefWidth="302.0" />
+                        <Separator layoutX="1000.0" layoutY="731.0" prefHeight="7.0" prefWidth="284.0" />
+                        <Separator layoutX="1001.0" layoutY="727.0" prefHeight="7.0" prefWidth="284.0" />
                      </children>
                   </AnchorPane>
             </content>
@@ -207,23 +247,28 @@
                               <Button fx:id="addUpdateEmployeeButton" layoutX="518.0" layoutY="492.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="230.0" text="Add/Update">
                                  <font>
                                     <Font size="18.0" />
-                                 </font></Button>
+                                 </font>
+                              </Button>
                               <Label layoutX="651.0" layoutY="232.0" text="Last Name:">
                                  <font>
                                     <Font size="18.0" />
-                                 </font></Label>
+                                 </font>
+                              </Label>
                               <Label layoutX="309.0" layoutY="232.0" text="First Name:">
                                  <font>
                                     <Font size="18.0" />
-                                 </font></Label>
+                                 </font>
+                              </Label>
                               <TextField fx:id="lastNameTextField" layoutX="750.0" layoutY="226.0">
                                  <font>
                                     <Font size="18.0" />
-                                 </font></TextField>
+                                 </font>
+                              </TextField>
                               <TextField fx:id="firstNameTextField" layoutX="405.0" layoutY="226.0">
                                  <font>
                                     <Font size="18.0" />
-                                 </font></TextField>
+                                 </font>
+                              </TextField>
                               <Label layoutX="323.0" layoutY="147.0" text="Add/Update/Delete Employee :">
                                  <font>
                                     <Font size="28.0" />
@@ -232,45 +277,55 @@
                               <Label layoutX="311.0" layoutY="357.0" text="Username:">
                                  <font>
                                     <Font size="18.0" />
-                                 </font></Label>
+                                 </font>
+                              </Label>
                               <TextField fx:id="userNameTextField" layoutX="405.0" layoutY="351.0">
                                  <font>
                                     <Font size="18.0" />
-                                 </font></TextField>
+                                 </font>
+                              </TextField>
                               <Label layoutX="656.0" layoutY="357.0" text="Password:">
                                  <font>
                                     <Font size="18.0" />
-                                 </font></Label>
+                                 </font>
+                              </Label>
                               <PasswordField fx:id="passwordTextField" layoutX="750.0" layoutY="351.0">
                                  <font>
                                     <Font size="18.0" />
-                                 </font></PasswordField>
+                                 </font>
+                              </PasswordField>
                               <Label layoutX="306.0" layoutY="293.0" text="Phone No1:">
                                  <font>
                                     <Font size="18.0" />
-                                 </font></Label>
+                                 </font>
+                              </Label>
                               <TextField fx:id="phone1TextField" layoutX="405.0" layoutY="287.0">
                                  <font>
                                     <Font size="18.0" />
-                                 </font></TextField>
+                                 </font>
+                              </TextField>
                               <Label layoutX="643.0" layoutY="293.0" text="Phone No2:">
                                  <font>
                                     <Font size="18.0" />
-                                 </font></Label>
+                                 </font>
+                              </Label>
                               <TextField fx:id="phone2TextField" layoutX="750.0" layoutY="287.0">
                                  <font>
                                     <Font size="18.0" />
-                                 </font></TextField>
+                                 </font>
+                              </TextField>
                               <Label layoutX="342.0" layoutY="422.0" text="Type:">
                                  <font>
                                     <Font size="18.0" />
-                                 </font></Label>
+                                 </font>
+                              </Label>
                               <Label layoutX="674.0" layoutY="422.0" text="Status">
                                  <font>
                                     <Font size="18.0" />
-                                 </font></Label>
-                              <ComboBox fx:id="statusComboBox" layoutX="745.0" layoutY="416.0" prefHeight="41.0" prefWidth="179.0" promptText="Available" />
-                              <ComboBox fx:id="typeComboBox" layoutX="404.0" layoutY="417.0" prefHeight="40.0" prefWidth="175.0" promptText="Cashier" />
+                                 </font>
+                              </Label>
+                              <ComboBox fx:id="employeeStatusComboBox" layoutX="745.0" layoutY="416.0" prefHeight="41.0" prefWidth="179.0" promptText="Available" />
+                              <ComboBox fx:id="employeeTypeComboBox" layoutX="404.0" layoutY="417.0" prefHeight="40.0" prefWidth="175.0" promptText="Cashier" />
                               <Button fx:id="removeEmployeeBtton" layoutX="574.0" layoutY="587.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="114.0" text="Remove Employee" textFill="RED" />
                               <ComboBox fx:id="employeeComboBox" layoutX="726.0" layoutY="151.0" prefHeight="37.0" prefWidth="247.0" />
                            </children>
