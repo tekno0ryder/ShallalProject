@@ -11,6 +11,7 @@ import Model.Item;
 import Model.SQLQueries;
 import Model.Status;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,12 +20,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -170,9 +171,26 @@ public class AdminController implements Initializable {
         String newName = addCategoryTextField.getText();
         Status newStatus = addCategoryStatusComboBox.valueProperty().getValue();
 
+        if (newName.equals("")) {
+            System.out.println("Please enter the name first");
+            return;
+        }
         if (categories.stream().anyMatch(c -> c.getName().equalsIgnoreCase(newName))) {
             System.out.println("Sorry this category is already used");
             return;
+        }
+
+        Category category = new Category();
+        category.setName(newName);
+        category.setStatus(newStatus);
+        category.setStartDate(new Timestamp(System.currentTimeMillis()));
+
+        boolean temp = SQLQueries.addCategory(category);
+
+        if (temp) {
+            System.out.println("Successed !!");
+            categories.setAll(SQLQueries.getCategoryList());
+            itemsTable.getItems().setAll();
         }
     }
 
