@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Ryder
  */
-public abstract class Employee {
+public class Employee {
 
     private int EID; //Employee ID
     private String fname; //FirstName
@@ -22,7 +22,7 @@ public abstract class Employee {
     private String password; //ُEmployee password
     private Status status; //Employee Status
     private int salary; //Employee Salary 
-    private List<String> phones; //Employee phones
+    private List<Integer> phones; //Employee phones
 
     public Employee(String userName, String password) {
         
@@ -108,11 +108,11 @@ public abstract class Employee {
         this.password = password;
     }
 
-    public List<String> getPhones() {
+    public List<Integer> getPhones() {
         return phones;
     }
 
-    public void setPhones(List<String> phones) {
+    public void setPhones(List<Integer> phones) {
         this.phones = phones;
     }
 

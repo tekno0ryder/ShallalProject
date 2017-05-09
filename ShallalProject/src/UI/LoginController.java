@@ -5,11 +5,20 @@
  */
 package UI;
 
+import Model.Employee;
+import Model.SQLQueries;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -17,10 +26,14 @@ import javafx.scene.control.TextField;
 /**
  * FXML Controller class
  *
- * @author Ryder
+ * @author test
  */
+
 public class LoginController implements Initializable {
 
+    private List<Employee> EL = new ArrayList<>();
+
+    private String Username, Passwrd;
     @FXML
     private Button loginButton;
     @FXML
@@ -37,9 +50,77 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
-
     @FXML
-    private void onLoginClicked(ActionEvent event) {
-    }
     
+    private void onLoginClicked(ActionEvent event) {
+        // cheack if the list is there or not. 
+        initializeI();
+        ListIterator it = EL.listIterator();
+        try{
+        Username = userName.getText().trim();
+        Passwrd = password.getText().trim();
+        System.out.println(Username + Passwrd);
+        int counter = 0,eid = -1;
+        while(it.hasNext()){ 
+                if(EL.get(counter).getUserName().equals(Username)){
+                        //System.out.println("UserName is here");
+                        eid = counter;
+                        break;
+                        }
+                counter++;
+                it.next();
+                }
+        if (eid!= -1){
+            if(checkPass(eid, Passwrd)){
+                System.out.println(EL.get(eid));
+                goToNextPage(EL.get(eid),EL.get(eid).getETname());
+            }
+            
+            
+        }
+        else{
+            System.out.println("not match");
+        }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        }
+    
+    
+    @FXML
+    private void ClearUserandPass(ActionEvent event) {
+        userName.clear();
+        password.clear();
+    }
+    private void initializeI(){
+        if(SQLQueries.isALLEmpoyeeHere(EL))
+                System.out.println("It is already initilized");   
+        else{
+            EL = SQLQueries.getUserInfo();
+            System.out.println("Initillize is done");
+        }
+    }
+    private boolean checkPass(int Eid, String Password) {
+        return EL.get(Eid).getPassword().equals(Password);
+    }
+    private void goToNextPage(Employee get, String eTname) throws IOException {
+            Parent root ;
+        if(eTname.equals("Admin")){
+            System.out.println("Admin");
+            
+
+            }  
+        else if(eTname.equals("Manager")){
+            System.out.println("Manager");
+            }
+        else if(eTname.equals("Chasher")){
+            System.out.println("Chasher");
+            
+            }
+        else{ 
+            System.out.println("null user");
+            }       
+    }
 }

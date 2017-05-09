@@ -305,4 +305,113 @@ public class SQLQueries {
 
         return totalSum;
     }
+
+    public static List<Employee> getUserInfo(){
+       List<Employee> empList = new ArrayList<>();
+       List<Integer> phoneList = new ArrayList<>();
+               
+        DBConnection db = new DBConnection();
+        
+        try (Connection connection = db.getMyConnection();
+                Statement empStatement = connection.createStatement();
+                Statement phoneStatement = connection.createStatement();
+                Statement statusStatement = connection.createStatement()) {
+            //Query the status description
+            String query = "SELECT* From employee";
+            String Pquery = "SELECT * From phone WHERE EID =";
+            String StatusQuery = "Select * From Status where sid =";
+            String EmpTypeNameQuery = "SELECT * FROM employeetype where ETID = ";
+            String Qwp,stp,Etnp;
+            
+            int phoneNum;
+            
+            ResultSet empResult = empStatement.executeQuery(query);
+            ResultSet phoneEmp ;
+            ResultSet Statusresult ;
+            ResultSet EMPtypeResult ;
+
+
+            while (empResult.next()) {
+
+                    Employee empt = new Employee(empResult.getString("username") , empResult.getString("pword"));
+                    empt.setEID(empResult.getInt("EID"));
+                    empt.setETID(empResult.getInt("EmployeeTypeId"));
+                    empt.setFname(empResult.getString("fname"));
+                    empt.setLname(empResult.getString("lname"));
+
+                    empt.setSalary(empResult.getInt("salary")); 
+                    
+
+                    Qwp = Pquery + empResult.getInt("EID");
+                    phoneEmp = phoneStatement.executeQuery(Qwp);
+                    phoneList = new ArrayList<>();
+                    while(phoneEmp.next()){
+                       phoneNum = phoneEmp.getInt("phone");
+                       phoneList.add(phoneNum);
+                       empt.setPhones(phoneList);
+                    }
+
+                    stp = StatusQuery + empResult.getInt("StatusID");
+                    Statusresult = statusStatement.executeQuery(stp);
+                    while(Statusresult.next()){
+                    empt.setStatus(new Status(empResult.getInt("StatusID"),Statusresult.getString("description")));
+                    }
+                    
+                    Etnp = EmpTypeNameQuery + empResult.getInt("EmployeeTypeId");
+                    EMPtypeResult = statusStatement.executeQuery(Etnp);
+                    while(EMPtypeResult.next()){
+                    empt.setETname(EMPtypeResult.getString("name"));
+                    
+                    }
+                    
+
+
+                    empList.add(empt);
+                    System.out.println(empt);
+
+                    
+                }
+            
+        } 
+        catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            System.exit(0);
+        }
+        db.destroy();
+        return empList; 
+}
+    
+    public static boolean isALLEmpoyeeHere(List<Employee> EL){
+        DBConnection db = new DBConnection();
+        try (Connection connection = db.getMyConnection()){
+            Statement empStatement = connection.createStatement();
+            String SQuery = "Select count(*) from Employee";
+            ResultSet empResult = empStatement.executeQuery(SQuery);
+            while(empResult.next()){    
+                int ersul = empResult.getInt("count(*)"); 
+                    if (EL.isEmpty()&& ersul>0)
+                        return false;
+                    
+                //System.out.println(ersul);
+                //System.out.println(EL.size());
+
+                return ersul == EL.size();    
+            }
+            
+            
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            System.exit(0);
+        }
+        return false;
+    }
+
+    public static boolean addCategory(Category category) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
