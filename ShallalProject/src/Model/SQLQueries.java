@@ -249,7 +249,7 @@ public class SQLQueries {
         return true;
     }
 
-        public static boolean addCategory(Category category) {
+    public static boolean addCategory(Category category) {
 
         DBConnection db = new DBConnection();
 
@@ -270,9 +270,9 @@ public class SQLQueries {
         }
         return true;
     }
-        
-    public static boolean deleteCategory(Category category) {
-/*
+
+    public static boolean deleteCategory(Category category, String reason) {
+
         DBConnection db = new DBConnection();
 
         try (Connection connection = db.getMyConnection()) {
@@ -281,19 +281,101 @@ public class SQLQueries {
                         + "WHERE CID=" + category.getCID();
                 categoryStatement.executeUpdate(query);
             }
-            try (Statement HistoryStatement = connection.createStatement()) {
-                String query = "DELETE FROM foodcategory "
-                        + "WHERE CID=" + category.getCID();
-                HistoryStatement.executeUpdate(query);
+            try (Statement historyStatement = connection.createStatement()) {
+                String query = "INSERT INTO foodcategoryhistory (name,startdate,enddate,reason) "
+                        + "VALUES('" + category.getName() + "','"
+                        + category.getStartDate() + "','"
+                        + new Timestamp(System.currentTimeMillis()) + "','"
+                        + reason + "')";
+                historyStatement.executeUpdate(query);
+            }
+            //delete items belong to the category
+            category.getItems().forEach((t) -> deleteItem(t, category, category.getName() + " category is deleted"));
+
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean addItem(Item item, Category category) {
+
+        DBConnection db = new DBConnection();
+
+        try (Connection connection = db.getMyConnection()) {
+            try (Statement itemStatement = connection.createStatement()) {
+                String query = "INSERT INTO fooditem (name,startdate,statusid,price,foodCategory) "
+                        + "VALUES('" + item.getName() + "','"
+                        + item.getStartDate() + "','"
+                        + item.getStatus().getStatusID() + "','"
+                        + item.getPrice() + "','"
+                        + category.getCID() + "')";
+                itemStatement.executeUpdate(query);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean updateItem(Item item) {
+
+        DBConnection db = new DBConnection();
+
+        try (Connection connection = db.getMyConnection()) {
+            try (Statement itemStatement = connection.createStatement()) {
+                String query = "UPDATE fooditem "
+                        + "SET name = '" + item.getName() + "', "
+                        + "statusID = " + item.getStatus().getStatusID() + ", "
+                        + "price = " + item.getPrice()
+                        + " WHERE FIiD = " + item.getiID();
+                itemStatement.executeUpdate(query);
             }
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
             return false;
-        }*/
+        }
         return true;
     }
+
+    public static boolean deleteItem(Item item, Category category, String reason) {
+
+        DBConnection db = new DBConnection();
+
+        try (Connection connection = db.getMyConnection()) {
+            try (Statement deleteStatement = connection.createStatement()) {
+                String query = "DELETE FROM fooditem "
+                        + "WHERE FIiD=" + item.getiID();
+                deleteStatement.executeUpdate(query);
+            }
+            try (Statement historyStatement = connection.createStatement()) {
+                String query = "INSERT INTO fooditemhistory (name,startdate,enddate,category,price,reason) "
+                        + "VALUES('" + item.getName() + "','"
+                        + item.getStartDate() + "','"
+                        + new Timestamp(System.currentTimeMillis()) + "','"
+                        + category.getName() + "','"
+                        + item.getPrice() + "','"
+                        + reason + "')";
+                historyStatement.executeUpdate(query);
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return false;
+        }
+        return true;
+    }
+
     public static int itemReport(Timestamp startTimeStamp, Timestamp endTimeStamp, Item item) {
 
         int totalMoney = 0;
@@ -351,12 +433,12 @@ public class SQLQueries {
         return totalSum;
     }
 
-    public static List<Employee> getUserInfo(){
-       List<Employee> empList = new ArrayList<>();
-       List<Integer> phoneList = new ArrayList<>();
-               
+    public static List<Employee> getUserInfo() {
+        List<Employee> empList = new ArrayList<>();
+        List<Integer> phoneList = new ArrayList<>();
+
         DBConnection db = new DBConnection();
-        
+
         try (Connection connection = db.getMyConnection();
                 Statement empStatement = connection.createStatement();
                 Statement phoneStatement = connection.createStatement();
@@ -366,86 +448,79 @@ public class SQLQueries {
             String Pquery = "SELECT * From phone WHERE EID =";
             String StatusQuery = "Select * From Status where sid =";
             String EmpTypeNameQuery = "SELECT * FROM employeetype where ETID = ";
-            String Qwp,stp,Etnp;
-            
-            int phoneNum;
-            
-            ResultSet empResult = empStatement.executeQuery(query);
-            ResultSet phoneEmp ;
-            ResultSet Statusresult ;
-            ResultSet EMPtypeResult ;
+            String Qwp, stp, Etnp;
 
+            int phoneNum;
+
+            ResultSet empResult = empStatement.executeQuery(query);
+            ResultSet phoneEmp;
+            ResultSet Statusresult;
+            ResultSet EMPtypeResult;
 
             while (empResult.next()) {
 
-                    Employee empt = new Employee(empResult.getString("username") , empResult.getString("pword"));
-                    empt.setEID(empResult.getInt("EID"));
-                    empt.setETID(empResult.getInt("EmployeeTypeId"));
-                    empt.setFname(empResult.getString("fname"));
-                    empt.setLname(empResult.getString("lname"));
+                Employee empt = new Employee(empResult.getString("username"), empResult.getString("pword"));
+                empt.setEID(empResult.getInt("EID"));
+                empt.setETID(empResult.getInt("EmployeeTypeId"));
+                empt.setFname(empResult.getString("fname"));
+                empt.setLname(empResult.getString("lname"));
 
-                    empt.setSalary(empResult.getInt("salary")); 
-                    
+                empt.setSalary(empResult.getInt("salary"));
 
-                    Qwp = Pquery + empResult.getInt("EID");
-                    phoneEmp = phoneStatement.executeQuery(Qwp);
-                    phoneList = new ArrayList<>();
-                    while(phoneEmp.next()){
-                       phoneNum = phoneEmp.getInt("phone");
-                       phoneList.add(phoneNum);
-                       empt.setPhones(phoneList);
-                    }
-
-                    stp = StatusQuery + empResult.getInt("StatusID");
-                    Statusresult = statusStatement.executeQuery(stp);
-                    while(Statusresult.next()){
-                    empt.setStatus(new Status(empResult.getInt("StatusID"),Statusresult.getString("description")));
-                    }
-                    
-                    Etnp = EmpTypeNameQuery + empResult.getInt("EmployeeTypeId");
-                    EMPtypeResult = statusStatement.executeQuery(Etnp);
-                    while(EMPtypeResult.next()){
-                    empt.setETname(EMPtypeResult.getString("name"));
-                    
-                    }
-                    
-
-
-                    empList.add(empt);
-                    System.out.println(empt);
-
-                    
+                Qwp = Pquery + empResult.getInt("EID");
+                phoneEmp = phoneStatement.executeQuery(Qwp);
+                phoneList = new ArrayList<>();
+                while (phoneEmp.next()) {
+                    phoneNum = phoneEmp.getInt("phone");
+                    phoneList.add(phoneNum);
+                    empt.setPhones(phoneList);
                 }
-            
-        } 
-        catch (SQLException ex) {
+
+                stp = StatusQuery + empResult.getInt("StatusID");
+                Statusresult = statusStatement.executeQuery(stp);
+                while (Statusresult.next()) {
+                    empt.setStatus(new Status(empResult.getInt("StatusID"), Statusresult.getString("description")));
+                }
+
+                Etnp = EmpTypeNameQuery + empResult.getInt("EmployeeTypeId");
+                EMPtypeResult = statusStatement.executeQuery(Etnp);
+                while (EMPtypeResult.next()) {
+                    empt.setETname(EMPtypeResult.getString("name"));
+
+                }
+
+                empList.add(empt);
+                System.out.println(empt);
+
+            }
+
+        } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
             System.exit(0);
         }
         db.destroy();
-        return empList; 
-}
-    
-    public static boolean isALLEmpoyeeHere(List<Employee> EL){
+        return empList;
+    }
+
+    public static boolean isALLEmpoyeeHere(List<Employee> EL) {
         DBConnection db = new DBConnection();
-        try (Connection connection = db.getMyConnection()){
+        try (Connection connection = db.getMyConnection()) {
             Statement empStatement = connection.createStatement();
             String SQuery = "Select count(*) from Employee";
             ResultSet empResult = empStatement.executeQuery(SQuery);
-            while(empResult.next()){    
-                int ersul = empResult.getInt("count(*)"); 
-                    if (EL.isEmpty()&& ersul>0)
-                        return false;
-                    
+            while (empResult.next()) {
+                int ersul = empResult.getInt("count(*)");
+                if (EL.isEmpty() && ersul > 0) {
+                    return false;
+                }
+
                 //System.out.println(ersul);
                 //System.out.println(EL.size());
-
-                return ersul == EL.size();    
+                return ersul == EL.size();
             }
-            
-            
+
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());

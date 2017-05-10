@@ -163,7 +163,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="updatItemNameTextField" alignment="CENTER" prefHeight="29.0" prefWidth="264.0" />
+                              <TextField fx:id="updateItemNameTextField" alignment="CENTER" prefHeight="29.0" prefWidth="264.0" />
                               <Label text="Price :">
                                  <font>
                                     <Font size="18.0" />
@@ -176,7 +176,7 @@
                                  </font>
                               </Label>
                               <ComboBox fx:id="updateItemStatusComboBox" prefHeight="0.0" prefWidth="148.0" />
-                              <Button mnemonicParsing="false" onAction="#onAddItemClicked" prefHeight="63.0" prefWidth="132.0" text="Update Item" />
+                              <Button mnemonicParsing="false" onAction="#onUpdateItemClicked" prefHeight="63.0" prefWidth="132.0" text="Update Item" />
                            </children>
                         </VBox>
                         <Separator layoutX="1000.0" layoutY="47.0" prefHeight="0.0" prefWidth="302.0" />
