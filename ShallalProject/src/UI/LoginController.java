@@ -130,4 +130,7 @@ public class LoginController implements Initializable {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+    public void CloseSystem(){
+        System.exit(0);
+    }
 }

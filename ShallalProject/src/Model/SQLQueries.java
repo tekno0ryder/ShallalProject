@@ -446,7 +446,7 @@ public class SQLQueries {
             //Query the status description
             String query = "SELECT* From employee";
             String Pquery = "SELECT * From phone WHERE EID =";
-            String StatusQuery = "Select * From Status where sid =";
+            String StatusQuery = "Select * From status where sid =";
             String EmpTypeNameQuery = "SELECT * FROM employeetype where ETID = ";
             String Qwp, stp, Etnp;
 
@@ -508,7 +508,7 @@ public class SQLQueries {
         DBConnection db = new DBConnection();
         try (Connection connection = db.getMyConnection()) {
             Statement empStatement = connection.createStatement();
-            String SQuery = "Select count(*) from Employee";
+            String SQuery = "Select count(*) from employee";
             ResultSet empResult = empStatement.executeQuery(SQuery);
             while (empResult.next()) {
                 int ersul = empResult.getInt("count(*)");
