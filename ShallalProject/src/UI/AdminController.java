@@ -239,7 +239,7 @@ public class AdminController implements Initializable {
                 System.out.println("Please enter the name and valid value");
                 return;
             }
-            if(categoryTable.getSelectionModel().getSelectedItem() == null){
+            if (categoryTable.getSelectionModel().getSelectedItem() == null) {
                 System.out.println("Select category First");
                 return;
             }
@@ -261,6 +261,10 @@ public class AdminController implements Initializable {
                 System.out.println("Successed !!");
                 categories.setAll(SQLQueries.getCategoryList());
                 itemsTable.getItems().setAll();
+
+                //reset fields
+                addItemNameTextField.setText("");
+                addItemStatusComboBox.getSelectionModel().selectFirst();
             }
         } catch (Exception ex) {
             Alert alert = new Alert(AlertType.ERROR);
@@ -309,6 +313,10 @@ public class AdminController implements Initializable {
                 System.out.println("Successed !!");
                 categories.setAll(SQLQueries.getCategoryList());
                 itemsTable.getItems().setAll();
+
+                //reset fields
+                updateItemNameTextField.setText("");
+                updateItemStatusComboBox.getSelectionModel().selectFirst();
             }
         } catch (Exception ex) {
             Alert alert = new Alert(AlertType.ERROR);
@@ -347,6 +355,10 @@ public class AdminController implements Initializable {
             System.out.println("Successed !!");
             categories.setAll(SQLQueries.getCategoryList());
             itemsTable.getItems().setAll();
+
+            //reset fields
+            addCategoryTextField.setText("");
+            addCategoryStatusComboBox.getSelectionModel().selectFirst();
         }
     }
 
@@ -372,6 +384,10 @@ public class AdminController implements Initializable {
             System.out.println("Successed !!");
             categories.setAll(SQLQueries.getCategoryList());
             itemsTable.getItems().setAll();
+
+            //reset fields
+            updateCategoryTextField.setText("");
+            updateCategoryStatusComboBox.getSelectionModel().selectFirst();
         }
     }
 
