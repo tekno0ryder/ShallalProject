@@ -118,7 +118,7 @@ public class LoginController implements Initializable {
             case "Manager":
                 page = "Manager.fxml";
                 break;
-            case "Chasher":
+            case "Cashier":
                 page = "Cashier.fxml";
                 break;
             default:
