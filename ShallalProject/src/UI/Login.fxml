@@ -21,7 +21,7 @@
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Button>
-      <Button fx:id="clearButton" layoutX="779.0" layoutY="426.0" mnemonicParsing="false" onAction="#ClearUserandPass" prefHeight="34.0" prefWidth="67.0" text="Clear" textFill="RED">
+      <Button fx:id="clearButton" layoutX="779.0" layoutY="426.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="67.0" text="Clear" textFill="RED">
          <font>
             <Font size="16.0" />
          </font></Button>
