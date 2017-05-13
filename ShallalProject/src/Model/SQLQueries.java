@@ -435,46 +435,31 @@ public class SQLQueries {
 
     public static List<Employee> getUserInfo() {
         List<Employee> empList = new ArrayList<>();
-        List<Integer> phoneList = new ArrayList<>();
 
         DBConnection db = new DBConnection();
 
         try (Connection connection = db.getMyConnection();
                 Statement empStatement = connection.createStatement();
-                Statement phoneStatement = connection.createStatement();
                 Statement statusStatement = connection.createStatement()) {
             //Query the status description
             String query = "SELECT* From employee";
-            String Pquery = "SELECT * From phone WHERE EID =";
-            String StatusQuery = "Select * From status where sid =";
+            String StatusQuery = "Select * From Status where sid =";
             String EmpTypeNameQuery = "SELECT * FROM employeetype where ETID = ";
-            String Qwp, stp, Etnp;
-
-            int phoneNum;
+            String stp, Etnp;
 
             ResultSet empResult = empStatement.executeQuery(query);
-            ResultSet phoneEmp;
             ResultSet Statusresult;
             ResultSet EMPtypeResult;
 
             while (empResult.next()) {
-
                 Employee empt = new Employee(empResult.getString("username"), empResult.getString("pword"));
                 empt.setEID(empResult.getInt("EID"));
                 empt.setETID(empResult.getInt("EmployeeTypeId"));
                 empt.setFname(empResult.getString("fname"));
                 empt.setLname(empResult.getString("lname"));
-
+                empt.setPhone1(empResult.getString("phone1"));
+                empt.setPhone2(empResult.getString("phone2"));
                 empt.setSalary(empResult.getInt("salary"));
-
-                Qwp = Pquery + empResult.getInt("EID");
-                phoneEmp = phoneStatement.executeQuery(Qwp);
-                phoneList = new ArrayList<>();
-                while (phoneEmp.next()) {
-                    phoneNum = phoneEmp.getInt("phone");
-                    phoneList.add(phoneNum);
-                    empt.setPhones(phoneList);
-                }
 
                 stp = StatusQuery + empResult.getInt("StatusID");
                 Statusresult = statusStatement.executeQuery(stp);
@@ -486,12 +471,9 @@ public class SQLQueries {
                 EMPtypeResult = statusStatement.executeQuery(Etnp);
                 while (EMPtypeResult.next()) {
                     empt.setETname(EMPtypeResult.getString("name"));
-
                 }
-
                 empList.add(empt);
                 System.out.println(empt);
-
             }
 
         } catch (SQLException ex) {
@@ -508,7 +490,7 @@ public class SQLQueries {
         DBConnection db = new DBConnection();
         try (Connection connection = db.getMyConnection()) {
             Statement empStatement = connection.createStatement();
-            String SQuery = "Select count(*) from employee";
+            String SQuery = "Select count(*) from Employee";
             ResultSet empResult = empStatement.executeQuery(SQuery);
             while (empResult.next()) {
                 int ersul = empResult.getInt("count(*)");
@@ -530,4 +512,137 @@ public class SQLQueries {
         return false;
     }
 
+    public static boolean addEmployee(Employee e) {
+
+        DBConnection db = new DBConnection();
+
+        try (Connection connection = db.getMyConnection()) {
+            try (Statement statement = connection.createStatement()) {
+                String query = "INSERT INTO employee (fname,lname,employeeTypeId,userName,pword,statusID,phone1,phone2) "
+                        + "VALUES('" + e.getFname() + "','"
+                        + e.getLname() + "','"
+                        + e.getETID() + "','"
+                        + e.getUserName() + "','"
+                        + e.getPassword() + "','"
+                        + e.getStatus().getStatusID() + "','"
+                        + e.getPhone1() + "','"
+                        + e.getPhone2() + "')";
+
+                statement.executeUpdate(query);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean updateEmployee(Employee e) {
+
+        DBConnection db = new DBConnection();
+
+        try (Connection connection = db.getMyConnection()) {
+            try (Statement statement = connection.createStatement()) {
+                String query = "UPDATE employee "
+                        + "SET fname = '" + e.getFname() + "', "
+                        + "lname = '" + e.getLname() + "', "
+                        + "username = '" + e.getUserName() + "', "
+                        + "pword = '" + e.getPassword() + "', "
+                        + "statusID = " + e.getStatus().getStatusID() + ", "
+                        + "phone1 = " + e.getPhone1() + ", "
+                        + "phone2 = " + e.getPhone2() + ", "
+                        + "employeeTypeId = " + e.getETID()
+                        + " WHERE EID = " + e.getEID();
+                statement.executeUpdate(query);
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return false;
+        }
+        return true;
+    }
+
+       public static boolean deleteEmployee(Employee e) {
+
+        DBConnection db = new DBConnection();
+
+        try (Connection connection = db.getMyConnection()) {
+            try (Statement deleteStatement = connection.createStatement()) {
+                String query = "DELETE FROM Employee "
+                        + "WHERE EID=" + e.getEID();
+                deleteStatement.executeUpdate(query);
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return false;
+        }
+        return true;
+    }
+
+    public static List<HistoryCategory> getHistoryCategoryList() {
+
+        List<HistoryCategory> categoryHistoryList = new ArrayList<>();
+
+        DBConnection db = new DBConnection();
+
+        try (Connection connection = db.getMyConnection()) {
+            //Query categories and insert them to categoryList
+            try (Statement categoryHistoryStatement = connection.createStatement();
+                    ResultSet categoryResult = categoryHistoryStatement.executeQuery("SELECT * FROM foodcategoryhistory;")) {
+                while (categoryResult.next()) {
+                    HistoryCategory c = new HistoryCategory();
+                    c.setCID(categoryResult.getInt("FCHiD"));
+                    c.setName(categoryResult.getString("name"));
+                    c.setStartDate(categoryResult.getTimestamp("startdate"));
+                    c.setEndDate(categoryResult.getTimestamp("enddate"));
+                    c.setReason(categoryResult.getString("reason"));
+
+                    categoryHistoryList.add(c);
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+        return categoryHistoryList;
+    }
+
+    public static List<HistoryItem> getHistoryItemList() {
+
+        List<HistoryItem> itemHistoryList = new ArrayList<>();
+
+        DBConnection db = new DBConnection();
+
+        try (Connection connection = db.getMyConnection()) {
+            //Query categories and insert them to categoryList
+            try (Statement HistoryItemStatement = connection.createStatement();
+                    ResultSet itemResult = HistoryItemStatement.executeQuery("SELECT * FROM fooditemHistory;")) {
+                while (itemResult.next()) {
+                    HistoryItem c = new HistoryItem();
+                    c.setiID(itemResult.getInt("FIHiD"));
+                    c.setName(itemResult.getString("name"));
+                    c.setStartDate(itemResult.getTimestamp("startdate"));
+                    c.setEndDate(itemResult.getTimestamp("enddate"));
+                    c.setReason(itemResult.getString("reason"));
+                    c.setCategory(itemResult.getString("category"));
+                    c.setPrice(itemResult.getInt("price"));
+
+                    itemHistoryList.add(c);
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+        return itemHistoryList;
+    }
 }

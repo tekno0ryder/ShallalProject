@@ -7,11 +7,14 @@ package UI;
 
 import Model.Category;
 import Model.Employee;
+import Model.HistoryCategory;
+import Model.HistoryItem;
 import Model.Item;
 import Model.SQLQueries;
 import Model.Status;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -58,21 +61,25 @@ public class AdminController implements Initializable {
     @FXML
     private Tab historyLogTap;
     @FXML
-    private TableColumn<?, ?> categoryHistoryName;
+    private TableColumn<HistoryCategory, String> categoryHistoryName;
     @FXML
-    private TableColumn<?, ?> categoryHistoryStartDate;
+    private TableColumn<HistoryCategory, Timestamp> categoryHistoryStartDate;
     @FXML
-    private TableColumn<?, ?> categoryHistoryEndDate;
+    private TableColumn<HistoryCategory, Timestamp> categoryHistoryEndDate;
     @FXML
-    private TableColumn<?, ?> itemHistoryName;
+    private TableColumn<HistoryCategory, String> categoryHistoryReason;
     @FXML
-    private TableColumn<?, ?> itemHistoryCategory;
+    private TableColumn<HistoryItem, String> itemHistoryName;
     @FXML
-    private TableColumn<?, ?> itemHistoryPrice;
+    private TableColumn<HistoryItem, String> itemHistoryCategory;
     @FXML
-    private TableColumn<?, ?> itemHistoryStartDate;
+    private TableColumn<HistoryItem, String> itemHistoryReason;
     @FXML
-    private TableColumn<?, ?> itemHistoryEndDate;
+    private TableColumn<HistoryItem, Integer> itemHistoryPrice;
+    @FXML
+    private TableColumn<HistoryItem, Timestamp> itemHistoryStartDate;
+    @FXML
+    private TableColumn<HistoryItem, Timestamp> itemHistoryEndDate;
     @FXML
     private Button addUpdateEmployeeButton;
     @FXML
@@ -82,7 +89,7 @@ public class AdminController implements Initializable {
     @FXML
     private TextField userNameTextField;
     @FXML
-    private PasswordField passwordTextField;
+    private TextField passwordTextField;
     @FXML
     private TextField phone1TextField;
     @FXML
@@ -90,7 +97,7 @@ public class AdminController implements Initializable {
     @FXML
     private ComboBox<Status> employeeStatusComboBox;
     @FXML
-    private ComboBox<?> employeeTypeComboBox;
+    private ComboBox<String> employeeTypeComboBox;
     @FXML
     private Button removeEmployeeBtton;
     @FXML
@@ -119,9 +126,14 @@ public class AdminController implements Initializable {
     private ComboBox<Status> addCategoryStatusComboBox;
     @FXML
     private ComboBox<Status> updateCategoryStatusComboBox;
+    @FXML
+    private TableView<HistoryCategory> categoryHistoryTable;
+    @FXML
+    private TableView<HistoryItem> itemsHistoryTable;
 
     ObservableList<Category> categories = FXCollections.observableArrayList(SQLQueries.getCategoryList());
     ObservableList<Status> statuses = FXCollections.observableArrayList(SQLQueries.getStatusList());
+    ObservableList<Employee> employees;
 
     /**
      * Initializes the controller class.
@@ -214,6 +226,7 @@ public class AdminController implements Initializable {
                 );
             }
         });
+
         //Set statues to the combo boxes and to "Available"
         addCategoryStatusComboBox.getItems().setAll(statuses);
         addItemStatusComboBox.getItems().setAll(statuses);
@@ -224,6 +237,76 @@ public class AdminController implements Initializable {
         updateCategoryStatusComboBox.getSelectionModel().selectFirst();
         updateItemStatusComboBox.getSelectionModel().selectFirst();
 
+        /**
+         ****************History categories and items screen*******************
+         */
+        //Initilaize History Table
+        categoryHistoryName.setCellValueFactory(new PropertyValueFactory("name"));
+        categoryHistoryStartDate.setCellValueFactory(new PropertyValueFactory("startDate"));
+        categoryHistoryEndDate.setCellValueFactory(new PropertyValueFactory("endDate"));
+        categoryHistoryReason.setCellValueFactory(new PropertyValueFactory("reason"));
+
+        //Initilaize Item Table
+        itemHistoryName.setCellValueFactory(new PropertyValueFactory("name"));
+        itemHistoryStartDate.setCellValueFactory(new PropertyValueFactory("startDate"));
+        itemHistoryEndDate.setCellValueFactory(new PropertyValueFactory("endDate"));
+        itemHistoryReason.setCellValueFactory(new PropertyValueFactory("reason"));
+        itemHistoryPrice.setCellValueFactory(new PropertyValueFactory("price"));
+        itemHistoryCategory.setCellValueFactory(new PropertyValueFactory("category"));
+
+        //Fetch history items when history tap is pressed
+        historyLogTap.setOnSelectionChanged((event) -> {
+
+            ObservableList<HistoryCategory> historyCategory
+                    = FXCollections.observableArrayList(SQLQueries.getHistoryCategoryList());
+            categoryHistoryTable.setItems(historyCategory);
+
+            ObservableList<HistoryItem> historyItems
+                    = FXCollections.observableArrayList(SQLQueries.getHistoryItemList());
+            itemsHistoryTable.setItems(historyItems);
+        });
+
+        /**
+         ****************Employees screen*******************
+         */
+        employees = FXCollections.observableArrayList(SQLQueries.getUserInfo());
+
+        //Add Types to Type comboBox
+        employeeTypeComboBox.getItems().addAll("Cashier", "Admin", "Manager");
+        employeeTypeComboBox.getSelectionModel().select("Cashier");
+
+        //Add status to Status comboBox
+        employeeStatusComboBox.getItems().addAll(statuses);
+        employeeStatusComboBox.getSelectionModel().select(0);
+
+        //Add NEW placeholder at first index
+        employees.add(0, new Employee());
+
+        employeeComboBox.setItems(employees);
+        employeeComboBox.getSelectionModel().select(0);
+
+        employeeComboBox.setOnAction(event -> {
+            Employee e = employeeComboBox.getSelectionModel().getSelectedItem();
+            if (!e.getFname().equals("New Employee")) {
+                firstNameTextField.setText(e.getFname());
+                lastNameTextField.setText(e.getLname());
+                phone1TextField.setText(e.getPhone1());
+                phone2TextField.setText(e.getPhone2());
+                userNameTextField.setText(e.getUserName());
+                passwordTextField.setText(e.getPassword());
+                employeeStatusComboBox.getSelectionModel().select(e.getStatus());
+                employeeTypeComboBox.getSelectionModel().select(e.getETname());
+            } else {
+                firstNameTextField.setText("");
+                lastNameTextField.setText("");
+                phone1TextField.setText("");
+                phone2TextField.setText("");
+                userNameTextField.setText("");
+                passwordTextField.setText("");
+                employeeStatusComboBox.getSelectionModel().select(0);
+                employeeTypeComboBox.getSelectionModel().select(0);
+            }
+        });
     }
 
     @FXML
@@ -239,7 +322,7 @@ public class AdminController implements Initializable {
                 System.out.println("Please enter the name and valid value");
                 return;
             }
-            if(categoryTable.getSelectionModel().getSelectedItem() == null){
+            if (categoryTable.getSelectionModel().getSelectedItem() == null) {
                 System.out.println("Select category First");
                 return;
             }
@@ -261,6 +344,10 @@ public class AdminController implements Initializable {
                 System.out.println("Successed !!");
                 categories.setAll(SQLQueries.getCategoryList());
                 itemsTable.getItems().setAll();
+
+                //reset fields
+                addItemNameTextField.setText("");
+                addItemStatusComboBox.getSelectionModel().selectFirst();
             }
         } catch (Exception ex) {
             Alert alert = new Alert(AlertType.ERROR);
@@ -309,6 +396,10 @@ public class AdminController implements Initializable {
                 System.out.println("Successed !!");
                 categories.setAll(SQLQueries.getCategoryList());
                 itemsTable.getItems().setAll();
+
+                //reset fields
+                updateItemNameTextField.setText("");
+                updateItemStatusComboBox.getSelectionModel().selectFirst();
             }
         } catch (Exception ex) {
             Alert alert = new Alert(AlertType.ERROR);
@@ -347,6 +438,10 @@ public class AdminController implements Initializable {
             System.out.println("Successed !!");
             categories.setAll(SQLQueries.getCategoryList());
             itemsTable.getItems().setAll();
+
+            //reset fields
+            addCategoryTextField.setText("");
+            addCategoryStatusComboBox.getSelectionModel().selectFirst();
         }
     }
 
@@ -372,6 +467,75 @@ public class AdminController implements Initializable {
             System.out.println("Successed !!");
             categories.setAll(SQLQueries.getCategoryList());
             itemsTable.getItems().setAll();
+
+            //reset fields
+            updateCategoryTextField.setText("");
+            updateCategoryStatusComboBox.getSelectionModel().selectFirst();
+        }
+    }
+
+    @FXML
+    private void addUpdateButton(ActionEvent event) {
+
+        if (userNameTextField.getText().isEmpty() || passwordTextField.getText().isEmpty()) {
+            System.out.println("Error!");
+            return;
+        }
+
+        Employee e = employeeComboBox.getSelectionModel().getSelectedItem();
+        e.setFname(firstNameTextField.getText());
+        e.setLname(lastNameTextField.getText());
+        e.setPhone1(phone1TextField.getText());
+        e.setPhone2(phone2TextField.getText());
+        e.setUserName(userNameTextField.getText());
+        e.setPassword(passwordTextField.getText());
+        e.setStatus(employeeStatusComboBox.getSelectionModel().getSelectedItem());
+
+        switch (employeeTypeComboBox.getSelectionModel().getSelectedItem()) {
+            case "Cashier":
+                e.setETID(3);
+                e.setETname("Cashier");
+                break;
+            case "Admin":
+                e.setETID(1);
+                e.setETname("Admin");
+                break;
+            case "Manager":
+                e.setETID(2);
+                e.setETname("Manager");
+                break;
+        }
+
+        if (e.getEID() == 0) {
+            if (SQLQueries.addEmployee(e)) {
+                employees.add(e);
+            } else {
+                System.out.println("Error happened in adding new employee");
+            }
+        } else {
+            if (SQLQueries.updateEmployee(e)) {
+                employees.remove(employeeComboBox.getSelectionModel().getSelectedItem());
+                employees.add(e);
+                employeeComboBox.getSelectionModel().select(e);
+            } else {
+                System.out.println("Error happened in updating an employee");
+            }
+
+        }
+    }
+
+    @FXML
+    private void onRemoveEmployee(ActionEvent event) {
+
+        Employee e = employeeComboBox.getSelectionModel().getSelectedItem();
+
+        if (e.getEID() == 0) {
+            System.out.println("Please select an employee");
+        } else {
+            if (SQLQueries.deleteEmployee(e)) {
+                employees.remove(e);
+                employeeComboBox.getSelectionModel().select(0);
+            }
         }
     }
 
@@ -386,4 +550,5 @@ public class AdminController implements Initializable {
         categories.setAll(SQLQueries.getCategoryList());
         itemsTable.getItems().setAll();
     }
+
 }

@@ -6,7 +6,6 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -197,7 +196,7 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TableView layoutX="94.0" layoutY="62.0" prefHeight="724.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <TableView fx:id="categoryHistoryTable" layoutX="94.0" layoutY="62.0" prefHeight="724.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <columns>
                                                 <TableColumn fx:id="categoryHistoryName" prefWidth="88.0" text="Name" />
                                                 <TableColumn fx:id="categoryHistoryStartDate" prefWidth="152.0" text="Start Date" />
@@ -218,7 +217,7 @@
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <TableView prefHeight="724.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <TableView fx:id="itemsHistoryTable" prefHeight="724.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <columns>
                                                 <TableColumn fx:id="itemHistoryName" prefWidth="83.0" text="Name" />
                                                 <TableColumn fx:id="itemHistoryCategory" prefWidth="75.0" text="Category" />
@@ -244,7 +243,7 @@
                      <children>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="749.0" prefWidth="1280.0">
                            <children>
-                              <Button fx:id="addUpdateEmployeeButton" layoutX="518.0" layoutY="492.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="230.0" text="Add/Update">
+                              <Button fx:id="addUpdateEmployeeButton" layoutX="518.0" layoutY="492.0" mnemonicParsing="false" onAction="#addUpdateButton" prefHeight="76.0" prefWidth="230.0" text="Add/Update">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -289,11 +288,6 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <PasswordField fx:id="passwordTextField" layoutX="750.0" layoutY="351.0">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </PasswordField>
                               <Label layoutX="306.0" layoutY="293.0" text="Phone No1:">
                                  <font>
                                     <Font size="18.0" />
@@ -319,15 +313,20 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="674.0" layoutY="422.0" text="Status">
+                              <Label layoutX="674.0" layoutY="422.0" text="Status:">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
                               <ComboBox fx:id="employeeStatusComboBox" layoutX="745.0" layoutY="416.0" prefHeight="41.0" prefWidth="179.0" promptText="Available" />
                               <ComboBox fx:id="employeeTypeComboBox" layoutX="404.0" layoutY="417.0" prefHeight="40.0" prefWidth="175.0" promptText="Cashier" />
-                              <Button fx:id="removeEmployeeBtton" layoutX="574.0" layoutY="587.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="114.0" text="Remove Employee" textFill="RED" />
+                              <Button fx:id="removeEmployeeBtton" layoutX="574.0" layoutY="587.0" mnemonicParsing="false" onAction="#onRemoveEmployee" prefHeight="33.0" prefWidth="114.0" text="Remove Employee" textFill="RED" />
                               <ComboBox fx:id="employeeComboBox" layoutX="726.0" layoutY="151.0" prefHeight="37.0" prefWidth="247.0" />
+                              <TextField fx:id="passwordTextField" layoutX="750.0" layoutY="351.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </TextField>
                            </children>
                         </AnchorPane>
                      </children>

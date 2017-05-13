@@ -22,18 +22,22 @@ public class Employee {
     private String password; //ُEmployee password
     private Status status; //Employee Status
     private int salary; //Employee Salary 
-    private List<Integer> phones; //Employee phones
+    private String phone1; //Employee phone1
+    private String phone2; //Employee phone2
 
     public Employee(String userName, String password) {
-        
-        if(userName == null || password == null)
-        {
+
+        if (userName == null || password == null) {
             System.out.println("Check the entries please then try again");
+        } else {
+            this.userName = userName;
+            this.password = password;
         }
-        else{
-        this.userName = userName;
-        this.password = password;
-        }
+    }
+
+    public Employee() {
+        this.fname = "New Employee";
+        this.lname = "";
     }
 
     public Status getStatus() {
@@ -108,22 +112,59 @@ public class Employee {
         this.password = password;
     }
 
-    public List<Integer> getPhones() {
-        return phones;
+    public String getPhone1() {
+        return phone1;
     }
 
-    public void setPhones(List<Integer> phones) {
-        this.phones = phones;
+    public void setPhone1(String phone1) {
+        this.phone1 = phone1;
+    }
+
+    public String getPhone2() {
+        return phone2;
+    }
+
+    public void setPhone2(String phone2) {
+        this.phone2 = phone2;
     }
 
     public String getFullName() {
-        return "\'" + this.fname + this.lname + "\'";
+        return this.fname + " " + this.lname;
     }
-    
-    public String toString(){
+
+    public String getInfo() {
         String S = "";
         //S = "EID = " + EID + ", Fname = " + fname + ", Lname = " + lname + ", ETID = " + ETID + ", ETname = " + ETname + ", Username = " + userName + ", password = " + password +", Status = " + status + ", Salary = " + salary + ", Phones = " + phones+ ".";
-        S = EID +" "+ fname +" "+ lname +" "+ ETID +" "+ ETname +" "+ userName +" "+ password +" "+ status +" "+ salary +" "+ phones;
+        S = EID + " " + fname + " " + lname + " " + ETID + " " + ETname + " " + userName + " " + password + " " + status + " " + salary + " " + phone1 + " " + phone2;
         return S;
     }
+
+    public String toString() {
+        return getFullName();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Employee other = (Employee) obj;
+        if (this.EID != other.EID) {
+            return false;
+        }
+        return true;
+    }
+
 }
