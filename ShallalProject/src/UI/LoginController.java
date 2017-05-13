@@ -23,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
@@ -35,6 +36,7 @@ public class LoginController implements Initializable {
     private List<Employee> EL = new ArrayList<>();
 
     private String Username, Passwrd;
+
     @FXML
     private Button loginButton;
     @FXML
@@ -129,8 +131,5 @@ public class LoginController implements Initializable {
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-    public void CloseSystem(){
-        System.exit(0);
     }
 }
