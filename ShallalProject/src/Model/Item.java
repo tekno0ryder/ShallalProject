@@ -6,6 +6,7 @@
 package Model;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
@@ -105,4 +106,30 @@ public class Item {
     public String toString() {
         return "Item{" + "iID=" + iID + ", name=" + name + ", price=" + price + ", startDate=" + startDate + ", createdBy=" + createdBy + ", status=" + status + '}';
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Item other = (Item) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

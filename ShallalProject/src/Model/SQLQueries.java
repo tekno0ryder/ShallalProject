@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  *
@@ -380,30 +381,24 @@ public class SQLQueries {
 
         int totalMoney = 0;
 
-        if (endTimeStamp.before(startTimeStamp) || startTimeStamp.after(endTimeStamp)) {
-            System.out.println("The end time is before the start time, please check them");
-            return 0;
-        } else {
-            if (item == null) {
-                System.out.println("No item is provided, please provide certain item.");
-            } else {
+        List<Transaction> transaction = transactionList();
+        List<Item> transactionItems;
 
-                List<Transaction> transaction = transactionList();
-                List<Item> itemElement;
-                Item items;
-                int quantity = 0;
-                for (int i = 0; i < transaction.size(); i++) {
-                    if (transaction.get(i).getDate().compareTo(startTimeStamp) >= 0
-                            && (transaction.get(i).getDate().compareTo(endTimeStamp) <= 0)) {
-                        itemElement = transaction.get(i).getTransactionItems();
-                        items = itemElement.get(itemElement.indexOf(item));
-                        quantity = itemElement.get(itemElement.indexOf(item)).getQuantity();
+        int quantity = 0;
+        for (int i = 0; i < transaction.size(); i++) {
+            if (transaction.get(i).getDate().compareTo(startTimeStamp) >= 0
+                    && (transaction.get(i).getDate().compareTo(endTimeStamp) <= 0)) {
 
-                        totalMoney = totalMoney + (items.getPrice() * quantity);
+                transactionItems = transaction.get(i).getTransactionItems();
+                for (int j = 0; j < transactionItems.size(); j++) {
+                    Item temp = transactionItems.get(j);
+                    if (temp.equals(item)) {
+                        totalMoney += temp.getQuantity() * temp.getPrice();
                     }
                 }
             }
         }
+
         return totalMoney;
     }
 
@@ -567,7 +562,7 @@ public class SQLQueries {
         return true;
     }
 
-       public static boolean deleteEmployee(Employee e) {
+    public static boolean deleteEmployee(Employee e) {
 
         DBConnection db = new DBConnection();
 
