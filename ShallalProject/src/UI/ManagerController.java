@@ -155,20 +155,20 @@ public class ManagerController implements Initializable {
         Timestamp startDate = Timestamp.valueOf(this.startDate.getValue().atStartOfDay());
         Timestamp endDate = Timestamp.valueOf(this.endDate.getValue().atStartOfDay());
 
+        int report = 0;
         if (item != null) {
-            int report = SQLQueries.itemReport(startDate, endDate, item);
+            report = SQLQueries.itemReport(startDate, endDate, item);
 
             reportName.setText("item(" + item.getName() + ")");
-            this.startDateLabel.setText(this.startDate.getValue().toString());
-            this.endDateLabel.setText(this.endDate.getValue().toString());
-            this.priceLabel.setText(report + " SAR");
 
         } else if (category != null) {
-            int report = SQLQueries.categoryReport(startDate, endDate, category);
-            System.out.println(report);
-        } else {
-            System.out.println("Please Select a category or item first");
+            report = SQLQueries.categoryReport(startDate, endDate, category);
+            reportName.setText("category(" + category.getName() + ")");
         }
+
+        this.startDateLabel.setText(this.startDate.getValue().toString());
+        this.endDateLabel.setText(this.endDate.getValue().toString());
+        this.priceLabel.setText(report + " SAR");
 
     }
 

@@ -405,23 +405,18 @@ public class SQLQueries {
     public static int categoryReport(Timestamp startTimeStamp, Timestamp endTimeStamp, Category category) {
         int totalSum = 0;
 
-        if (endTimeStamp.before(startTimeStamp) || startTimeStamp.after(endTimeStamp)) {
-            System.out.println("The end time is before the start time, please check them");
-            return 0;
+        if (category == null) {
+            System.out.println("No item is provided, please provide certain item.");
         } else {
-            if (category == null) {
-                System.out.println("No item is provided, please provide certain item.");
-            } else {
-                List<Item> itemList = category.getItems();
-                Item itemElement;
-                int totalMoney = 0;
+            List<Item> itemList = category.getItems();
+            Item itemElement;
+            int totalMoney = 0;
 
-                for (int i = 0; i < itemList.size(); i++) {
-                    itemElement = itemList.get(i);
-                    totalMoney = itemReport(startTimeStamp, endTimeStamp, itemElement);
+            for (int i = 0; i < itemList.size(); i++) {
+                itemElement = itemList.get(i);
+                totalMoney = itemReport(startTimeStamp, endTimeStamp, itemElement);
 
-                    totalSum = totalSum + totalMoney;
-                }
+                totalSum = totalSum + totalMoney;
             }
         }
 

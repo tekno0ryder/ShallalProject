@@ -84,42 +84,42 @@
                               <TableColumn fx:id="categoryStatus" minWidth="0.0" prefWidth="129.0" text="Status" />
                            </columns>
                         </TableView>
-                        <Label fx:id="totalSaleLabel" layoutX="618.0" layoutY="201.0" text="Total sale of: ">
+                        <Label fx:id="totalSaleLabel" layoutX="585.0" layoutY="200.0" text="Total sale of: ">
                            <font>
                               <Font name="Calibri" size="42.0" />
                            </font>
                         </Label>
-                        <Label fx:id="reportName" layoutX="840.0" layoutY="201.0" prefHeight="49.0" prefWidth="428.0" textFill="#e104d2">
+                        <Label fx:id="reportName" layoutX="811.0" layoutY="200.0" prefHeight="49.0" prefWidth="457.0" textFill="#e104d2">
                            <font>
                               <Font name="Calibri" size="42.0" />
                            </font>
                         </Label>
-                        <Label fx:id="fromLabel" layoutX="618.0" layoutY="283.0" text="From: ">
+                        <Label fx:id="fromLabel" layoutX="585.0" layoutY="282.0" text="From: ">
                            <font>
                               <Font name="Calibri" size="42.0" />
                            </font>
                         </Label>
-                        <Label fx:id="toLabel" layoutX="625.0" layoutY="362.0" text="To:">
+                        <Label fx:id="toLabel" layoutX="592.0" layoutY="361.0" text="To:">
                            <font>
                               <Font name="Calibri" size="42.0" />
                            </font>
                         </Label>
-                        <Label fx:id="startDateLabel" layoutX="753.0" layoutY="283.0" prefHeight="49.0" prefWidth="420.0" textFill="#3b00ff">
+                        <Label fx:id="startDateLabel" layoutX="720.0" layoutY="282.0" prefHeight="49.0" prefWidth="420.0" textFill="#3b00ff">
                            <font>
                               <Font name="Calibri" size="42.0" />
                            </font>
                         </Label>
-                        <Label fx:id="endDateLabel" layoutX="753.0" layoutY="362.0" prefHeight="49.0" prefWidth="430.0" textFill="#3b00ff">
+                        <Label fx:id="endDateLabel" layoutX="720.0" layoutY="361.0" prefHeight="49.0" prefWidth="430.0" textFill="#3b00ff">
                            <font>
                               <Font name="Calibri" size="42.0" />
                            </font>
                         </Label>
-                        <Label fx:id="isLabel" layoutX="633.0" layoutY="442.0" text="is:">
+                        <Label fx:id="isLabel" layoutX="600.0" layoutY="441.0" text="is:">
                            <font>
                               <Font name="Calibri" size="42.0" />
                            </font>
                         </Label>
-                        <Label fx:id="priceLabel" layoutX="753.0" layoutY="442.0" prefHeight="41.0" prefWidth="228.0" textFill="RED">
+                        <Label fx:id="priceLabel" layoutX="720.0" layoutY="441.0" prefHeight="41.0" prefWidth="228.0" textFill="RED">
                            <font>
                               <Font name="Calibri" size="42.0" />
                            </font>
