@@ -20,6 +20,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -78,9 +80,13 @@ public class LoginController implements Initializable {
                     System.out.println(EL.get(eid));
                     goToNextPage(EL.get(eid), EL.get(eid).getETname(), event);
                 }
+                else{
+                   PassErrorMessage("Username and password does not match"); 
+                }
 
-            } else {
-                System.out.println("not match");
+            } 
+                else {
+                PassErrorMessage("Username and password does not match");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -123,6 +129,7 @@ public class LoginController implements Initializable {
                 break;
             default:
                 System.out.println("null user");
+                PassErrorMessage("null user");
                 return;
         }
 
@@ -131,5 +138,13 @@ public class LoginController implements Initializable {
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+    public static void PassErrorMessage(String Error){
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Ooops, there was an error!");
+        alert.setHeaderText(Error);
+        alert.setContentText("Please try again");
+
+        alert.showAndWait();
     }
 }
