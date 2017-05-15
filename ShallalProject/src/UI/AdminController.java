@@ -5,6 +5,7 @@
  */
 package UI;
 
+import Model.About;
 import Model.Category;
 import Model.Employee;
 import Model.HistoryCategory;
@@ -566,5 +567,11 @@ public class AdminController implements Initializable {
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+    
+    @FXML
+    private void onAbout(ActionEvent event) throws IOException
+    {
+        new About();
     }
 }

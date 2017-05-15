@@ -64,7 +64,7 @@ public class LoginController implements Initializable {
         try {
             Username = userName.getText().trim();
             Passwrd = password.getText().trim();
-            System.out.println(Username + Passwrd);
+            //System.out.println(Username + Passwrd);
             int counter = 0, eid = -1;
             while (it.hasNext()) {
                 if (EL.get(counter).getUserName().equals(Username)) {

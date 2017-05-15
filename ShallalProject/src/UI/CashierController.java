@@ -5,6 +5,7 @@
  */
 package UI;
 
+import Model.About;
 import Model.Category;
 import Model.Item;
 import Model.SQLQueries;
@@ -257,5 +258,11 @@ public class CashierController implements Initializable {
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+    
+    @FXML
+    private void onAbout(ActionEvent event) throws IOException
+    {
+        new About();
     }
 }
