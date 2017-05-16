@@ -10,11 +10,19 @@ import Model.Category;
 import Model.Item;
 import Model.SQLQueries;
 import Model.Transaction;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.util.List;
+import java.time.LocalDateTime;
+import static java.time.LocalDateTime.now;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -95,6 +103,8 @@ public class CashierController implements Initializable {
     private TableColumn<Transaction, String> transactionSoldBy;
     @FXML
     private Tab transactionLogTab;
+
+    public static String cName;
 
     /**
      * Initializes the controller class.
@@ -214,20 +224,87 @@ public class CashierController implements Initializable {
     }
 
     @FXML
-    private void onSubmitOrder(ActionEvent event) {
+    private void onSubmitOrder(ActionEvent event) throws IOException {
 
-        int amount = Integer.valueOf(totalPriceTextField.getText().replaceAll(" SAR", ""));
         ObservableList items = newTansactionTable.getItems();
+
+        if (items.isEmpty()) {
+            Dialogs.errorDialog("Add items to the transaction first!");
+            return;
+        }
+        int amount = Integer.valueOf(totalPriceTextField.getText().replaceAll(" SAR", ""));
 
         Transaction transaction = new Transaction();
         transaction.setAmount(amount);
         transaction.setDate(new Timestamp(System.currentTimeMillis()));
-        transaction.setSellBy("Ahmad Alsinan");
+        transaction.setSellBy(cName);
         transaction.setTransactionItems(items);
 
-        SQLQueries.newTransaction(transaction);
+        printReceipt(transaction);
 
+        SQLQueries.newTransaction(transaction);
+        Dialogs.sucessDialog("The order is succefully submitted!");
         onClear(event);
+
+    }
+
+    private void printReceipt(Transaction transaction) throws IOException {
+
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss");
+        String fileName = now.format(formatter);
+
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+        String date = now.format(formatter2);
+
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(fileName + ".txt"), "utf-8"))) {
+
+            writer.write("\t\t\t\tShallal Restuarant");
+            writer.write(System.getProperty("line.separator"));
+            writer.write("\t\t10th Street (Riyadh Street), Khobar, Saudi Arabia");
+            writer.write(System.getProperty("line.separator"));
+
+            writer.write(System.getProperty("line.separator"));
+            writer.write("Date: " + date);
+            writer.write(System.getProperty("line.separator"));
+            writer.write("Sold by : " + cName);
+            writer.write(System.getProperty("line.separator"));
+
+            writer.write(System.getProperty("line.separator"));
+            writer.write("Quantity" + "\t" + "Item" + "\t\t\t\t\t\t" + "Price");
+            writer.write(System.getProperty("line.separator"));
+            writer.write("--------------------------------------------------------------------");
+            writer.write(System.getProperty("line.separator"));
+
+            int max = 25;
+
+            transaction.getTransactionItems().forEach((t) -> {
+                try {
+                    //calculate the extra spaces to allign the price
+                    if (t.getName().length() < max) {
+                        String spaces = "";
+                        int spacesLength = max - t.getName().length();
+                        for (int i = 0; i < spacesLength; i++) {
+                            spaces += " ";
+                        }
+                        t.setName(t.getName() + spaces);
+                    }
+
+                    writer.write(String.valueOf(t.getQuantity()));
+                    writer.write("\t\t");
+                    writer.write(String.valueOf(t.getName()));
+                    writer.write("\t\t\t");
+                    writer.write(String.valueOf(t.getPrice()));
+                    writer.write(System.getProperty("line.separator"));
+                } catch (IOException ex) {
+                    Logger.getLogger(CashierController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+            writer.write(System.getProperty("line.separator"));
+            writer.write("\t" + "Amount: " + "\t" + transaction.getAmount() + " SAR");
+        }
+
     }
 
     @FXML
@@ -249,8 +326,8 @@ public class CashierController implements Initializable {
         }
         totalPriceTextField.setText(String.valueOf(total) + " SAR");
     }
-    
-        @FXML
+
+    @FXML
     private void onLogout(ActionEvent event) throws IOException {
 
         Stage primaryStage = (Stage) anchorPane.getScene().getWindow();
@@ -259,10 +336,9 @@ public class CashierController implements Initializable {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    
+
     @FXML
-    private void onAbout(ActionEvent event) throws IOException
-    {
+    private void onAbout(ActionEvent event) throws IOException {
         new About();
     }
 }

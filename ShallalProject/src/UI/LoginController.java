@@ -20,12 +20,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
@@ -79,14 +76,12 @@ public class LoginController implements Initializable {
                 if (checkPass(eid, Passwrd)) {
                     System.out.println(EL.get(eid));
                     goToNextPage(EL.get(eid), EL.get(eid).getETname(), event);
-                }
-                else{
-                   PassErrorMessage("Username and password does not match"); 
+                } else {
+                    Dialogs.errorDialog("Username and password does not match");
                 }
 
-            } 
-                else {
-                PassErrorMessage("Username and password does not match");
+            } else {
+                Dialogs.errorDialog("Username and password does not match");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,10 +121,11 @@ public class LoginController implements Initializable {
                 break;
             case "Cashier":
                 page = "Cashier.fxml";
+                CashierController.cName = get.getFullName();
                 break;
             default:
                 System.out.println("null user");
-                PassErrorMessage("null user");
+                Dialogs.errorDialog("null user");
                 return;
         }
 
@@ -139,12 +135,5 @@ public class LoginController implements Initializable {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    public static void PassErrorMessage(String Error){
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Ooops, there was an error!");
-        alert.setHeaderText(Error);
-        alert.setContentText("Please try again");
 
-        alert.showAndWait();
-    }
 }

@@ -17,7 +17,7 @@ import javafx.stage.Stage;
  * @author Ryder
  */
 public class ShallalProject extends Application {
-
+    
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/UI/Login.fxml"));
