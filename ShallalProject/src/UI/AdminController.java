@@ -16,7 +16,6 @@ import Model.Status;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -32,14 +31,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -50,7 +47,7 @@ import javafx.stage.Stage;
  * @author Ryder
  */
 public class AdminController implements Initializable {
-
+    
     @FXML
     private AnchorPane anchorPane;
     @FXML
@@ -139,7 +136,7 @@ public class AdminController implements Initializable {
     private TableView<HistoryCategory> categoryHistoryTable;
     @FXML
     private TableView<HistoryItem> itemsHistoryTable;
-
+    
     ObservableList<Category> categories = FXCollections.observableArrayList(SQLQueries.getCategoryList());
     ObservableList<Status> statuses = FXCollections.observableArrayList(SQLQueries.getStatusList());
     ObservableList<Employee> employees;
@@ -156,7 +153,7 @@ public class AdminController implements Initializable {
         //Set Category Table 
         categoryName.setCellValueFactory(new PropertyValueFactory("name"));
         categoryStatus.setCellValueFactory(data -> data.getValue().getStatus().descriptionProperty());
-
+        
         categoryTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (categoryTable.getSelectionModel().getSelectedItem() != null) {
                 itemsTable.setItems(FXCollections.observableArrayList(newValue.getItems()));
@@ -164,16 +161,16 @@ public class AdminController implements Initializable {
                 updateCategoryStatusComboBox.getSelectionModel().select(newValue.getStatus());
             }
         });
-
+        
         categoryAction.setCellValueFactory(data -> new ReadOnlyObjectWrapper<Category>(data.getValue()));
         categoryAction.setCellFactory(param -> new TableCell<Category, Category>() {
-
+            
             private final Button deleteButton = new Button("Delete");
-
+            
             @Override
             protected void updateItem(Category category, boolean empty) {
                 super.updateItem(category, empty);
-
+                
                 if (category == null) {
                     setGraphic(null);
                     return;
@@ -198,7 +195,7 @@ public class AdminController implements Initializable {
         itemsName.setCellValueFactory(new PropertyValueFactory("name"));
         itemsPrice.setCellValueFactory(new PropertyValueFactory("price"));
         itemsStatus.setCellValueFactory(data -> data.getValue().getStatus().descriptionProperty());
-
+        
         itemsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (itemsTable.getSelectionModel().getSelectedItem() != null) {
                 updateItemNameTextField.setText(newValue.getName());
@@ -206,16 +203,16 @@ public class AdminController implements Initializable {
                 updateItemPriceTextField.setText(String.valueOf(newValue.getPrice()));
             }
         });
-
+        
         itemsAction.setCellValueFactory(data -> new ReadOnlyObjectWrapper<Item>(data.getValue()));
         itemsAction.setCellFactory(param -> new TableCell<Item, Item>() {
-
+            
             private final Button deleteButton = new Button("Delete");
-
+            
             @Override
             protected void updateItem(Item item, boolean empty) {
                 super.updateItem(item, empty);
-
+                
                 if (item == null) {
                     setGraphic(null);
                     return;
@@ -265,11 +262,11 @@ public class AdminController implements Initializable {
 
         //Fetch history items when history tap is pressed
         historyLogTap.setOnSelectionChanged((event) -> {
-
+            
             ObservableList<HistoryCategory> historyCategory
                     = FXCollections.observableArrayList(SQLQueries.getHistoryCategoryList());
             categoryHistoryTable.setItems(historyCategory);
-
+            
             ObservableList<HistoryItem> historyItems
                     = FXCollections.observableArrayList(SQLQueries.getHistoryItemList());
             itemsHistoryTable.setItems(historyItems);
@@ -290,10 +287,10 @@ public class AdminController implements Initializable {
 
         //Add NEW placeholder at first index
         employees.add(0, new Employee());
-
+        
         employeeComboBox.setItems(employees);
         employeeComboBox.getSelectionModel().select(0);
-
+        
         employeeComboBox.setOnAction(event -> {
             Employee e = employeeComboBox.getSelectionModel().getSelectedItem();
             if (!e.getFname().equals("New Employee")) {
@@ -317,27 +314,27 @@ public class AdminController implements Initializable {
             }
         });
     }
-
+    
     @FXML
     private void onAddItemClicked(ActionEvent event) {
-
+        
         try {
             String newName = addItemNameTextField.getText();
             Status newStatus = addItemStatusComboBox.valueProperty().getValue();
-
+            
             int newPrice = Integer.valueOf(addItemPriceTextField.getText());
-
+            
             if (newName.equals("") || newPrice <= 0) {
-                System.out.println("Please enter the name and valid value");
+                Dialogs.errorDialog("Please enter the name and valid value");
                 return;
             }
             if (categoryTable.getSelectionModel().getSelectedItem() == null) {
-                System.out.println("Select category First");
+                Dialogs.errorDialog("Select category First");
                 return;
             }
             if (categories.stream().anyMatch(c -> c.getItems().stream().anyMatch(t
                     -> t.getName().equalsIgnoreCase(newName)))) {
-                System.out.println("Sorry this item is already used");
+                Dialogs.errorDialog("Sorry this item is already used");
                 return;
             }
             Item item = new Item();
@@ -345,12 +342,12 @@ public class AdminController implements Initializable {
             item.setStatus(newStatus);
             item.setStartDate(new Timestamp(System.currentTimeMillis()));
             item.setPrice(newPrice);
-
+            
             Category itemCategory = categoryTable.getSelectionModel().getSelectedItem();
             boolean temp = SQLQueries.addItem(item, itemCategory);
-
+            
             if (temp) {
-                System.out.println("Successed !!");
+                Dialogs.sucessDialog("The item has been added successfully!");
                 categories.setAll(SQLQueries.getCategoryList());
                 itemsTable.getItems().setAll();
 
@@ -359,50 +356,45 @@ public class AdminController implements Initializable {
                 addItemStatusComboBox.getSelectionModel().selectFirst();
             }
         } catch (Exception ex) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error Dialog");
-            alert.setHeaderText("Something went wrong");
-            alert.setContentText("Oops!  Please revise your input");
-
-            alert.showAndWait();
+            Dialogs.errorDialog("Something went wrong :(");
         }
     }
-
+    
     @FXML
     private void onUpdateItemClicked(ActionEvent event) {
         try {
-
+            
             Item oldItem = itemsTable.getSelectionModel().getSelectedItem();
-
+            
             if (oldItem == null) {
-                System.out.println("Please select an item first");
+                Dialogs.errorDialog("Please select an item first");
                 return;
             }
-
+            
             String newName = updateItemNameTextField.getText();
             Status newStatus = updateItemStatusComboBox.valueProperty().getValue();
             int newPrice = Integer.valueOf(updateItemPriceTextField.getText());
-
+            
             if (newName.equals("") || newPrice <= 0) {
-                System.out.println("Please enter the name and valid value");
+                Dialogs.errorDialog("Please enter the name and valid value");
                 return;
             }
             if (categories.stream().anyMatch(c -> c.getItems().stream().anyMatch(t
                     -> t.getName().equalsIgnoreCase(newName) && t.getStatus().equals(newStatus)
                     && t.getPrice() == newPrice))) {
-                System.out.println("Sorry you didn't make any change");
+                Dialogs.errorDialog("Sorry you didn't make any change");
                 return;
             }
-
+            
             Item newItem = oldItem;
             newItem.setName(newName);
             newItem.setStatus(newStatus);
             newItem.setPrice(newPrice);
-
+            
             boolean temp = SQLQueries.updateItem(newItem);
-
+            
             if (temp) {
-                System.out.println("Successed !!");
+                Dialogs.sucessDialog("The item has been updated successfully!");
                 categories.setAll(SQLQueries.getCategoryList());
                 itemsTable.getItems().setAll();
 
@@ -411,40 +403,35 @@ public class AdminController implements Initializable {
                 updateItemStatusComboBox.getSelectionModel().selectFirst();
             }
         } catch (Exception ex) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error Dialog");
-            alert.setHeaderText("Something went wrong");
-            alert.setContentText("Oops!  Please revise your input");
-
-            alert.showAndWait();
+            Dialogs.errorDialog("Something went wrong");
         }
     }
-
+    
     @FXML
     private void onAddCategoryClicked(ActionEvent event) {
-
+        
         String newName = addCategoryTextField.getText();
         Status newStatus = addCategoryStatusComboBox.valueProperty().getValue();
-
+        
         if (newName.equals("")) {
-            System.out.println("Please enter the name first");
+            Dialogs.errorDialog("Please enter the name first");
             return;
         }
         if (categories.stream().anyMatch(c -> c.getName().equalsIgnoreCase(newName)
                 && c.getStatus().equals(newStatus))) {
-            System.out.println("Sorry this category is already used");
+            Dialogs.errorDialog("Sorry this category is already used");
             return;
         }
-
+        
         Category category = new Category();
         category.setName(newName);
         category.setStatus(newStatus);
         category.setStartDate(new Timestamp(System.currentTimeMillis()));
-
+        
         boolean temp = SQLQueries.addCategory(category);
-
+        
         if (temp) {
-            System.out.println("Successed !!");
+            Dialogs.sucessDialog("The category has been added successfully!");
             categories.setAll(SQLQueries.getCategoryList());
             itemsTable.getItems().setAll();
 
@@ -453,27 +440,27 @@ public class AdminController implements Initializable {
             addCategoryStatusComboBox.getSelectionModel().selectFirst();
         }
     }
-
+    
     @FXML
     private void onUpdateCategoryClicked(ActionEvent event) {
-
+        
         String newName = updateCategoryTextField.getText();
         Status newStatus = updateCategoryStatusComboBox.valueProperty().getValue();
         Category category = categoryTable.getSelectionModel().getSelectedItem();
-
+        
         if (category == null) {
-            System.out.println("Please select a category from the left table first");
+            Dialogs.errorDialog("Please select a category from the left table first");
             return;
         }
         if (category.getName().equals(newName) && category.getStatus().equals(newStatus)) {
-            System.out.println("you didn't make any change");
+            Dialogs.errorDialog("you didn't make any change");
             return;
         }
         category.setName(newName);
         category.setStatus(newStatus);
         boolean temp = SQLQueries.updateCategory(category);
         if (temp) {
-            System.out.println("Successed !!");
+            Dialogs.sucessDialog("The category has been updated!");
             categories.setAll(SQLQueries.getCategoryList());
             itemsTable.getItems().setAll();
 
@@ -482,15 +469,15 @@ public class AdminController implements Initializable {
             updateCategoryStatusComboBox.getSelectionModel().selectFirst();
         }
     }
-
+    
     @FXML
     private void addUpdateButton(ActionEvent event) {
-
+        
         if (userNameTextField.getText().isEmpty() || passwordTextField.getText().isEmpty()) {
-            System.out.println("Error!");
+            Dialogs.errorDialog("Username or password is empty!");
             return;
         }
-
+        
         Employee e = employeeComboBox.getSelectionModel().getSelectedItem();
         e.setFname(firstNameTextField.getText());
         e.setLname(lastNameTextField.getText());
@@ -499,7 +486,7 @@ public class AdminController implements Initializable {
         e.setUserName(userNameTextField.getText());
         e.setPassword(passwordTextField.getText());
         e.setStatus(employeeStatusComboBox.getSelectionModel().getSelectedItem());
-
+        
         switch (employeeTypeComboBox.getSelectionModel().getSelectedItem()) {
             case "Cashier":
                 e.setETID(3);
@@ -514,12 +501,12 @@ public class AdminController implements Initializable {
                 e.setETname("Manager");
                 break;
         }
-
+        
         if (e.getEID() == 0) {
             if (SQLQueries.addEmployee(e)) {
                 employees.add(e);
             } else {
-                System.out.println("Error happened in adding new employee");
+                Dialogs.errorDialog("Error happened in adding new employee");
             }
         } else {
             if (SQLQueries.updateEmployee(e)) {
@@ -527,39 +514,40 @@ public class AdminController implements Initializable {
                 employees.add(e);
                 employeeComboBox.getSelectionModel().select(e);
             } else {
-                System.out.println("Error happened in updating an employee");
+                Dialogs.errorDialog("Error happened in updating an employee");
             }
-
+            
         }
     }
-
+    
     @FXML
     private void onRemoveEmployee(ActionEvent event) {
-
+        
         Employee e = employeeComboBox.getSelectionModel().getSelectedItem();
-
+        
         if (e.getEID() == 0) {
-            System.out.println("Please select an employee");
+            Dialogs.errorDialog("Please select an employee");
         } else {
             if (SQLQueries.deleteEmployee(e)) {
                 employees.remove(e);
                 employeeComboBox.getSelectionModel().select(0);
+                Dialogs.sucessDialog(e.getFullName() + " " + "has been removed");
             }
         }
     }
-
+    
     private void deleteItem(Item item, Category category, String reason) {
         SQLQueries.deleteItem(item, category, reason);
         categories.setAll(SQLQueries.getCategoryList());
         itemsTable.getItems().setAll();
     }
-
+    
     private void deleteCategory(Category category, String reason) {
         SQLQueries.deleteCategory(category, reason);
         categories.setAll(SQLQueries.getCategoryList());
         itemsTable.getItems().setAll();
     }
-
+    
     @FXML
     private void onLogout(ActionEvent event) throws IOException {
         Stage primaryStage = (Stage) anchorPane.getScene().getWindow();
@@ -570,8 +558,7 @@ public class AdminController implements Initializable {
     }
     
     @FXML
-    private void onAbout(ActionEvent event) throws IOException
-    {
+    private void onAbout(ActionEvent event) throws IOException {
         new About();
     }
 }

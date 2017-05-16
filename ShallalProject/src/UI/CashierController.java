@@ -242,7 +242,7 @@ public class CashierController implements Initializable {
 
         printReceipt(transaction);
 
-        SQLQueries.newTransaction(transaction);
+       // SQLQueries.newTransaction(transaction);
         Dialogs.sucessDialog("The order is succefully submitted!");
         onClear(event);
 
